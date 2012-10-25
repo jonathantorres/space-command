@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://texturepacker.com-->
+<!-- $TexturePacker:SmartUpdate:e18a28f74bc10b0fca28b0860c85dfaa$ -->
+<TextureAtlas imagePath="ui.png">
+    <SubTexture name="highscores_btn_normal" x="2" y="2" width="203" height="37" frameX="-2" frameY="-2" frameWidth="207" frameHeight="41"/>
+    <SubTexture name="highscores_btn_over" x="2" y="41" width="203" height="37" frameX="-2" frameY="-2" frameWidth="207" frameHeight="41"/>
+    <SubTexture name="mainmenu_btn_normal" x="2" y="80" width="176" height="38" frameX="0" frameY="0" frameWidth="178" frameHeight="40"/>
+    <SubTexture name="mainmenu_btn_over" x="2" y="120" width="176" height="38" frameX="0" frameY="0" frameWidth="178" frameHeight="40"/>
+    <SubTexture name="off_btn_active" x="180" y="120" width="47" height="27" frameX="-1" frameY="0" frameWidth="49" frameHeight="29"/>
+    <SubTexture name="off_btn_normal" x="2" y="160" width="47" height="27" frameX="-1" frameY="0" frameWidth="49" frameHeight="29"/>
+    <SubTexture name="ok_btn_normal" x="51" y="160" width="63" height="37" frameX="-1" frameY="-1" frameWidth="65" frameHeight="39"/>
+    <SubTexture name="ok_btn_over" x="116" y="160" width="63" height="37" frameX="-1" frameY="-1" frameWidth="65" frameHeight="39"/>
+    <SubTexture name="on_btn_active" x="181" y="160" width="47" height="27" frameX="-1" frameY="0" frameWidth="49" frameHeight="29"/>
+    <SubTexture name="on_btn_normal" x="2" y="199" width="47" height="27" frameX="-1" frameY="0" frameWidth="49" frameHeight="29"/>
+    <SubTexture name="options_btn_normal" x="51" y="199" width="147" height="37" frameX="-2" frameY="-2" frameWidth="151" frameHeight="41"/>
+    <SubTexture name="options_btn_over" x="2" y="238" width="147" height="37" frameX="-2" frameY="-2" frameWidth="151" frameHeight="41"/>
+    <SubTexture name="play_btn_normal" x="151" y="238" width="98" height="37" frameX="-2" frameY="-2" frameWidth="102" frameHeight="41"/>
+    <SubTexture name="play_btn_over" x="2" y="277" width="98" height="37" frameX="-2" frameY="-2" frameWidth="102" frameHeight="41"/>
+    <SubTexture name="restart_btn_normal" x="102" y="277" width="148" height="38" frameX="-1" frameY="-1" frameWidth="152" frameHeight="42"/>
+    <SubTexture name="restart_btn_over" x="2" y="317" width="148" height="38" frameX="-1" frameY="-1" frameWidth="152" frameHeight="42"/>
+    <SubTexture name="submit_btn_hover" x="152" y="317" width="102" height="32" frameX="0" frameY="-1" frameWidth="104" frameHeight="34"/>
+    <SubTexture name="submit_btn_normal" x="2" y="357" width="102" height="32" frameX="0" frameY="-1" frameWidth="104" frameHeight="34"/>
+    <SubTexture name="submitscore_btn_hover" x="2" y="391" width="219" height="37" frameX="-2" frameY="-1" frameWidth="223" frameHeight="39"/>
+    <SubTexture name="submitscore_btn_normal" x="2" y="430" width="219" height="37" frameX="-2" frameY="-1" frameWidth="223" frameHeight="39"/>
+</TextureAtlas>
