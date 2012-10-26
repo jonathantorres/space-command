@@ -1,5 +1,6 @@
 package com.jonathantorres.spacecommand
 {
+	import starling.text.TextField;
 	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.Image;
@@ -17,6 +18,7 @@ package com.jonathantorres.spacecommand
 		private var _logo : Image;
 		private var _mainMenu : MainMenu;
 		private var _logoTween : Tween;
+		private var _credits : TextField;
 		
 		public function SpaceCommand()
 		{
@@ -43,6 +45,11 @@ package com.jonathantorres.spacecommand
 			
 			_mainMenu = new MainMenu();
 			addChild(_mainMenu);
+			
+			_credits = new TextField(500, 25, 'Designed & Developed by Jonathan Torres', 'Helvetica', 12, 0x666666);
+			_credits.x = (stage.stageWidth * 0.5) - (_credits.width * 0.5);
+			_credits.y = stage.stageHeight - _credits.height;
+			addChild(_credits);
 		}
 
 		private function onAddedToStage(event : Event) : void
