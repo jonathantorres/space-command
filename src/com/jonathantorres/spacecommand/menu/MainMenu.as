@@ -1,5 +1,8 @@
 package com.jonathantorres.spacecommand.menu
 {
+	import starling.display.Image;
+	import starling.animation.Transitions;
+	import com.jonathantorres.spacecommand.SpaceCommand;
 	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.Button;
@@ -21,10 +24,12 @@ package com.jonathantorres.spacecommand.menu
 		private var _menuItems : Array;
 		private var _menu : Sprite;
 		private var _ui : TextureAtlas;
+		private var _withDelay : Boolean;
 		
-		public function MainMenu()
+		public function MainMenu(withDelay : Boolean = true)
 		{
 			super();
+			_withDelay = withDelay;
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 
@@ -47,14 +52,15 @@ package com.jonathantorres.spacecommand.menu
 			
 			for (var i : int = 0; i < _menuItemsNames.length; i++) {
 				var menuButton : Button = new Button(_ui.getTexture(_menuItemsNames[i].upState), '', _ui.getTexture(_menuItemsNames[i].overState));
-				menuButton.x = -(menuButton.width * 0.5);
+				menuButton.x = -125;
 				menuButton.y = i * (menuButton.height + 20);
 				menuButton.alpha = 0;
 				menuButton.name = String(i);
 				menuButton.addEventListener(TouchEvent.TOUCH, onMenuButtonTouch);
 				
-				var menuButtonTween : Tween = new Tween(menuButton, 1);
-				menuButtonTween.delay = 0.4 + (i * 0.3);
+				var menuButtonTween : Tween = new Tween(menuButton, 1, Transitions.EASE_OUT);
+				menuButtonTween.delay = _withDelay ? 0.4 + (i * 0.3) : (i * 0.3);
+				menuButtonTween.animate('x', -(menuButton.width * 0.5));
 				menuButtonTween.fadeTo(1);
 				Starling.juggler.add(menuButtonTween);
 
@@ -71,15 +77,19 @@ package com.jonathantorres.spacecommand.menu
 
 			//click
 			if (touch.phase == 'ended') {
-				var fadeOutTween : Tween = new Tween(_menu, 0.7);
+				var fadeOutTween : Tween = new Tween(_menu, 0.4);
 				fadeOutTween.fadeTo(0);
 				fadeOutTween.onComplete = function() : void {
-					remove();
+					if (_menuItemsNames[int(target.name)].upState == 'play_btn_normal') {
+						playGame(parentSprite);
+					} else {
+						remove();
 					
-					for (var j : int = 0; j < _menuItems.length; j++) {
-						if (target.name == _menuItems[j].name) {
-							var menuToAdd : Sprite = new _menuItemsNames[j].sprite;
-							parentSprite.addChild(menuToAdd);
+						for (var j : int = 0; j < _menuItems.length; j++) {
+							if (target.name == _menuItems[j].name) {
+								var menuToAdd : Sprite = new _menuItemsNames[j].sprite;
+								parentSprite.addChild(menuToAdd);
+							}
 						}
 					}
 				};
@@ -96,6 +106,28 @@ package com.jonathantorres.spacecommand.menu
 			if (!event.interactsWith(target)) {
 				target.upState = _ui.getTexture(_menuItemsNames[int(target.name)].upState);
 			}
+		}
+		
+		private function playGame(parentSprite : Sprite) : void
+		{
+			var logo : Image = SpaceCommand(parentSprite).logo;
+			var mainBG : Image = SpaceCommand(parentSprite).bg;
+			
+			var logoTween : Tween = new Tween(logo, 0.4);
+			logoTween.fadeTo(0);
+			Starling.juggler.add(logoTween);
+			
+			var mainBGTween : Tween = new Tween(mainBG, 0.4);
+			mainBGTween.delay = 0.2;
+			mainBGTween.fadeTo(0);
+			mainBGTween.onComplete = function() : void {
+				parentSprite.removeChild(logo);
+				parentSprite.removeChild(mainBG);
+				remove();
+				parentSprite.addChild(new Level());
+			};
+			
+			Starling.juggler.add(mainBGTween);
 		}
 		
 		private function remove() : void

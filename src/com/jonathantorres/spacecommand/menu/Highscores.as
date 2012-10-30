@@ -43,12 +43,12 @@ package com.jonathantorres.spacecommand.menu
 			_backToMainMenu.addEventListener(TouchEvent.TOUCH, onBackToMainTouch);
 			addChild(_backToMainMenu);
 			
-			var txtTween : Tween = new Tween(txt, 1);
+			var txtTween : Tween = new Tween(txt, 0.5);
 			txtTween.fadeTo(1);
 			Starling.juggler.add(txtTween);
 			
-			var backToMainTween : Tween = new Tween(_backToMainMenu, 1);
-			backToMainTween.delay = 0.5;
+			var backToMainTween : Tween = new Tween(_backToMainMenu, 0.5);
+			backToMainTween.delay = 0.2;
 			backToMainTween.fadeTo(1);
 			Starling.juggler.add(backToMainTween);
 		}
@@ -61,11 +61,11 @@ package com.jonathantorres.spacecommand.menu
 
 			//click
 			if (touch.phase == 'ended') {
-				var fadeOutTween : Tween = new Tween(this, 0.7);
+				var fadeOutTween : Tween = new Tween(this, 0.4);
 				fadeOutTween.fadeTo(0);
 				fadeOutTween.onComplete = function() : void {
 					remove();
-					parentSprite.addChild(new MainMenu());
+					parentSprite.addChild(new MainMenu(false));
 				};
 				
 				Starling.juggler.add(fadeOutTween);
