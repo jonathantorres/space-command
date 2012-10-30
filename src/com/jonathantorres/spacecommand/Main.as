@@ -10,7 +10,7 @@ package com.jonathantorres.spacecommand
 	/**
 	 * @author Jonathan Torres
 	 */
-	[SWF(frameRate="60", width="980", height="440")]
+	[SWF(frameRate="60", width="980", height="440", backgroundColor="#000000")]
 	public class Main extends Sprite
 	{
 		private var _starling : Starling;
