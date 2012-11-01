@@ -7,6 +7,7 @@ package com.jonathantorres.spacecommand.menu
 	import starling.events.Event;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
+	import starling.events.TouchPhase;
 	import starling.text.TextField;
 	import starling.textures.TextureAtlas;
 
@@ -60,7 +61,7 @@ package com.jonathantorres.spacecommand.menu
 			var parentSprite : Sprite = Sprite(this.parent);
 
 			//click
-			if (touch.phase == 'ended') {
+			if (touch.phase == TouchPhase.ENDED) {
 				var fadeOutTween : Tween = new Tween(this, 0.4);
 				fadeOutTween.fadeTo(0);
 				fadeOutTween.onComplete = function() : void {
@@ -72,7 +73,7 @@ package com.jonathantorres.spacecommand.menu
 			}
 			
 			//hover
-			else if (touch.phase == 'hover') {
+			else if (touch.phase == TouchPhase.HOVER) {
 				target.upState = _ui.getTexture('mainmenu_btn_over');
 			}
 

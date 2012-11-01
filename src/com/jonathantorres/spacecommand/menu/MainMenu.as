@@ -1,5 +1,6 @@
 package com.jonathantorres.spacecommand.menu
 {
+	import starling.events.TouchPhase;
 	import starling.display.Image;
 	import starling.animation.Transitions;
 	import com.jonathantorres.spacecommand.SpaceCommand;
@@ -76,7 +77,7 @@ package com.jonathantorres.spacecommand.menu
 			var parentSprite : Sprite = Sprite(this.parent);
 
 			//click
-			if (touch.phase == 'ended') {
+			if (touch.phase == TouchPhase.ENDED) {
 				var fadeOutTween : Tween = new Tween(_menu, 0.4);
 				fadeOutTween.fadeTo(0);
 				fadeOutTween.onComplete = function() : void {
@@ -98,7 +99,7 @@ package com.jonathantorres.spacecommand.menu
 			}
 			
 			//hover
-			else if (touch.phase == 'hover') {
+			else if (touch.phase == TouchPhase.HOVER) {
 				target.upState = _ui.getTexture(_menuItemsNames[int(target.name)].overState);
 			}
 
