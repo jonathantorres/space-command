@@ -34,6 +34,17 @@ package com.jonathantorres.spacecommand
 		public static const GameElementsXML : Class;
 		
 		/*
+		 * All Game Particles and Textures ------------------------------------------------------
+		 */
+		// Ship fire particle
+		[Embed(source="../../../../assets/textures/shipfire_texture.png")]
+		public static const MainShipThrust : Class;
+		
+		 // Ship fire texture
+		[Embed(source="../../../../assets/textures/shipfire_particle.pex", mimeType="application/octet-stream")]
+		public static const MainShipThrustParticle : Class;
+		
+		/*
 		 * All Game Backgrounds ------------------------------------------------------
 		 */
 		// Main Menu Bg
