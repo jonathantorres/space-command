@@ -2,6 +2,7 @@
 bin-debug/
 bin-release/
 bin/
+release/
 
 # Project property files
 .actionScriptProperties
@@ -11,3 +12,4 @@ bin/
 
 # Other folders and files
 design/
+fdt-html-template/
