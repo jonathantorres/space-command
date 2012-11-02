@@ -56,5 +56,28 @@ package com.jonathantorres.spacecommand
 		{
 			init();
 		}
+		
+		/*
+		 * Getters and setters 
+		 */
+		public function get bg() : Image
+		{
+			return _bg;
+		}
+
+		public function set bg(bg : Image) : void
+		{
+			_bg = bg;
+		}
+
+		public function get logo() : Image
+		{
+			return _logo;
+		}
+
+		public function set logo(logo : Image) : void
+		{
+			_logo = logo;
+		}
 	}
 }
