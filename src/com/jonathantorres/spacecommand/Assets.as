@@ -45,6 +45,15 @@ package com.jonathantorres.spacecommand
 		public static const MainShipThrustParticle : Class;
 		
 		/*
+		 * All Game Fonts ------------------------------------------------------
+		 */
+		[Embed(source="../../../../assets/fonts/ocrastd.ttf", embedAsCFF="false", fontName="OCR A Std", mimeType="application/x-font-truetype")]
+		private static const OCRAStd : Class;
+		
+		[Embed(source="../../../../assets/fonts/blairmditc.ttf", embedAsCFF="false", fontName="Blair MD", mimeType="application/x-font-truetype")]
+		private static const BlairMD : Class;
+		
+		/*
 		 * All Game Backgrounds ------------------------------------------------------
 		 */
 		// Main Menu Bg
