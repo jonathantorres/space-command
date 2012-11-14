@@ -20,6 +20,8 @@ package com.jonathantorres.spacecommand.objects
 		private var _color : String;
 		private var _gameElements : TextureAtlas;
 		
+		private var _damage : uint;
+		
 		public function Laser(color : String)
 		{
 			super();
@@ -71,6 +73,29 @@ package com.jonathantorres.spacecommand.objects
 		private function onAddedToStage(event : Event) : void
 		{
 			init();
+		}
+		
+		/*
+		 * Getters and setters 
+		 */
+		public function get color() : String
+		{
+			return _color;
+		}
+
+		public function set color(color : String) : void
+		{
+			_color = color;
+		}
+
+		public function get damage() : uint
+		{
+			return _damage;
+		}
+
+		public function set damage(damage : uint) : void
+		{
+			_damage = damage;
 		}
 	}
 }
