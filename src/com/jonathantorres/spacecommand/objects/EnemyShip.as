@@ -1,5 +1,6 @@
 package com.jonathantorres.spacecommand.objects
 {
+	import com.jonathantorres.spacecommand.levels.Level;
 	import com.jonathantorres.spacecommand.consts.LaserColors;
 	import starling.display.Image;
 	import starling.display.Sprite;
@@ -26,11 +27,12 @@ package com.jonathantorres.spacecommand.objects
 		private var _speed : Number = 0.01;
 
 		private var _ship : Image;
+		private var _parent : Level;
+		private var _gameElements : TextureAtlas;
 		private var _shootTimer : Timer;
 
 		public var scoreValue : uint = 50;
 		public var damage : uint = 15;
-		private var _gameElements : TextureAtlas;
 		
 		public function EnemyShip(type : String, color : String)
 		{
@@ -82,6 +84,8 @@ package com.jonathantorres.spacecommand.objects
 			_shootTimer = new Timer((Math.random() * 2000) + 1000);
 			_shootTimer.addEventListener(TimerEvent.TIMER, onShootTimer);
 			_shootTimer.start();
+			
+			_parent = Level(this.parent);
 		}
 		
 		public function animate() : void
@@ -121,7 +125,9 @@ package com.jonathantorres.spacecommand.objects
 			var laser : Laser = new Laser(laserColor);
 			laser.x = this.x - 5;
 			laser.y = this.y - 3;
-			Sprite(this.parent).addChild(laser);
+			laser.damage = damage;
+			_parent.addChild(laser);
+			_parent.lasers.push(laser);
 		}
 		
 		private function onShootTimer(event : TimerEvent) : void

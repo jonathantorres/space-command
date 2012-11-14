@@ -1,5 +1,6 @@
 package com.jonathantorres.spacecommand.objects
 {
+	import com.jonathantorres.spacecommand.levels.Level;
 	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.display.Sprite;
@@ -23,6 +24,7 @@ package com.jonathantorres.spacecommand.objects
 		private var _ship : Image;
 		private var _fire : PDParticleSystem;
 		private var _gameElements : TextureAtlas;
+		private var _parent : Level;
 		
 		private var _moveLeft : Boolean;
 		private var _moveRight : Boolean;
@@ -66,6 +68,8 @@ package com.jonathantorres.spacecommand.objects
 
 			Starling.juggler.add(_fire);
 			
+			_parent = Level(this.parent);
+			
 			MouseMode.mouseMode ? mouseMode() : keyboardMode();
 		}
 		
@@ -104,12 +108,27 @@ package com.jonathantorres.spacecommand.objects
 			}
 		}
 		
+		public function removeListeners() : void
+		{
+			if (stage != null) {
+				if (MouseMode.mouseMode) {
+					Starling.current.nativeStage.removeEventListener(MouseEvent.CLICK, onStageClick);
+				}
+				
+				else {
+					stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+					stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+				}
+			}
+		}
+		
 		private function shoot() : void
 		{
 			var laser : Laser = new Laser(LaserColors.PLAYER);
 			laser.x = this.x - 5;
 			laser.y = this.y - 3;
-			Sprite(this.parent).addChild(laser);
+			_parent.addChild(laser);
+			_parent.lasers.push(laser);
 		}
 		
 		private function mouseMode() : void
@@ -194,6 +213,19 @@ package com.jonathantorres.spacecommand.objects
 		private function onAddedToStage(event : Event) : void
 		{
 			init();
+		}
+		
+		/*
+		 * Getters and setters 
+		 */
+		public function get ship() : Image
+		{
+			return _ship;
+		}
+
+		public function set ship(ship : Image) : void
+		{
+			_ship = ship;
 		}
 	}
 }
