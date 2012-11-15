@@ -22,6 +22,9 @@ package com.jonathantorres.spacecommand.levels
 			
 			gameScore = 0;
 			gameLevel = 1;
+			nextLevel = new Level2();
+			
+			trace('Level: ' + gameLevel);
 			
 			addUI();
 			initLasers();
