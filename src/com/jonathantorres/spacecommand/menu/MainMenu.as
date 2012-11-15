@@ -1,20 +1,20 @@
 package com.jonathantorres.spacecommand.menu
 {
-	import starling.events.TouchPhase;
-	import starling.display.Image;
 	import starling.animation.Transitions;
-	import com.jonathantorres.spacecommand.SpaceCommand;
 	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.Button;
+	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
+	import starling.events.TouchPhase;
 	import starling.textures.TextureAtlas;
 
 	import com.jonathantorres.spacecommand.Assets;
-	import com.jonathantorres.spacecommand.levels.Level;
+	import com.jonathantorres.spacecommand.SpaceCommand;
+	import com.jonathantorres.spacecommand.levels.Level1;
 
 	/**
 	 * @author Jonathan Torres
@@ -39,7 +39,7 @@ package com.jonathantorres.spacecommand.menu
 			_ui = new TextureAtlas(Assets.getTexture('UI'), Assets.getTextureXML('UIXML'));
 			
 			_menuItemsNames = new Array(
-					{ upState : 'play_btn_normal', overState : 'play_btn_over', sprite : Level }, 
+					{ upState : 'play_btn_normal', overState : 'play_btn_over', sprite : Level1 }, 
 					{ upState : 'options_btn_normal', overState : 'options_btn_over', sprite : Options }, 
 					{ upState : 'highscores_btn_normal', overState : 'highscores_btn_over', sprite : Highscores }
 			);
@@ -125,7 +125,7 @@ package com.jonathantorres.spacecommand.menu
 				parentSprite.removeChild(logo);
 				parentSprite.removeChild(mainBG);
 				remove();
-				parentSprite.addChild(new Level());
+				parentSprite.addChild(new Level1());
 			};
 			
 			Starling.juggler.add(mainBGTween);
