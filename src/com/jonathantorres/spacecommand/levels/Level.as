@@ -1,8 +1,5 @@
 package com.jonathantorres.spacecommand.levels
 {
-	import starling.animation.Transitions;
-	import starling.animation.Tween;
-	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -43,9 +40,6 @@ package com.jonathantorres.spacecommand.levels
 		private var _allAsteroidsDeployed : Boolean;
 		private var _allEnemyShipsDeployed : Boolean;
 		
-		private var _gameScore : int;
-		private var _gameLevel : int;
-		
 		private var _enemyShips : Array;
 		private var _typesOfEnemies : Array;
 		private var _colorsOfEnemies : Array;
@@ -60,44 +54,52 @@ package com.jonathantorres.spacecommand.levels
 		private var _asteroidDeployment : Timer;
 		private var _lifeforceDeployment : Timer;
 		
+		protected var gameScore : int;
+		protected var gameLevel : int;
+		
 		public function Level()
 		{
 			super();
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
-		private function init() : void
+		protected function init() : void
 		{
-			this.x = stage.stageWidth;
-			
 			_shipIsProtected = false;
 			_allAsteroidsDeployed = false;
 			_allEnemyShipsDeployed = false;
-			_gameScore = 0;
-			_gameLevel = 1;
 			
-			_bg = new Image(Assets.getTexture('BG1'));
-			addChild(_bg);
-			
-			_playerShip = new PlayerShip();
-			addChild(_playerShip);
-			
-			_score = new Score();
-			_score.y = stage.stageHeight - 42;
-			addChild(_score);
-			
-			_lifebar = new Lifebar();
-			_lifebar.x = (stage.stageWidth * 0.5) - 145;
-			_lifebar.y = stage.stageHeight - 42;
-			addChild(_lifebar);
-			
-			_levelNumber = new LevelNumber(_gameLevel);
-			_levelNumber.x = stage.stageWidth - 120;
-			_levelNumber.y = stage.stageHeight - 42;
-			addChild(_levelNumber);
-			
-			_lasers = new Array();
-			
+			this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+		}
+
+		protected function initLifeforces() : void
+		{
+			_lifeforces = new Array();
+			_lifeforceDeployment = new Timer(12000, 5);
+			_lifeforceDeployment.addEventListener(TimerEvent.TIMER, onLifeforceDeploymentTimer);
+			_lifeforceDeployment.start();
+		}
+
+		protected function initAsteroids() : void
+		{
+			_asteroids = new Array();
+			_typesOfAsteroids = new Array(AsteroidSizes.SMALL, AsteroidSizes.MEDIUM, AsteroidSizes.LARGE);
+			_asteroidDeployment = new Timer(4000, 20);
+			_asteroidDeployment.addEventListener(TimerEvent.TIMER, onAsteroidDeploymentTimer);
+			_asteroidDeployment.addEventListener(TimerEvent.TIMER_COMPLETE, onAsteroidDeploymentTimerComplete);
+			_asteroidDeployment.start();
+		}
+
+		protected function initHealthbars() : void
+		{
+			_healthbars = new Array();
+			_healthbarsDeployment = new Timer(10000, 10);
+			_healthbarsDeployment.addEventListener(TimerEvent.TIMER, onHealthbarDeploymentTimer);
+			_healthbarsDeployment.start();
+		}
+
+		protected function initEnemies() : void
+		{
 			_typesOfEnemies = new Array(EnemyTypes.ENEMY_TYPE1);
 			_colorsOfEnemies = new Array(EnemyShipColors.BLUE, EnemyShipColors.GRAY, EnemyShipColors.GREEN, EnemyShipColors.RED);
 			_enemyShips = new Array();
@@ -105,32 +107,37 @@ package com.jonathantorres.spacecommand.levels
 			_enemyDeployment.addEventListener(TimerEvent.TIMER, onEnemyDeploymentTimer);
 			_enemyDeployment.addEventListener(TimerEvent.TIMER_COMPLETE, onEnemyDeploymentTimerComplete);
 			_enemyDeployment.start();
+		}
 
-			_healthbars = new Array();
-			_healthbarsDeployment = new Timer(10000, 10);
-			_healthbarsDeployment.addEventListener(TimerEvent.TIMER, onHealthbarDeploymentTimer);
-			_healthbarsDeployment.start();
+		protected function initLasers() : void
+		{
+			_lasers = new Array();
+		}
 
-			_asteroids = new Array();
-			_typesOfAsteroids = new Array(AsteroidSizes.SMALL, AsteroidSizes.MEDIUM, AsteroidSizes.LARGE);
-			_asteroidDeployment = new Timer(4000, 20);
-			_asteroidDeployment.addEventListener(TimerEvent.TIMER, onAsteroidDeploymentTimer);
-			_asteroidDeployment.addEventListener(TimerEvent.TIMER_COMPLETE, onAsteroidDeploymentTimerComplete);
-			_asteroidDeployment.start();
+		protected function addUI() : void
+		{
+			_bg = new Image(Assets.getTexture('BG1'));
+			addChild(_bg);
 
-			_lifeforces = new Array();
-			_lifeforceDeployment = new Timer(12000, 5);
-			_lifeforceDeployment.addEventListener(TimerEvent.TIMER, onLifeforceDeploymentTimer);
-			_lifeforceDeployment.start();
-			
-			var startTween : Tween = new Tween(this, 0.7, Transitions.EASE_OUT);
-			startTween.animate('x', 0);
-			Starling.juggler.add(startTween);
-			
-			this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+			_playerShip = new PlayerShip();
+			addChild(_playerShip);
+
+			_score = new Score();
+			_score.y = stage.stageHeight - 42;
+			addChild(_score);
+
+			_lifebar = new Lifebar();
+			_lifebar.x = (stage.stageWidth * 0.5) - 145;
+			_lifebar.y = stage.stageHeight - 42;
+			addChild(_lifebar);
+
+			_levelNumber = new LevelNumber(gameLevel);
+			_levelNumber.x = stage.stageWidth - 120;
+			_levelNumber.y = stage.stageHeight - 42;
+			addChild(_levelNumber);
 		}
 		
-		private function onEnterFrame(event : Event) : void
+		protected function onEnterFrame(event : Event) : void
 		{
 			_playerShipRect = _playerShip.ship.getBounds(this.parent);
 			_playerShip.moveShip();
@@ -160,15 +167,15 @@ package com.jonathantorres.spacecommand.levels
 					
 					// player laser hits an enemy
 					for (var j : int = _enemyShips.length - 1; j >= 0; j--) {
-						var enemyShip : EnemyShip = _enemyShips[j];
+						var enemyShip : EnemyShip = EnemyShip(_enemyShips[j]);
 	
 						if (this.contains(enemyShip)) {
 							var enemyShipRect : Rectangle = enemyShip.getBounds(this.parent);
 	
 							if (laserRect.intersects(enemyShipRect)) {
 								// sum score
-								_gameScore += enemyShip.scoreValue;
-								_score.updateScore(_gameScore);
+								gameScore += enemyShip.scoreValue;
+								_score.updateScore(gameScore);
 	
 								removeChild(laser);
 								_lasers.splice(i, 1);
@@ -182,15 +189,15 @@ package com.jonathantorres.spacecommand.levels
 					
 					// player laser hits an asteroid
 					for (var k : int = _asteroids.length - 1; k >= 0; k--) {
-						var asteroid : Asteroid = _asteroids[k];
+						var asteroid : Asteroid = Asteroid(_asteroids[k]);
 	
 						if (this.contains(asteroid)) {
 							var asteroidRect : Rectangle = asteroid.getBounds(this.parent);
 	
 							if (laserRect.intersects(asteroidRect)) {
 								// sum score
-								_gameScore += asteroid.scoreValue;
-								_score.updateScore(_gameScore);
+								gameScore += asteroid.scoreValue;
+								_score.updateScore(gameScore);
 	
 								removeChild(asteroid);
 								_asteroids.splice(k, 1);
@@ -385,7 +392,7 @@ package com.jonathantorres.spacecommand.levels
 		/*
 		 * Ends the game
 		 */
-		private function gameOver() : void
+		protected function gameOver() : void
 		{
 			var parent : Sprite = Sprite(parent);
 			parent.removeChild(this);
@@ -477,6 +484,10 @@ package com.jonathantorres.spacecommand.levels
 			removeChild(_lifebar);
 			removeChild(_score);
 			removeChild(_levelNumber);
+			
+			_lifebar = null;
+			_score = null;
+			_levelNumber = null;
 		}
 
 		/*
