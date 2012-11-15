@@ -20,9 +20,10 @@ package com.jonathantorres.spacecommand.ui
 
 		private var _score : Number;
 		
-		public function Score()
+		public function Score(score : Number)
 		{
 			super();
+			_score = score;
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
@@ -39,7 +40,7 @@ package com.jonathantorres.spacecommand.ui
 			_scoreTitle.y = (_blackBG.height * 0.5) - (_scoreTitle.height * 0.5);
 			addChild(_scoreTitle);
 
-			_gameScore = new TextField(80, 20, '0', Assets.getFont('OCRAStd').fontName, 15, 0xe34900);
+			_gameScore = new TextField(80, 20, String(_score), Assets.getFont('OCRAStd').fontName, 15, 0xe34900);
 			_gameScore.vAlign = VAlign.TOP;
 			_gameScore.hAlign = HAlign.LEFT;
 			_gameScore.x = _scoreTitle.width + 20;

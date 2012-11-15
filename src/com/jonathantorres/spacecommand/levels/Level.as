@@ -35,6 +35,7 @@ package com.jonathantorres.spacecommand.levels
 		private var _levelNumber : LevelNumber;
 		private var _playerShip : PlayerShip;
 		private var _playerShipRect : Rectangle;
+		private var _parent : Sprite;
 		
 		private var _shipIsProtected : Boolean;
 		private var _allAsteroidsDeployed : Boolean;
@@ -56,6 +57,7 @@ package com.jonathantorres.spacecommand.levels
 		
 		protected var gameScore : int;
 		protected var gameLevel : int;
+		protected var nextLevel : Level;
 		
 		public function Level()
 		{
@@ -68,6 +70,8 @@ package com.jonathantorres.spacecommand.levels
 			_shipIsProtected = false;
 			_allAsteroidsDeployed = false;
 			_allEnemyShipsDeployed = false;
+			
+			_parent = Sprite(parent);
 			
 			this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
@@ -122,7 +126,7 @@ package com.jonathantorres.spacecommand.levels
 			_playerShip = new PlayerShip();
 			addChild(_playerShip);
 
-			_score = new Score();
+			_score = new Score(gameScore);
 			_score.y = stage.stageHeight - 42;
 			addChild(_score);
 
@@ -242,7 +246,7 @@ package com.jonathantorres.spacecommand.levels
 			 * Animation and Collisions : Enemy Ships
 			 */
 			for (var l : int = _enemyShips.length - 1; l >= 0; l--) {
-				var enemy : EnemyShip = _enemyShips[l];
+				var enemy : EnemyShip = EnemyShip(_enemyShips[l]);
 				enemy.animate();
 				
 				// enemy ship is off the stage
@@ -274,7 +278,7 @@ package com.jonathantorres.spacecommand.levels
 			* Animation and Collisions : Asteroids
 			*/
 			for (var m : int = _asteroids.length - 1; m >= 0; m--) {
-				var theAsteroid : Asteroid = _asteroids[m];
+				var theAsteroid : Asteroid = Asteroid(_asteroids[m]);
 				theAsteroid.animate();
 				
 				// asteroid is off the stage
@@ -306,7 +310,7 @@ package com.jonathantorres.spacecommand.levels
 			* Animation and Collisions : Healthbars
 			*/
 			for (var n : int = _healthbars.length - 1; n >= 0; n--) {
-				var healthbar : Health = _healthbars[n];
+				var healthbar : Health = Health(_healthbars[n]);
 				healthbar.animate();
 				
 				// healthbar is off the stage
@@ -335,7 +339,7 @@ package com.jonathantorres.spacecommand.levels
 			* Animation and Collisions : Lifeforces
 			*/
 			for (var o : int = _lifeforces.length - 1; o >= 0; o--) {
-				var lifeforce : Lifeforce = _lifeforces[o];
+				var lifeforce : Lifeforce = Lifeforce(_lifeforces[o]);
 				lifeforce.animate();
 				
 				// lifeforce is off the stage
@@ -369,7 +373,7 @@ package com.jonathantorres.spacecommand.levels
 			if (_allAsteroidsDeployed && _allEnemyShipsDeployed) {
 				if (_asteroids.length == 0 && _enemyShips.length == 0) {
 					cleanUp();
-					gameOver();
+					advanceLevel(nextLevel);
 				}
 			}
 		}
@@ -390,14 +394,24 @@ package com.jonathantorres.spacecommand.levels
 		}
 		
 		/*
+		 * Advance to the next level
+		 */
+		private function advanceLevel(level : Level) : void
+		{
+			_parent.removeChild(this);
+			trace('Advanced level!');
+			level.gameScore = gameScore;
+			_parent.addChild(level);
+		}
+		
+		/*
 		 * Ends the game
 		 */
-		protected function gameOver() : void
+		private function gameOver() : void
 		{
-			var parent : Sprite = Sprite(parent);
-			parent.removeChild(this);
+			_parent.removeChild(this);
 			trace('game over!');
-			parent.addChild(new GameOver());
+			_parent.addChild(new GameOver());
 		}
 		
 		/*
@@ -488,6 +502,7 @@ package com.jonathantorres.spacecommand.levels
 			_lifebar = null;
 			_score = null;
 			_levelNumber = null;
+			_playerShip = null;
 		}
 
 		/*
