@@ -1,5 +1,7 @@
 package com.jonathantorres.spacecommand
 {
+	import com.jonathantorres.spacecommand.ui.SpaceBackground;
+	import com.jonathantorres.spacecommand.ui.SpaceStars;
 	import starling.text.TextField;
 	import starling.animation.Tween;
 	import starling.core.Starling;
@@ -14,11 +16,12 @@ package com.jonathantorres.spacecommand
 	 */
 	public class SpaceCommand extends Sprite
 	{
-		private var _bg : Image;
+		private var _bg : SpaceBackground;
 		private var _logo : Image;
 		private var _mainMenu : MainMenu;
 		private var _logoTween : Tween;
 		private var _credits : TextField;
+		private var _spaceStars : SpaceStars;
 		
 		public function SpaceCommand()
 		{
@@ -28,8 +31,11 @@ package com.jonathantorres.spacecommand
 		
 		private function init() : void
 		{
-			_bg = new Image(Assets.getTexture('MainMenuBG'));
+			_bg = new SpaceBackground();
 			addChild(_bg);
+			
+			_spaceStars = new SpaceStars();
+			addChild(_spaceStars);
 			
 			_logo = new Image(Assets.getTexture('MainLogo'));
 			_logo.pivotX = _logo.width * 0.5;
@@ -60,12 +66,12 @@ package com.jonathantorres.spacecommand
 		/*
 		 * Getters and setters 
 		 */
-		public function get bg() : Image
+		public function get bg() : SpaceBackground
 		{
 			return _bg;
 		}
 
-		public function set bg(bg : Image) : void
+		public function set bg(bg : SpaceBackground) : void
 		{
 			_bg = bg;
 		}
@@ -78,6 +84,16 @@ package com.jonathantorres.spacecommand
 		public function set logo(logo : Image) : void
 		{
 			_logo = logo;
+		}
+
+		public function get spaceStars() : SpaceStars
+		{
+			return _spaceStars;
+		}
+
+		public function set spaceStars(spaceStars : SpaceStars) : void
+		{
+			_spaceStars = spaceStars;
 		}
 	}
 }

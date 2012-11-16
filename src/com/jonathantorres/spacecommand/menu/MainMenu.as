@@ -1,5 +1,7 @@
 package com.jonathantorres.spacecommand.menu
 {
+	import com.jonathantorres.spacecommand.ui.SpaceBackground;
+	import com.jonathantorres.spacecommand.ui.SpaceStars;
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
 	import starling.core.Starling;
@@ -112,7 +114,8 @@ package com.jonathantorres.spacecommand.menu
 		private function playGame(parentSprite : Sprite) : void
 		{
 			var logo : Image = SpaceCommand(parentSprite).logo;
-			var mainBG : Image = SpaceCommand(parentSprite).bg;
+			var mainBG : SpaceBackground = SpaceCommand(parentSprite).bg;
+			var spaceStars : SpaceStars = SpaceCommand(parentSprite).spaceStars;
 			
 			var logoTween : Tween = new Tween(logo, 0.4);
 			logoTween.fadeTo(0);
@@ -123,6 +126,7 @@ package com.jonathantorres.spacecommand.menu
 			mainBGTween.fadeTo(0);
 			mainBGTween.onComplete = function() : void {
 				parentSprite.removeChild(logo);
+				parentSprite.removeChild(spaceStars);
 				parentSprite.removeChild(mainBG);
 				remove();
 				parentSprite.addChild(new Level1());
