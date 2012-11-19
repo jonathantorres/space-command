@@ -1,10 +1,8 @@
 package com.jonathantorres.spacecommand.levels
 {
-	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
 
-	import com.jonathantorres.spacecommand.Assets;
 	import com.jonathantorres.spacecommand.consts.AsteroidSizes;
 	import com.jonathantorres.spacecommand.consts.EnemyShipColors;
 	import com.jonathantorres.spacecommand.consts.EnemyTypes;
@@ -16,6 +14,7 @@ package com.jonathantorres.spacecommand.levels
 	import com.jonathantorres.spacecommand.objects.Laser;
 	import com.jonathantorres.spacecommand.objects.Lifeforce;
 	import com.jonathantorres.spacecommand.objects.PlayerShip;
+	import com.jonathantorres.spacecommand.ui.GameBackground;
 	import com.jonathantorres.spacecommand.ui.LevelNumber;
 	import com.jonathantorres.spacecommand.ui.Lifebar;
 	import com.jonathantorres.spacecommand.ui.Score;
@@ -29,7 +28,6 @@ package com.jonathantorres.spacecommand.levels
 	 */
 	public class Level extends Sprite
 	{
-		private var _bg : Image;
 		private var _score : Score;
 		private var _lifebar : Lifebar;
 		private var _levelNumber : LevelNumber;
@@ -57,6 +55,7 @@ package com.jonathantorres.spacecommand.levels
 		
 		protected var gameScore : int;
 		protected var gameLevel : int;
+		protected var bg : GameBackground;
 		protected var nextLevel : Level;
 		
 		public function Level()
@@ -120,8 +119,7 @@ package com.jonathantorres.spacecommand.levels
 
 		protected function addUI() : void
 		{
-			_bg = new Image(Assets.getTexture('BG1'));
-			addChild(_bg);
+			addChild(bg);
 
 			_playerShip = new PlayerShip();
 			addChild(_playerShip);
@@ -145,6 +143,7 @@ package com.jonathantorres.spacecommand.levels
 		{
 			_playerShipRect = _playerShip.ship.getBounds(this.parent);
 			_playerShip.moveShip();
+			bg.animate();
 			
 			checkEnemies();
 			checkPlayerLife();

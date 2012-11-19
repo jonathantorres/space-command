@@ -4,6 +4,8 @@ package com.jonathantorres.spacecommand.levels
 	import starling.animation.Tween;
 	import starling.core.Starling;
 
+	import com.jonathantorres.spacecommand.ui.RocksBackground;
+
 	/**
 	 * @author Jonathan Torres
 	 */
@@ -22,6 +24,7 @@ package com.jonathantorres.spacecommand.levels
 			
 			gameScore = 0;
 			gameLevel = 1;
+			bg = new RocksBackground();
 			nextLevel = new Level2();
 			
 			trace('Level: ' + gameLevel);
