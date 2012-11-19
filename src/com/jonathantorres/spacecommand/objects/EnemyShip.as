@@ -1,7 +1,5 @@
 package com.jonathantorres.spacecommand.objects
 {
-	import com.jonathantorres.spacecommand.levels.Level;
-	import com.jonathantorres.spacecommand.consts.LaserColors;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -11,6 +9,8 @@ package com.jonathantorres.spacecommand.objects
 	import com.jonathantorres.spacecommand.Assets;
 	import com.jonathantorres.spacecommand.consts.EnemyShipColors;
 	import com.jonathantorres.spacecommand.consts.EnemyTypes;
+	import com.jonathantorres.spacecommand.consts.LaserColors;
+	import com.jonathantorres.spacecommand.levels.Level;
 
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
@@ -22,6 +22,7 @@ package com.jonathantorres.spacecommand.objects
 	{
 		private var _type : String;
 		private var _color : String;
+		private var _shootingInterval : Number;
 		private var _vx : Number = 0.0;
 		private var _vy : Number = 0.0;
 		private var _speed : Number = 0.01;
@@ -34,11 +35,12 @@ package com.jonathantorres.spacecommand.objects
 		public var scoreValue : uint = 50;
 		public var damage : uint = 15;
 		
-		public function EnemyShip(type : String, color : String)
+		public function EnemyShip(type : String, color : String, shootingInterval : Number)
 		{
 			super();
 			_type = type;
 			_color = color;
+			_shootingInterval = shootingInterval;
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			this.addEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage);
 		}
@@ -47,45 +49,76 @@ package com.jonathantorres.spacecommand.objects
 		{
 			_gameElements = new TextureAtlas(Assets.getTexture('GameElements'), Assets.getTextureXML('GameElementsXML'));
 			
-			switch(_color) {
-				case EnemyShipColors.BLUE : 
-					_ship = new Image(getBlueTexture(_type));		
-					break;
-					
-				case EnemyShipColors.GRAY : 
-					_ship = new Image(getGrayTexture(_type));		
-					break;
-					
-				case EnemyShipColors.GREEN : 
-					_ship = new Image(getGreenTexture(_type));		
-					break;
-					
-				case EnemyShipColors.RED : 
-					_ship = new Image(getRedTexture(_type));		
-					break;
-					
-				case EnemyShipColors.CHARCOAL : 
-					_ship = new Image(getCharcoalTexture(_type));		
-					break;
-					
-				case EnemyShipColors.SILVER : 
-					_ship = new Image(getSilverTexture(_type));		
-					break;
-					
-				case EnemyShipColors.BROWN : 
-					_ship = new Image(getBrownTexture(_type));		
-					break;
-			}
-
+			_ship = new Image(getEnemyTexture(_color, _type));
 			_ship.x = 0;
 			_ship.y = -(_ship.height * 0.5);
 			addChild(_ship);
 
-			_shootTimer = new Timer((Math.random() * 2000) + 1000);
+			_shootTimer = new Timer(_shootingInterval);
 			_shootTimer.addEventListener(TimerEvent.TIMER, onShootTimer);
 			_shootTimer.start();
 			
 			_parent = Level(this.parent);
+		}
+
+		private function getEnemyTexture(color : String, type : String) : Texture
+		{
+			var colorAlias : String;
+			var typeAlias : String;
+			
+			switch(color) {
+				case EnemyShipColors.BLUE :
+					colorAlias = 'blue';
+					break;
+					
+				case EnemyShipColors.BROWN :
+					colorAlias = 'brown';
+					break;
+					
+				case EnemyShipColors.CHARCOAL :
+					colorAlias = 'charcoal';
+					break;
+					
+				case EnemyShipColors.GRAY :
+					colorAlias = 'gray';
+					break;
+					
+				case EnemyShipColors.GREEN :
+					colorAlias = 'green';
+					break;
+					
+				case EnemyShipColors.RED :
+					colorAlias = 'red';
+					break;
+					
+				case EnemyShipColors.SILVER :
+					colorAlias = 'silver';
+					break;
+			}
+			
+			switch(type) {
+				case EnemyTypes.ENEMY_TYPE1 :
+					typeAlias = '1';
+					break;
+					
+				case EnemyTypes.ENEMY_TYPE2 :
+					typeAlias = '2';
+					break;
+					
+				case EnemyTypes.ENEMY_TYPE3 :
+					typeAlias = '3';
+					break;
+					
+				case EnemyTypes.ENEMY_TYPE4 :
+					typeAlias = '4';
+					break;
+					
+				case EnemyTypes.ENEMY_TYPE5 :
+					typeAlias = '5';
+					break;
+			}
+			
+			return _gameElements.getTexture('enemy_type_' + typeAlias + '_' + colorAlias);
 		}
 		
 		public function animate() : void
@@ -135,145 +168,6 @@ package com.jonathantorres.spacecommand.objects
 			shoot();
 		}
 
-		private function getBlueTexture(type : String) : Texture
-		{
-			var texture : Texture;
-			
-			switch(type) {
-				case EnemyTypes.ENEMY_TYPE1 :
-					texture = _gameElements.getTexture('enemy_type_1_blue');
-					break;
-					
-				case EnemyTypes.ENEMY_TYPE3 :
-					texture = _gameElements.getTexture('enemy_type_3_blue');
-					break;
-					
-				default :
-					throw new Error('Enemy Texture does not exist!');
-					break;
-			}
-			
-			return texture;
-		}
-		
-		private function getGrayTexture(type : String) : Texture
-		{
-			var texture : Texture;
-			
-			switch(type) {
-				case EnemyTypes.ENEMY_TYPE1 :
-					texture = _gameElements.getTexture('enemy_type_1_gray');
-					break;
-					
-				case EnemyTypes.ENEMY_TYPE2 :
-					texture = _gameElements.getTexture('enemy_type_2_gray');
-					break;
-					
-				case EnemyTypes.ENEMY_TYPE4 :
-					texture = _gameElements.getTexture('enemy_type_4_gray');
-					break;
-					
-				case EnemyTypes.ENEMY_TYPE5 :
-					texture = _gameElements.getTexture('enemy_type_5_gray');
-					break;
-					
-				default :
-					throw new Error('Enemy Texture does not exist!');
-					break;
-			}
-			
-			return texture;
-		}
-		
-		private function getGreenTexture(type : String) : Texture
-		{
-			var texture : Texture;
-			
-			switch(type) {
-				case EnemyTypes.ENEMY_TYPE1 :
-					texture = _gameElements.getTexture('enemy_type_1_green');
-					break;
-					
-				case EnemyTypes.ENEMY_TYPE4 :
-					texture = _gameElements.getTexture('enemy_type_4_green');
-					break;
-					
-				default :
-					throw new Error('Enemy Texture does not exist!');
-					break;
-			}
-			
-			return texture;
-		}
-		
-		private function getRedTexture(type : String) : Texture
-		{
-			var texture : Texture;
-			
-			switch(type) {
-				case EnemyTypes.ENEMY_TYPE1 :
-					texture = _gameElements.getTexture('enemy_type_1_red');
-					break;
-					
-				case EnemyTypes.ENEMY_TYPE3 :
-					texture = _gameElements.getTexture('enemy_type_3_red');
-					break;
-					
-				default :
-					throw new Error('Enemy Texture does not exist!');
-					break;
-			}
-			
-			return texture;
-		}
-		
-		private function getCharcoalTexture(type : String) : Texture
-		{
-			var texture : Texture;
-			
-			if (_type == EnemyTypes.ENEMY_TYPE2) {
-				texture = _gameElements.getTexture('enemy_type_2_charcoal');
-			} else {
-				throw new Error('Enemy Texture does not exist!');
-			}
-			
-			return texture;
-		}
-		
-		private function getSilverTexture(type : String) : Texture
-		{
-			var texture : Texture;
-			
-			if (_type == EnemyTypes.ENEMY_TYPE3) {
-				texture = _gameElements.getTexture('enemy_type_3_silver');
-			} else {
-				throw new Error('Enemy Texture does not exist!');
-			}
-			
-			return texture;
-		}
-		
-		private function getBrownTexture(type : String) : Texture
-		{
-			var texture : Texture;
-			
-			switch(type) {
-				case EnemyTypes.ENEMY_TYPE4 :
-					texture = _gameElements.getTexture('enemy_type_4_brown');
-					break;
-					
-				case EnemyTypes.ENEMY_TYPE5 :
-					texture = _gameElements.getTexture('enemy_type_5_brown');
-					break;
-					
-				default :
-					throw new Error('Enemy Texture does not exist!');
-					break;
-			}
-			
-			return texture;
-		}
-		
 		private function onRemovedFromStage(event : Event) : void
 		{
 			_shootTimer.stop();
