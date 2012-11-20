@@ -2,6 +2,7 @@ package com.jonathantorres.spacecommand.levels
 {
 	import com.jonathantorres.spacecommand.consts.EnemyShipColors;
 	import com.jonathantorres.spacecommand.consts.EnemyTypes;
+	import com.jonathantorres.spacecommand.ui.LevelIndicator;
 	import com.jonathantorres.spacecommand.ui.bg.RedRocksBackground;
 
 	/**
@@ -45,6 +46,11 @@ package com.jonathantorres.spacecommand.levels
 			initHealthbars();
 			initAsteroids();
 			initLifeforces();
+			
+			var levelIndicator : LevelIndicator = new LevelIndicator(gameLevel);
+			levelIndicator.x = stage.stageWidth * 0.5;
+			levelIndicator.y = stage.stageHeight * 0.5;
+			addChild(levelIndicator);
 		}
 	}
 }

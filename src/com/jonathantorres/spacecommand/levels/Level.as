@@ -478,10 +478,13 @@ package com.jonathantorres.spacecommand.levels
 				}
 			}
 			
+			// remove protecting lifeforce
+			removeProtectingLifeforce();
+			
 			// remove player ship
 			_playerShip.removeListeners();
 			removeChild(_playerShip);
-
+			
 			_enemyDeployment.stop();
 			_enemyDeployment.removeEventListener(TimerEvent.TIMER, onEnemyDeploymentTimer);
 			_enemyDeployment.removeEventListener(TimerEvent.TIMER_COMPLETE, onEnemyDeploymentTimerComplete);
