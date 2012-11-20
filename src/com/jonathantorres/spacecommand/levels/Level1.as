@@ -1,5 +1,7 @@
 package com.jonathantorres.spacecommand.levels
 {
+	import com.jonathantorres.spacecommand.consts.EnemyShipColors;
+	import com.jonathantorres.spacecommand.consts.EnemyTypes;
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
 	import starling.core.Starling;
@@ -26,6 +28,28 @@ package com.jonathantorres.spacecommand.levels
 			gameLevel = 1;
 			bg = new RocksBackground();
 			nextLevel = new Level2();
+			
+			lifeforceDeploymentInterval = 6000;
+			asteroidDeploymentInterval = 6000;
+			healthbarsDeploymentInterval = 5000;
+			enemiesDeploymentInterval = 3000;
+			numOfLifeforces = 15;
+			numOfAsteroids = 15;
+			numOfHealthbars = 15;
+			numOfEnemies = 30;
+			enemyShootingInterval = (Math.random() * 2000) + 1000; // 1 to 3 seconds
+			typesOfEnemies = new Array(EnemyTypes.ENEMY_TYPE1, 
+									   EnemyTypes.ENEMY_TYPE2,
+									   EnemyTypes.ENEMY_TYPE3,
+									   EnemyTypes.ENEMY_TYPE4,
+									   EnemyTypes.ENEMY_TYPE5);
+									   
+			colorsOfEnemies = new Array(EnemyShipColors.BLUE, 
+										EnemyShipColors.GRAY, 
+										EnemyShipColors.GREEN, 
+										EnemyShipColors.RED,
+										EnemyShipColors.CHARCOAL,
+										EnemyShipColors.GRAY);
 			
 			trace('Level: ' + gameLevel);
 			

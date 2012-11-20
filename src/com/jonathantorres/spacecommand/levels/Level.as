@@ -4,8 +4,6 @@ package com.jonathantorres.spacecommand.levels
 	import starling.events.Event;
 
 	import com.jonathantorres.spacecommand.consts.AsteroidSizes;
-	import com.jonathantorres.spacecommand.consts.EnemyShipColors;
-	import com.jonathantorres.spacecommand.consts.EnemyTypes;
 	import com.jonathantorres.spacecommand.consts.LaserColors;
 	import com.jonathantorres.spacecommand.menu.GameOver;
 	import com.jonathantorres.spacecommand.objects.Asteroid;
@@ -40,8 +38,6 @@ package com.jonathantorres.spacecommand.levels
 		private var _allEnemyShipsDeployed : Boolean;
 		
 		private var _enemyShips : Array;
-		private var _typesOfEnemies : Array;
-		private var _colorsOfEnemies : Array;
 		private var _asteroids : Array;
 		private var _typesOfAsteroids : Array;
 		private var _lifeforces : Array;
@@ -57,6 +53,18 @@ package com.jonathantorres.spacecommand.levels
 		protected var gameLevel : int;
 		protected var bg : GameBackground;
 		protected var nextLevel : Level;
+		
+		protected var lifeforceDeploymentInterval : Number;
+		protected var numOfLifeforces : Number;
+		protected var asteroidDeploymentInterval : Number;
+		protected var numOfAsteroids : Number;
+		protected var healthbarsDeploymentInterval : Number;
+		protected var numOfHealthbars : Number;
+		protected var enemiesDeploymentInterval : Number;
+		protected var numOfEnemies : Number;
+		protected var enemyShootingInterval : Number;
+		protected var typesOfEnemies : Array;
+		protected var colorsOfEnemies : Array;
 		
 		public function Level()
 		{
@@ -78,7 +86,7 @@ package com.jonathantorres.spacecommand.levels
 		protected function initLifeforces() : void
 		{
 			_lifeforces = new Array();
-			_lifeforceDeployment = new Timer(12000, 5);
+			_lifeforceDeployment = new Timer(lifeforceDeploymentInterval, numOfLifeforces);
 			_lifeforceDeployment.addEventListener(TimerEvent.TIMER, onLifeforceDeploymentTimer);
 			_lifeforceDeployment.start();
 		}
@@ -87,7 +95,7 @@ package com.jonathantorres.spacecommand.levels
 		{
 			_asteroids = new Array();
 			_typesOfAsteroids = new Array(AsteroidSizes.SMALL, AsteroidSizes.MEDIUM, AsteroidSizes.LARGE);
-			_asteroidDeployment = new Timer(4000, 20);
+			_asteroidDeployment = new Timer(asteroidDeploymentInterval, numOfAsteroids);
 			_asteroidDeployment.addEventListener(TimerEvent.TIMER, onAsteroidDeploymentTimer);
 			_asteroidDeployment.addEventListener(TimerEvent.TIMER_COMPLETE, onAsteroidDeploymentTimerComplete);
 			_asteroidDeployment.start();
@@ -96,17 +104,15 @@ package com.jonathantorres.spacecommand.levels
 		protected function initHealthbars() : void
 		{
 			_healthbars = new Array();
-			_healthbarsDeployment = new Timer(10000, 10);
+			_healthbarsDeployment = new Timer(healthbarsDeploymentInterval, numOfHealthbars);
 			_healthbarsDeployment.addEventListener(TimerEvent.TIMER, onHealthbarDeploymentTimer);
 			_healthbarsDeployment.start();
 		}
 
 		protected function initEnemies() : void
 		{
-			_typesOfEnemies = new Array(EnemyTypes.ENEMY_TYPE1);
-			_colorsOfEnemies = new Array(EnemyShipColors.BLUE, EnemyShipColors.GRAY, EnemyShipColors.GREEN, EnemyShipColors.RED);
 			_enemyShips = new Array();
-			_enemyDeployment = new Timer(2000, 50);
+			_enemyDeployment = new Timer(enemiesDeploymentInterval, numOfEnemies);
 			_enemyDeployment.addEventListener(TimerEvent.TIMER, onEnemyDeploymentTimer);
 			_enemyDeployment.addEventListener(TimerEvent.TIMER_COMPLETE, onEnemyDeploymentTimerComplete);
 			_enemyDeployment.start();
@@ -553,7 +559,16 @@ package com.jonathantorres.spacecommand.levels
 		 */
 		private function onEnemyDeploymentTimer(event : TimerEvent) : void
 		{
-			var enemyShip : EnemyShip = new EnemyShip(_typesOfEnemies[0], _colorsOfEnemies[Math.floor(Math.random() * _colorsOfEnemies.length)]);
+			var typeOfEnemy : String;
+			
+			if (typesOfEnemies.length == 1)
+				typeOfEnemy = typesOfEnemies[0];
+			else
+				typeOfEnemy = typesOfEnemies[Math.floor(Math.random() * typesOfEnemies.length)];
+			
+			var enemyShip : EnemyShip = new EnemyShip(typeOfEnemy,
+													  colorsOfEnemies[Math.floor(Math.random() * colorsOfEnemies.length)],
+													  enemyShootingInterval);
 			enemyShip.x = stage.stageWidth + enemyShip.width;
 			enemyShip.y = Math.random() * stage.stageHeight;
 			addChild(enemyShip);
