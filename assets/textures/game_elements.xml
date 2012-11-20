@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://texturepacker.com-->
-<!-- $TexturePacker:SmartUpdate:a13ed3a3d203243438f70a09598ceb9e$ -->
+<!-- $TexturePacker:SmartUpdate:e71e40386ec872ec97b7be73f6c503a9$ -->
 <TextureAtlas imagePath="game_elements.png">
     <SubTexture name="asteroid_large" x="57" y="268" width="82" height="58" frameX="-1" frameY="-1" frameWidth="86" frameHeight="60"/>
     <SubTexture name="asteroid_medium" x="386" y="129" width="48" height="30" frameX="0" frameY="-2" frameWidth="50" frameHeight="34"/>
@@ -27,13 +27,13 @@
     <SubTexture name="enemy_type_3_green" x="98" y="129" width="94" height="28" frameX="-1" frameY="-2" frameWidth="96" frameHeight="32"/>
     <SubTexture name="enemy_type_3_red" x="290" y="129" width="94" height="28" frameX="-2" frameY="-2" frameWidth="96" frameHeight="32"/>
     <SubTexture name="enemy_type_3_silver" x="211" y="99" width="94" height="28" frameX="-1" frameY="-2" frameWidth="96" frameHeight="32"/>
-    <SubTexture name="enemy_type_4_blue" x="284" y="24" width="92" height="20" frameX="-2" frameY="-1" frameWidth="96" frameHeight="24"/>
-    <SubTexture name="enemy_type_4_brown" x="227" y="2" width="92" height="20" frameX="-2" frameY="-2" frameWidth="96" frameHeight="24"/>
-    <SubTexture name="enemy_type_4_charcoal" x="415" y="2" width="92" height="20" frameX="-2" frameY="-1" frameWidth="96" frameHeight="24"/>
-    <SubTexture name="enemy_type_4_gray" x="190" y="24" width="92" height="20" frameX="-1" frameY="-2" frameWidth="96" frameHeight="24"/>
-    <SubTexture name="enemy_type_4_green" x="2" y="24" width="92" height="20" frameX="-2" frameY="-2" frameWidth="96" frameHeight="24"/>
-    <SubTexture name="enemy_type_4_red" x="96" y="24" width="92" height="20" frameX="-2" frameY="-1" frameWidth="96" frameHeight="24"/>
-    <SubTexture name="enemy_type_4_silver" x="321" y="2" width="92" height="20" frameX="-2" frameY="-1" frameWidth="96" frameHeight="24"/>
+    <SubTexture name="enemy_type_4_blue" x="96" y="24" width="92" height="20" frameX="-2" frameY="-1" frameWidth="96" frameHeight="24"/>
+    <SubTexture name="enemy_type_4_brown" x="284" y="24" width="92" height="20" frameX="-2" frameY="-2" frameWidth="96" frameHeight="24"/>
+    <SubTexture name="enemy_type_4_charcoal" x="227" y="2" width="92" height="20" frameX="-2" frameY="-1" frameWidth="96" frameHeight="24"/>
+    <SubTexture name="enemy_type_4_gray" x="321" y="2" width="92" height="20" frameX="-1" frameY="-2" frameWidth="96" frameHeight="24"/>
+    <SubTexture name="enemy_type_4_green" x="190" y="24" width="92" height="20" frameX="-2" frameY="-2" frameWidth="96" frameHeight="24"/>
+    <SubTexture name="enemy_type_4_red" x="2" y="24" width="92" height="20" frameX="-2" frameY="-1" frameWidth="96" frameHeight="24"/>
+    <SubTexture name="enemy_type_4_silver" x="415" y="2" width="92" height="20" frameX="-2" frameY="-1" frameWidth="96" frameHeight="24"/>
     <SubTexture name="enemy_type_5_blue" x="212" y="171" width="103" height="42" frameX="-1" frameY="0" frameWidth="105" frameHeight="42"/>
     <SubTexture name="enemy_type_5_brown" x="2" y="171" width="103" height="42" frameX="-1" frameY="0" frameWidth="105" frameHeight="42"/>
     <SubTexture name="enemy_type_5_charcoal" x="107" y="171" width="103" height="42" frameX="-1" frameY="0" frameWidth="105" frameHeight="42"/>
@@ -46,11 +46,12 @@
     <SubTexture name="icon_less_damage" x="181" y="99" width="28" height="28" frameX="-1" frameY="-1" frameWidth="30" frameHeight="30"/>
     <SubTexture name="icon_lifeforce" x="2" y="268" width="53" height="53"/>
     <SubTexture name="icon_triple_laser" x="121" y="99" width="28" height="28" frameX="-1" frameY="-1" frameWidth="30" frameHeight="30"/>
-    <SubTexture name="laser_enemy_aeon" x="87" y="2" width="26" height="11"/>
-    <SubTexture name="laser_enemy_blue" x="143" y="2" width="26" height="11"/>
+    <SubTexture name="laser_enemy_aeon" x="115" y="2" width="26" height="11"/>
+    <SubTexture name="laser_enemy_blue" x="87" y="2" width="26" height="11"/>
     <SubTexture name="laser_enemy_green" x="171" y="2" width="26" height="11"/>
-    <SubTexture name="laser_enemy_red" x="115" y="2" width="26" height="11"/>
+    <SubTexture name="laser_enemy_red" x="143" y="2" width="26" height="11"/>
     <SubTexture name="laser_player" x="45" y="2" width="40" height="11" frameX="0" frameY="-1" frameWidth="40" frameHeight="13"/>
+    <SubTexture name="lifeforce_large" x="141" y="268" width="157" height="86" frameX="-4" frameY="-1" frameWidth="167" frameHeight="90"/>
     <SubTexture name="missile" x="2" y="2" width="41" height="6" frameX="-2" frameY="-2" frameWidth="45" frameHeight="10"/>
     <SubTexture name="player_ship_normal" x="317" y="215" width="140" height="51" frameX="-1" frameY="-2" frameWidth="144" frameHeight="55"/>
 </TextureAtlas>

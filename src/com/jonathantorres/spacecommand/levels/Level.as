@@ -1,5 +1,6 @@
 package com.jonathantorres.spacecommand.levels
 {
+	import com.jonathantorres.spacecommand.objects.LifeforceLarge;
 	import starling.display.Sprite;
 	import starling.events.Event;
 
@@ -31,6 +32,7 @@ package com.jonathantorres.spacecommand.levels
 		private var _levelNumber : LevelNumber;
 		private var _playerShip : PlayerShip;
 		private var _playerShipRect : Rectangle;
+		private var _protectingLifeforce : LifeforceLarge;
 		private var _parent : Sprite;
 		
 		private var _shipIsProtected : Boolean;
@@ -153,6 +155,7 @@ package com.jonathantorres.spacecommand.levels
 			
 			checkEnemies();
 			checkPlayerLife();
+			updateLifeforcePosition();
 			
 			/*
 			 * Animation and Collisions : Lasers
@@ -234,10 +237,8 @@ package com.jonathantorres.spacecommand.levels
 					if (this.contains(laser)) {
 						if (_playerShipRect.intersects(laserRect)) {
 							// decrease player life
-							//TODO Add lifeforce functionallity
-							 _lifebar.decreaseLife(laser.damage);
-							//if (!_shipIsProtected) _life.decreaseLife(enemy.damage);
-							//removeProtectingLifeforce();
+							if (!_shipIsProtected) _lifebar.decreaseLife(laser.damage);
+							removeProtectingLifeforce();
 
 							removeChild(laser);
 							_lasers.splice(i, 1);
@@ -267,10 +268,8 @@ package com.jonathantorres.spacecommand.levels
 
 					if (_playerShipRect.intersects(enemyRect)) {
 						// decrease player life
-						//TODO Add lifeforce functionallity
-						_lifebar.decreaseLife(enemy.damage);
-						//if (!_shipIsProtected) _life.decreaseLife(enemy.damage);
-						//removeProtectingLifeforce();
+						if (!_shipIsProtected) _lifebar.decreaseLife(enemy.damage);
+						removeProtectingLifeforce();
 
 						removeChild(enemy);
 						_enemyShips.splice(l, 1);
@@ -299,10 +298,8 @@ package com.jonathantorres.spacecommand.levels
 
 					if (_playerShipRect.intersects(theAsteroidRect)) {
 						// decrease player life
-						//TODO Add lifeforce functionallity
-						_lifebar.decreaseLife(theAsteroid.damage);
-						//if (!_shipIsProtected) _life.decreaseLife(theAsteroid.damage);
-						//removeProtectingLifeforce();
+						if (!_shipIsProtected) _lifebar.decreaseLife(theAsteroid.damage);
+						removeProtectingLifeforce();
 
 						removeChild(theAsteroid);
 						_asteroids.splice(m, 1);
@@ -359,9 +356,7 @@ package com.jonathantorres.spacecommand.levels
 					var lifeforceRect : Rectangle = lifeforce.getBounds(this.parent);
 
 					if (_playerShipRect.intersects(lifeforceRect)) {
-						//TODO lifeforce functionallity
-						//addProtectingLifeforce();
-
+						addProtectingLifeforce();
 						removeChild(lifeforce);
 						_lifeforces.splice(o, 1);
 						continue;
@@ -508,6 +503,44 @@ package com.jonathantorres.spacecommand.levels
 			_score = null;
 			_levelNumber = null;
 			_playerShip = null;
+		}
+		
+		/*
+		 * Make sure that the lifeforce is always on top of the player ship
+		 */
+		private function updateLifeforcePosition() : void
+		{
+			if (_shipIsProtected && (_protectingLifeforce != null)) {
+				_protectingLifeforce.x = _playerShip.x - (_playerShip.width * 0.5);
+				_protectingLifeforce.y = _playerShip.y;
+			}
+		}
+		
+		/*
+		 * Add lifeforce to the player ship
+		 */
+		private function addProtectingLifeforce() : void
+		{
+			if (!_shipIsProtected) {
+				_protectingLifeforce = new LifeforceLarge();
+				_protectingLifeforce.x = _playerShip.x - (_playerShip.width * 0.5);
+				_protectingLifeforce.y = _playerShip.y;
+				addChild(_protectingLifeforce);
+
+				_shipIsProtected = true;
+			}
+		}
+		
+		/*
+		 * If player ship is protected, remove it when hit.
+		 */
+		private function removeProtectingLifeforce() : void
+		{
+			if (_shipIsProtected && (_protectingLifeforce != null)) {
+				removeChild(_protectingLifeforce);
+				_protectingLifeforce = null;
+				_shipIsProtected = false;
+			}
 		}
 
 		/*
