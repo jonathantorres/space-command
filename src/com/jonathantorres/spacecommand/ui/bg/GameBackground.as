@@ -1,4 +1,4 @@
-package com.jonathantorres.spacecommand.ui
+package com.jonathantorres.spacecommand.ui.bg
 {
 	import starling.display.Image;
 	import starling.display.Sprite;

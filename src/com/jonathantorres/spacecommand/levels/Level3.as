@@ -2,8 +2,7 @@ package com.jonathantorres.spacecommand.levels
 {
 	import com.jonathantorres.spacecommand.consts.EnemyShipColors;
 	import com.jonathantorres.spacecommand.consts.EnemyTypes;
-	import com.jonathantorres.spacecommand.ui.CloudyBackground;
-	import com.jonathantorres.spacecommand.levels.Level;
+	import com.jonathantorres.spacecommand.ui.bg.CloudyBackground;
 
 	/**
 	 * @author Jonathan Torres

@@ -1,4 +1,4 @@
-package com.jonathantorres.spacecommand.ui
+package com.jonathantorres.spacecommand.ui.bg
 {
 	import com.jonathantorres.spacecommand.levels.Level;
 	import com.jonathantorres.spacecommand.Assets;

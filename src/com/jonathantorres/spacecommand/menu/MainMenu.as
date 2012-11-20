@@ -1,7 +1,10 @@
 package com.jonathantorres.spacecommand.menu
 {
-	import com.jonathantorres.spacecommand.ui.SpaceBackground;
+	import com.jonathantorres.spacecommand.Assets;
+	import com.jonathantorres.spacecommand.SpaceCommand;
+	import com.jonathantorres.spacecommand.levels.Level1;
 	import com.jonathantorres.spacecommand.ui.SpaceStars;
+	import com.jonathantorres.spacecommand.ui.bg.SpaceBackground;
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
 	import starling.core.Starling;
@@ -14,9 +17,6 @@ package com.jonathantorres.spacecommand.menu
 	import starling.events.TouchPhase;
 	import starling.textures.TextureAtlas;
 
-	import com.jonathantorres.spacecommand.Assets;
-	import com.jonathantorres.spacecommand.SpaceCommand;
-	import com.jonathantorres.spacecommand.levels.Level1;
 
 	/**
 	 * @author Jonathan Torres

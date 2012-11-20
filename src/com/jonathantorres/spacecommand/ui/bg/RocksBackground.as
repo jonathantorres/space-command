@@ -1,21 +1,21 @@
-package com.jonathantorres.spacecommand.ui
+package com.jonathantorres.spacecommand.ui.bg
 {
 	import com.jonathantorres.spacecommand.Assets;
 
 	/**
 	 * @author Jonathan Torres
 	 */
-	public class RedRocksBackground extends GameBackground
+	public class RocksBackground extends GameBackground
 	{
 		
-		public function RedRocksBackground()
+		public function RocksBackground()
 		{
 			super();
 		}
 		
 		override protected function init() : void
 		{
-			texture = Assets.getTexture('BG2');
+			texture = Assets.getTexture('BG1');
 			super.init();
 		}
 	}

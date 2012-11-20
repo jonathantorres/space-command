@@ -1,12 +1,13 @@
 package com.jonathantorres.spacecommand.levels
 {
-	import com.jonathantorres.spacecommand.consts.EnemyShipColors;
-	import com.jonathantorres.spacecommand.consts.EnemyTypes;
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
 	import starling.core.Starling;
 
-	import com.jonathantorres.spacecommand.ui.RocksBackground;
+	import com.jonathantorres.spacecommand.consts.EnemyShipColors;
+	import com.jonathantorres.spacecommand.consts.EnemyTypes;
+	import com.jonathantorres.spacecommand.ui.bg.RocksBackground;
+
 
 	/**
 	 * @author Jonathan Torres

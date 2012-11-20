@@ -1,15 +1,16 @@
 package com.jonathantorres.spacecommand
 {
-	import com.jonathantorres.spacecommand.ui.SpaceBackground;
-	import com.jonathantorres.spacecommand.ui.SpaceStars;
-	import starling.text.TextField;
 	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.text.TextField;
 
 	import com.jonathantorres.spacecommand.menu.MainMenu;
+	import com.jonathantorres.spacecommand.ui.SpaceStars;
+	import com.jonathantorres.spacecommand.ui.bg.SpaceBackground;
+
 
 	/**
 	 * @author Jonathan Torres
