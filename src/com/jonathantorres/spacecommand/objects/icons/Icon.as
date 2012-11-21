@@ -1,28 +1,29 @@
-package com.jonathantorres.spacecommand.objects
+package com.jonathantorres.spacecommand.objects.icons
 {
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.textures.TextureAtlas;
-	import starling.textures.TextureSmoothing;
 
 	import com.jonathantorres.spacecommand.Assets;
 
 	/**
 	 * @author Jonathan Torres
 	 */
-	public class Lifeforce extends Sprite
+	public class Icon extends Sprite
 	{
 		private var _vx : Number = 0.0;
 		private var _vy : Number = 0.0;
 		private var _speed : Number = 0.01;
 		
 		private var _gameElements : TextureAtlas;
-		private var _lifeforce : Image;
+		private var _textureName : String;
+		private var _icon : Image;
 		
-		public function Lifeforce()
+		public function Icon(textureName : String)
 		{
 			super();
+			_textureName = textureName;
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
@@ -30,11 +31,10 @@ package com.jonathantorres.spacecommand.objects
 		{
 			_gameElements = new TextureAtlas(Assets.getTexture('GameElements'), Assets.getTextureXML('GameElementsXML'));
 			
-			_lifeforce = new Image(_gameElements.getTexture('icon_lifeforce'));
-			_lifeforce.smoothing = TextureSmoothing.BILINEAR;
-			_lifeforce.x = _lifeforce.width * 0.5;
-			_lifeforce.y = _lifeforce.height * 0.5;
-			addChild(_lifeforce);
+			_icon = new Image(_gameElements.getTexture(_textureName));
+			_icon.x = _icon.width * 0.5;
+			_icon.y = _icon.height * 0.5;
+			addChild(_icon);
 		}
 		
 		public function animate() : void

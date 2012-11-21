@@ -1,6 +1,5 @@
 package com.jonathantorres.spacecommand.levels
 {
-	import com.jonathantorres.spacecommand.ui.TextBurst;
 	import starling.display.Sprite;
 	import starling.events.Event;
 
@@ -9,21 +8,20 @@ package com.jonathantorres.spacecommand.levels
 	import com.jonathantorres.spacecommand.menu.GameOver;
 	import com.jonathantorres.spacecommand.objects.Asteroid;
 	import com.jonathantorres.spacecommand.objects.EnemyShip;
-	import com.jonathantorres.spacecommand.objects.Health;
 	import com.jonathantorres.spacecommand.objects.Laser;
-	import com.jonathantorres.spacecommand.objects.Lifeforce;
 	import com.jonathantorres.spacecommand.objects.LifeforceLarge;
 	import com.jonathantorres.spacecommand.objects.PlayerShip;
+	import com.jonathantorres.spacecommand.objects.icons.Health;
+	import com.jonathantorres.spacecommand.objects.icons.Lifeforce;
 	import com.jonathantorres.spacecommand.ui.LevelNumber;
 	import com.jonathantorres.spacecommand.ui.Lifebar;
 	import com.jonathantorres.spacecommand.ui.Score;
+	import com.jonathantorres.spacecommand.ui.TextBurst;
 	import com.jonathantorres.spacecommand.ui.bg.GameBackground;
 
 	import flash.events.TimerEvent;
 	import flash.geom.Rectangle;
 	import flash.utils.Timer;
-
-
 
 	/**
 	 * @author Jonathan Torres
