@@ -1,5 +1,6 @@
 package com.jonathantorres.spacecommand.levels
 {
+	import com.jonathantorres.spacecommand.ui.TextBurst;
 	import starling.display.Sprite;
 	import starling.events.Event;
 
@@ -190,6 +191,7 @@ package com.jonathantorres.spacecommand.levels
 								// sum score
 								gameScore += enemyShip.scoreValue;
 								_score.updateScore(gameScore);
+								addChild(new TextBurst(enemyShip.scoreValue + 'pts', enemyShip.x, enemyShip.y));
 	
 								removeChild(laser);
 								_lasers.splice(i, 1);
@@ -212,6 +214,7 @@ package com.jonathantorres.spacecommand.levels
 								// sum score
 								gameScore += asteroid.scoreValue;
 								_score.updateScore(gameScore);
+								addChild(new TextBurst(asteroid.scoreValue + 'pts', asteroid.x, asteroid.y));
 	
 								removeChild(asteroid);
 								_asteroids.splice(k, 1);
