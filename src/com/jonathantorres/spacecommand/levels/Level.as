@@ -1,5 +1,8 @@
 package com.jonathantorres.spacecommand.levels
 {
+	import com.jonathantorres.spacecommand.objects.icons.DoubleMissile;
+	import com.jonathantorres.spacecommand.objects.icons.TripleLasers;
+	import com.jonathantorres.spacecommand.objects.icons.LessDamage;
 	import starling.display.Sprite;
 	import starling.events.Event;
 
@@ -45,12 +48,18 @@ package com.jonathantorres.spacecommand.levels
 		private var _typesOfAsteroids : Array;
 		private var _lifeforces : Array;
 		private var _healthbars : Array;
+		private var _lessDamageIcons : Array;
+		private var _tripleLaserIcons : Array;
+		private var _doubleMissileIcons : Array;
 		private var _lasers : Array;
 		
 		private var _enemyDeployment : Timer;
 		private var _healthbarsDeployment : Timer;
 		private var _asteroidDeployment : Timer;
 		private var _lifeforceDeployment : Timer;
+		private var _lessDamageIconDeployment : Timer;
+		private var _tripleLaserIconDeployment : Timer;
+		private var _doubleMissileIconDeployment : Timer;
 		
 		protected var gameScore : int;
 		protected var gameLevel : int;
@@ -59,13 +68,26 @@ package com.jonathantorres.spacecommand.levels
 		
 		protected var lifeforceDeploymentInterval : Number;
 		protected var numOfLifeforces : Number;
+		
 		protected var asteroidDeploymentInterval : Number;
 		protected var numOfAsteroids : Number;
+		
 		protected var healthbarsDeploymentInterval : Number;
 		protected var numOfHealthbars : Number;
+		
+		protected var lessDamageIconDeploymentInterval : Number;
+		protected var numOfLessDamageIcons : Number;
+		
+		protected var tripleLaserIconDeploymentInterval : Number;
+		protected var numOfTripleLaserIcons : Number;
+		
+		protected var doubleMissileIconDeploymentInterval : Number;
+		protected var numOfDoubleMissileIcons : Number;
+		
 		protected var enemiesDeploymentInterval : Number;
 		protected var numOfEnemies : Number;
 		protected var enemyShootingInterval : Number;
+		
 		protected var typesOfEnemies : Array;
 		protected var colorsOfEnemies : Array;
 		
@@ -110,6 +132,30 @@ package com.jonathantorres.spacecommand.levels
 			_healthbarsDeployment = new Timer(healthbarsDeploymentInterval, numOfHealthbars);
 			_healthbarsDeployment.addEventListener(TimerEvent.TIMER, onHealthbarDeploymentTimer);
 			_healthbarsDeployment.start();
+		}
+		
+		protected function initLessDamageIcons() : void
+		{
+			_lessDamageIcons = new Array();
+			_lessDamageIconDeployment = new Timer(lessDamageIconDeploymentInterval, numOfLessDamageIcons);
+			_lessDamageIconDeployment.addEventListener(TimerEvent.TIMER, onLessDamageIconDeploymentTimer);
+			_lessDamageIconDeployment.start();
+		}
+
+		protected function initTripleLaserIcons() : void
+		{
+			_tripleLaserIcons = new Array();
+			_tripleLaserIconDeployment = new Timer(tripleLaserIconDeploymentInterval, numOfTripleLaserIcons);
+			_tripleLaserIconDeployment.addEventListener(TimerEvent.TIMER, onTripleLaserIconDeploymentTimer);
+			_tripleLaserIconDeployment.start();
+		}
+		
+		protected function initDoubleMissileIcons() : void
+		{
+			_doubleMissileIcons = new Array();
+			_doubleMissileIconDeployment = new Timer(doubleMissileIconDeploymentInterval, numOfDoubleMissileIcons);
+			_doubleMissileIconDeployment.addEventListener(TimerEvent.TIMER, onDoubleMissileIconDeploymentTimer);
+			_doubleMissileIconDeployment.start();
 		}
 
 		protected function initEnemies() : void
@@ -366,6 +412,90 @@ package com.jonathantorres.spacecommand.levels
 					}
 				}
 			}
+			
+			/*
+			* Animation and Collisions : Less Damage Icons
+			*/
+			for (var p : int = _lessDamageIcons.length - 1; p >= 0; p--) {
+				var lessDamage : LessDamage = LessDamage(_lessDamageIcons[p]);
+				lessDamage.animate();
+				
+				// icon is off the stage
+				if (lessDamage.x + lessDamage.width <= 0) {
+					removeChild(lessDamage);
+					_lessDamageIcons.splice(p, 1);
+					continue;
+				}
+				
+				// icon hits the player
+				if (this.contains(lessDamage)) {
+					var lessDamageRect : Rectangle = lessDamage.getBounds(this.parent);
+
+					if (_playerShipRect.intersects(lessDamageRect)) {
+						trace('took less damage icon!');
+						//TODO Less Damage Logic here
+						removeChild(lessDamage);
+						_lessDamageIcons.splice(p, 1);
+						continue;
+					}
+				}
+			}
+			
+			/*
+			* Animation and Collisions : Triple Laser Icons
+			*/
+			for (var q : int = _tripleLaserIcons.length - 1; q >= 0; q--) {
+				var tripleLaser : TripleLasers = TripleLasers(_tripleLaserIcons[q]);
+				tripleLaser.animate();
+				
+				// icon is off the stage
+				if (tripleLaser.x + tripleLaser.width <= 0) {
+					removeChild(tripleLaser);
+					_tripleLaserIcons.splice(q, 1);
+					continue;
+				}
+				
+				// icon hits the player
+				if (this.contains(tripleLaser)) {
+					var tripleLaserRect : Rectangle = tripleLaser.getBounds(this.parent);
+
+					if (_playerShipRect.intersects(tripleLaserRect)) {
+						trace('took triple laser icon!');
+						//TODO Triple Laser Logic here
+						removeChild(tripleLaser);
+						_tripleLaserIcons.splice(q, 1);
+						continue;
+					}
+				}
+			}
+			
+			/*
+			* Animation and Collisions : Double Missile Icons
+			*/
+			for (var r : int = _doubleMissileIcons.length - 1; r >= 0; r--) {
+				var doubleMissile : DoubleMissile = DoubleMissile(_doubleMissileIcons[r]);
+				doubleMissile.animate();
+				
+				// icon is off the stage
+				if (doubleMissile.x + doubleMissile.width <= 0) {
+					removeChild(doubleMissile);
+					_doubleMissileIcons.splice(r, 1);
+					continue;
+				}
+				
+				// icon hits the player
+				if (this.contains(doubleMissile)) {
+					var doubleMissileRect : Rectangle = doubleMissile.getBounds(this.parent);
+
+					if (_playerShipRect.intersects(doubleMissileRect)) {
+						trace('took double missile icon!');
+						//TODO Double Missile Logic here
+						removeChild(doubleMissile);
+						_doubleMissileIcons.splice(r, 1);
+						continue;
+					}
+				}
+			}
 		}
 		
 		/*
@@ -475,6 +605,36 @@ package com.jonathantorres.spacecommand.levels
 					if (_lifeforces[n] != null) {
 						removeChild(_lifeforces[n]);
 						_lifeforces.splice(n, 1);
+					}
+				}
+			}
+			
+			// remove any less damage icons
+			if (_lessDamageIcons.length != 0) {
+				for (var o : int = 0; o < _lessDamageIcons.length; o++) {
+					if (_lessDamageIcons[o] != null) {
+						removeChild(_lessDamageIcons[o]);
+						_lessDamageIcons.splice(o, 1);
+					}
+				}
+			}
+			
+			// remove any triple laser icons
+			if (_tripleLaserIcons.length != 0) {
+				for (var p : int = 0; p < _tripleLaserIcons.length; p++) {
+					if (_tripleLaserIcons[p] != null) {
+						removeChild(_tripleLaserIcons[p]);
+						_tripleLaserIcons.splice(p, 1);
+					}
+				}
+			}
+			
+			// remove any double missile icons
+			if (_doubleMissileIcons.length != 0) {
+				for (var q : int = 0; q < _doubleMissileIcons.length; q++) {
+					if (_doubleMissileIcons[q] != null) {
+						removeChild(_doubleMissileIcons[q]);
+						_doubleMissileIcons.splice(q, 1);
 					}
 				}
 			}
@@ -591,6 +751,45 @@ package com.jonathantorres.spacecommand.levels
 			addChild(healthbar);
 
 			_healthbars.push(healthbar);
+		}
+		
+		/*
+		 * Deploy a "Less Damage" Icon
+		 */
+		private function onLessDamageIconDeploymentTimer(event : TimerEvent) : void
+		{
+			var lessDamage : LessDamage = new LessDamage();
+			lessDamage.x = stage.stageWidth + lessDamage.width;
+			lessDamage.y = Math.random() * stage.stageHeight;
+			addChild(lessDamage);
+			
+			_lessDamageIcons.push(lessDamage);
+		}
+		
+		/*
+		 * Deploy a "Triple Laser" Icon
+		 */
+		private function onTripleLaserIconDeploymentTimer(event : TimerEvent) : void
+		{
+			var tripleLaser : TripleLasers = new TripleLasers();
+			tripleLaser.x = stage.stageWidth + tripleLaser.width;
+			tripleLaser.y = Math.random() * stage.stageHeight;
+			addChild(tripleLaser);
+			
+			_tripleLaserIcons.push(tripleLaser);
+		}
+		
+		/*
+		 * Deploy a "Double Missile" Icon
+		 */
+		private function onDoubleMissileIconDeploymentTimer(event : TimerEvent) : void
+		{
+			var doubleMissile : DoubleMissile = new DoubleMissile();
+			doubleMissile.x = stage.stageWidth + doubleMissile.width;
+			doubleMissile.y = Math.random() * stage.stageHeight;
+			addChild(doubleMissile);
+			
+			_doubleMissileIcons.push(doubleMissile);
 		}
 		
 		/*

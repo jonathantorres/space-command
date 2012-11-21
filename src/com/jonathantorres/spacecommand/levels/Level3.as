@@ -27,9 +27,15 @@ package com.jonathantorres.spacecommand.levels
 			asteroidDeploymentInterval = 4500;
 			healthbarsDeploymentInterval = 7000;
 			enemiesDeploymentInterval = 1800;
+			lessDamageIconDeploymentInterval = 2000;
+			tripleLaserIconDeploymentInterval = 2000;
+			doubleMissileIconDeploymentInterval = 2000;
 			numOfLifeforces = 10;
 			numOfAsteroids = 25;
 			numOfHealthbars = 10;
+			numOfLessDamageIcons = 15;
+			numOfTripleLaserIcons = 15;
+			numOfDoubleMissileIcons = 15;
 			numOfEnemies = 45;
 			enemyShootingInterval = (Math.random() * 2000) + 1000; // 1 to 3 seconds
 			typesOfEnemies = new Array(EnemyTypes.ENEMY_TYPE1);
@@ -46,6 +52,9 @@ package com.jonathantorres.spacecommand.levels
 			initHealthbars();
 			initAsteroids();
 			initLifeforces();
+			initLessDamageIcons();
+			initTripleLaserIcons();
+			initDoubleMissileIcons();
 			
 			var levelIndicator : LevelIndicator = new LevelIndicator(gameLevel);
 			levelIndicator.x = stage.stageWidth * 0.5;
