@@ -42,6 +42,9 @@ package com.jonathantorres.spacecommand.levels
 		private var _shipIsProtected : Boolean;
 		private var _allAsteroidsDeployed : Boolean;
 		private var _allEnemyShipsDeployed : Boolean;
+		private var _lessDamageEnabled : Boolean;
+		private var _lessDamageHits : uint;
+		private var _lessDamageLimitHits : uint;
 		
 		private var _enemyShips : Array;
 		private var _asteroids : Array;
@@ -102,6 +105,9 @@ package com.jonathantorres.spacecommand.levels
 			_shipIsProtected = false;
 			_allAsteroidsDeployed = false;
 			_allEnemyShipsDeployed = false;
+			_lessDamageEnabled = false;
+			_lessDamageHits = 0;
+			_lessDamageLimitHits = 3;
 			
 			_parent = Sprite(parent);
 			
@@ -286,7 +292,8 @@ package com.jonathantorres.spacecommand.levels
 					if (this.contains(laser)) {
 						if (_playerShipRect.intersects(laserRect)) {
 							// decrease player life
-							if (!_shipIsProtected) _lifebar.decreaseLife(laser.damage);
+							if (!_shipIsProtected) enableLessDamage(laser.damage);
+							
 							removeProtectingLifeforce();
 
 							removeChild(laser);
@@ -317,7 +324,8 @@ package com.jonathantorres.spacecommand.levels
 
 					if (_playerShipRect.intersects(enemyRect)) {
 						// decrease player life
-						if (!_shipIsProtected) _lifebar.decreaseLife(enemy.damage);
+						if (!_shipIsProtected) enableLessDamage(enemy.damage);
+						
 						removeProtectingLifeforce();
 
 						removeChild(enemy);
@@ -347,7 +355,8 @@ package com.jonathantorres.spacecommand.levels
 
 					if (_playerShipRect.intersects(theAsteroidRect)) {
 						// decrease player life
-						if (!_shipIsProtected) _lifebar.decreaseLife(theAsteroid.damage);
+						if (!_shipIsProtected) enableLessDamage(theAsteroid.damage);
+						
 						removeProtectingLifeforce();
 
 						removeChild(theAsteroid);
@@ -435,9 +444,8 @@ package com.jonathantorres.spacecommand.levels
 					var lessDamageRect : Rectangle = lessDamage.getBounds(this.parent);
 
 					if (_playerShipRect.intersects(lessDamageRect)) {
-						trace('took less damage icon!');
 						addChild(new TextBurst('Less Damage!', _playerShip.x, _playerShip.y));
-						//TODO Less Damage Logic here
+						if (!_lessDamageEnabled) _lessDamageEnabled = true;
 						removeChild(lessDamage);
 						_lessDamageIcons.splice(p, 1);
 						continue;
@@ -675,6 +683,30 @@ package com.jonathantorres.spacecommand.levels
 			_score = null;
 			_levelNumber = null;
 			_playerShip = null;
+		}
+		
+		/*
+		 * Less Damage Logic.
+		 * If player has "Less Damage" enabled. Damage is reduced by half.
+		 */
+		private function enableLessDamage(damage : Number) : void
+		{
+			if (!_lessDamageEnabled) {
+				_lifebar.decreaseLife(damage);
+				trace('Damage: ' + damage);
+			}
+			else {
+				_lifebar.decreaseLife((damage) / 2);
+				trace('Damage by half: ' + (damage) / 2);
+				
+				_lessDamageHits++;
+			
+				if (_lessDamageHits == _lessDamageLimitHits) {
+					_lessDamageHits = 0;
+					_lessDamageEnabled = false;
+					trace('less damage disabled!');
+				}
+			}
 		}
 		
 		/*
