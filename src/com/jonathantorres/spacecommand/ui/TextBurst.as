@@ -43,7 +43,7 @@ package com.jonathantorres.spacecommand.ui
 			_this.y = _y;
 			_parent = Sprite(_this.parent);
 			
-			_txt = new TextField(100, 20, _word, Assets.getFont('BlairMD').fontName, 9, 0xFFFFFF);
+			_txt = new TextField(150, 20, _word, Assets.getFont('BlairMD').fontName, 9, 0xFFFFFF);
 			_txt.vAlign = VAlign.TOP;
 			_txt.hAlign = HAlign.LEFT;
 			_txt.pivotX = _txt.width * 0.5;
