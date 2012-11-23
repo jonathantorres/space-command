@@ -1,5 +1,8 @@
 package com.jonathantorres.spacecommand.objects
 {
+	import starling.utils.deg2rad;
+	import starling.core.Starling;
+	import starling.extensions.PDParticleSystem;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -28,6 +31,7 @@ package com.jonathantorres.spacecommand.objects
 		private var _speed : Number = 0.01;
 
 		private var _ship : Image;
+		private var _fire : PDParticleSystem;
 		private var _parent : Level;
 		private var _gameElements : TextureAtlas;
 		private var _shootTimer : Timer;
@@ -52,13 +56,44 @@ package com.jonathantorres.spacecommand.objects
 			_ship = new Image(getEnemyTexture(_color, _type));
 			_ship.x = 0;
 			_ship.y = -(_ship.height * 0.5);
+			
+			// add fire thrust depending on ship type
+			switch(_type){
+				case EnemyTypes.ENEMY_TYPE3 :
+					//addShipFire(-(_ship.width * 2) - 10, 0);
+					break;
+					
+				case EnemyTypes.ENEMY_TYPE4 :
+					//addShipFire(-(_ship.width * 2) - 20, 0);
+					break;
+					
+				case EnemyTypes.ENEMY_TYPE5 :
+					//addShipFire(-(_ship.width * 2), -5);
+					break;
+			}
+			
 			addChild(_ship);
-
+			
 			_shootTimer = new Timer(_shootingInterval);
 			_shootTimer.addEventListener(TimerEvent.TIMER, onShootTimer);
 			_shootTimer.start();
 			
 			_parent = Level(this.parent);
+		}
+
+		private function addShipFire(x : Number, y : Number) : void
+		{
+			_fire = new PDParticleSystem(Assets.getTextureXML('MainShipThrustParticle'), 
+										 Assets.getTexture('MainShipThrust'));
+			_fire.scaleX = _fire.scaleY = 0.4;
+			_fire.rotation = deg2rad(180);
+			_fire.emitterX = x;
+			_fire.emitterY = y;
+			_fire.start();
+			
+			addChild(_fire);
+			
+			Starling.juggler.add(_fire);
 		}
 
 		private function getEnemyTexture(color : String, type : String) : Texture
