@@ -378,6 +378,7 @@ package com.jonathantorres.spacecommand.levels
 					if (_playerShipRect.intersects(healthbarRect)) {
 						// increase player life
 						_lifebar.increaseLife(healthbar.lifeIncrease);
+						addChild(new TextBurst('Health Increase!', _playerShip.x, _playerShip.y));
 
 						removeChild(healthbar);
 						_healthbars.splice(n, 1);
@@ -406,6 +407,8 @@ package com.jonathantorres.spacecommand.levels
 
 					if (_playerShipRect.intersects(lifeforceRect)) {
 						addProtectingLifeforce();
+						addChild(new TextBurst('Lifeforce!', _playerShip.x, _playerShip.y));
+						
 						removeChild(lifeforce);
 						_lifeforces.splice(o, 1);
 						continue;
@@ -433,6 +436,7 @@ package com.jonathantorres.spacecommand.levels
 
 					if (_playerShipRect.intersects(lessDamageRect)) {
 						trace('took less damage icon!');
+						addChild(new TextBurst('Less Damage!', _playerShip.x, _playerShip.y));
 						//TODO Less Damage Logic here
 						removeChild(lessDamage);
 						_lessDamageIcons.splice(p, 1);
@@ -461,6 +465,7 @@ package com.jonathantorres.spacecommand.levels
 
 					if (_playerShipRect.intersects(tripleLaserRect)) {
 						trace('took triple laser icon!');
+						addChild(new TextBurst('Triple Laser!', _playerShip.x, _playerShip.y));
 						//TODO Triple Laser Logic here
 						removeChild(tripleLaser);
 						_tripleLaserIcons.splice(q, 1);
@@ -489,6 +494,7 @@ package com.jonathantorres.spacecommand.levels
 
 					if (_playerShipRect.intersects(doubleMissileRect)) {
 						trace('took double missile icon!');
+						addChild(new TextBurst('Double Missile!', _playerShip.x, _playerShip.y));
 						//TODO Double Missile Logic here
 						removeChild(doubleMissile);
 						_doubleMissileIcons.splice(r, 1);
