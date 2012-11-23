@@ -1,6 +1,5 @@
 package com.jonathantorres.spacecommand.objects
 {
-	import com.jonathantorres.spacecommand.levels.Level;
 	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.display.Sprite;
@@ -11,10 +10,13 @@ package com.jonathantorres.spacecommand.objects
 
 	import com.jonathantorres.spacecommand.Assets;
 	import com.jonathantorres.spacecommand.consts.LaserColors;
+	import com.jonathantorres.spacecommand.levels.Level;
 	import com.jonathantorres.spacecommand.utils.MouseMode;
 
 	import flash.events.MouseEvent;
+	import flash.events.TimerEvent;
 	import flash.ui.Keyboard;
+	import flash.utils.Timer;
 
 	/**
 	 * @author Jonathan Torres
@@ -30,6 +32,8 @@ package com.jonathantorres.spacecommand.objects
 		private var _moveRight : Boolean;
 		private var _moveUp : Boolean;
 		private var _moveDown : Boolean;
+		private var _isBlinking : Boolean;
+		private var _blinkTimer : Timer;
 		private var _vx : Number = 0.0;
 		private var _vy : Number = 0.0;
 		private var _ax : Number = 0.0;
@@ -53,7 +57,9 @@ package com.jonathantorres.spacecommand.objects
 			this.y = stage.stageHeight * 0.5;
 			
 			_gameElements = new TextureAtlas(Assets.getTexture('GameElements'), Assets.getTextureXML('GameElementsXML'));
-
+			
+			_isBlinking = false;
+			
 			_ship = new Image(_gameElements.getTexture('player_ship_normal'));
 			_ship.x = -_ship.width;
 			_ship.y = -_ship.height * 0.5;
@@ -108,6 +114,14 @@ package com.jonathantorres.spacecommand.objects
 			}
 		}
 		
+		public function blink() : void
+		{
+			_blinkTimer = new Timer(70, 10);
+			_blinkTimer.addEventListener(TimerEvent.TIMER, onBlinkTimer);
+			_blinkTimer.addEventListener(TimerEvent.TIMER_COMPLETE, onBlinkTimerComplete);
+			_blinkTimer.start();
+		}
+		
 		public function removeListeners() : void
 		{
 			if (stage != null) {
@@ -142,6 +156,29 @@ package com.jonathantorres.spacecommand.objects
 			trace('keyboard mode engaged!');
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
+		}
+		
+		private function onBlinkTimer(event : TimerEvent) : void
+		{
+			_isBlinking = true;
+			
+			if (_ship.alpha == 0.3) {
+				 _ship.alpha = 1;
+			} else if (_ship.alpha == 1) {
+				_ship.alpha = 0.3;
+			}
+		}
+		
+		private function onBlinkTimerComplete(event : TimerEvent) : void
+		{
+			_ship.alpha = 1;
+			
+			_blinkTimer.stop();
+			_blinkTimer.removeEventListener(TimerEvent.TIMER, onBlinkTimer);
+			_blinkTimer.removeEventListener(TimerEvent.TIMER_COMPLETE, onBlinkTimerComplete);
+			_blinkTimer = null;
+			
+			_isBlinking = false;
 		}
 		
 		private function onStageClick(event : MouseEvent) : void
@@ -226,6 +263,16 @@ package com.jonathantorres.spacecommand.objects
 		public function set ship(ship : Image) : void
 		{
 			_ship = ship;
+		}
+
+		public function get isBlinking() : Boolean
+		{
+			return _isBlinking;
+		}
+
+		public function set isBlinking(isBlinking : Boolean) : void
+		{
+			_isBlinking = isBlinking;
 		}
 	}
 }

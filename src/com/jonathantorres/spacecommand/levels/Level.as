@@ -691,6 +691,8 @@ package com.jonathantorres.spacecommand.levels
 		 */
 		private function enableLessDamage(damage : Number) : void
 		{
+			if (!_playerShip.isBlinking) _playerShip.blink();
+			
 			if (!_lessDamageEnabled) {
 				_lifebar.decreaseLife(damage);
 			}
