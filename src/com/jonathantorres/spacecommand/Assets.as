@@ -40,9 +40,17 @@ package com.jonathantorres.spacecommand
 		[Embed(source="../../../../assets/textures/shipfire_texture.png")]
 		public static const MainShipThrust : Class;
 		
-		 // Ship fire texture
+		// Ship fire texture
 		[Embed(source="../../../../assets/textures/shipfire_particle.pex", mimeType="application/octet-stream")]
 		public static const MainShipThrustParticle : Class;
+		
+		// Explotion particle
+		[Embed(source="../../../../assets/textures/explotion_texture.png")]
+		public static const Explotion : Class;
+		
+		// Explotion texture
+		[Embed(source="../../../../assets/textures/explotion.pex", mimeType="application/octet-stream")]
+		public static const ExplotionParticle : Class;
 		
 		/*
 		 * All Game Fonts ------------------------------------------------------

@@ -1,5 +1,6 @@
 package com.jonathantorres.spacecommand.levels
 {
+	import com.jonathantorres.spacecommand.objects.Explotion;
 	import com.jonathantorres.spacecommand.objects.icons.DoubleMissile;
 	import com.jonathantorres.spacecommand.objects.icons.TripleLasers;
 	import com.jonathantorres.spacecommand.objects.icons.LessDamage;
@@ -241,6 +242,8 @@ package com.jonathantorres.spacecommand.levels
 								// sum score
 								gameScore += enemyShip.scoreValue;
 								_score.updateScore(gameScore);
+								
+								addChild(new Explotion(enemyShip.x, enemyShip.y));
 								addChild(new TextBurst(enemyShip.scoreValue + 'pts', enemyShip.x, enemyShip.y));
 	
 								removeChild(laser);
@@ -264,6 +267,8 @@ package com.jonathantorres.spacecommand.levels
 								// sum score
 								gameScore += asteroid.scoreValue;
 								_score.updateScore(gameScore);
+								
+								addChild(new Explotion(asteroid.x, asteroid.y));
 								addChild(new TextBurst(asteroid.scoreValue + 'pts', asteroid.x, asteroid.y));
 	
 								removeChild(asteroid);
@@ -326,6 +331,7 @@ package com.jonathantorres.spacecommand.levels
 						// decrease player life
 						if (!_shipIsProtected) enableLessDamage(enemy.damage);
 						
+						addChild(new Explotion(enemy.x, enemy.y));
 						removeProtectingLifeforce();
 
 						removeChild(enemy);
@@ -357,6 +363,7 @@ package com.jonathantorres.spacecommand.levels
 						// decrease player life
 						if (!_shipIsProtected) enableLessDamage(theAsteroid.damage);
 						
+						addChild(new Explotion(theAsteroid.x, theAsteroid.y));
 						removeProtectingLifeforce();
 
 						removeChild(theAsteroid);
