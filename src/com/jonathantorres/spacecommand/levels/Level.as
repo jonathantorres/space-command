@@ -693,18 +693,14 @@ package com.jonathantorres.spacecommand.levels
 		{
 			if (!_lessDamageEnabled) {
 				_lifebar.decreaseLife(damage);
-				trace('Damage: ' + damage);
 			}
 			else {
 				_lifebar.decreaseLife((damage) / 2);
-				trace('Damage by half: ' + (damage) / 2);
-				
 				_lessDamageHits++;
 			
 				if (_lessDamageHits == _lessDamageLimitHits) {
 					_lessDamageHits = 0;
 					_lessDamageEnabled = false;
-					trace('less damage disabled!');
 				}
 			}
 		}
