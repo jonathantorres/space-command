@@ -1,9 +1,5 @@
 package com.jonathantorres.spacecommand.levels
 {
-	import com.jonathantorres.spacecommand.objects.Explotion;
-	import com.jonathantorres.spacecommand.objects.icons.DoubleMissile;
-	import com.jonathantorres.spacecommand.objects.icons.TripleLasers;
-	import com.jonathantorres.spacecommand.objects.icons.LessDamage;
 	import starling.display.Sprite;
 	import starling.events.Event;
 
@@ -12,11 +8,17 @@ package com.jonathantorres.spacecommand.levels
 	import com.jonathantorres.spacecommand.menu.GameOver;
 	import com.jonathantorres.spacecommand.objects.Asteroid;
 	import com.jonathantorres.spacecommand.objects.EnemyShip;
+	import com.jonathantorres.spacecommand.objects.Explotion;
 	import com.jonathantorres.spacecommand.objects.Laser;
 	import com.jonathantorres.spacecommand.objects.LifeforceLarge;
 	import com.jonathantorres.spacecommand.objects.PlayerShip;
+	import com.jonathantorres.spacecommand.objects.icons.DoubleMissile;
+	import com.jonathantorres.spacecommand.objects.icons.DoublePoints;
 	import com.jonathantorres.spacecommand.objects.icons.Health;
+	import com.jonathantorres.spacecommand.objects.icons.LessDamage;
 	import com.jonathantorres.spacecommand.objects.icons.Lifeforce;
+	import com.jonathantorres.spacecommand.objects.icons.TripleLasers;
+	import com.jonathantorres.spacecommand.objects.icons.TriplePoints;
 	import com.jonathantorres.spacecommand.ui.LevelNumber;
 	import com.jonathantorres.spacecommand.ui.Lifebar;
 	import com.jonathantorres.spacecommand.ui.Score;
@@ -55,6 +57,8 @@ package com.jonathantorres.spacecommand.levels
 		private var _lessDamageIcons : Array;
 		private var _tripleLaserIcons : Array;
 		private var _doubleMissileIcons : Array;
+		private var _doublePointsIcons : Array;
+		private var _triplePointsIcons : Array;
 		private var _lasers : Array;
 		
 		private var _enemyDeployment : Timer;
@@ -64,6 +68,8 @@ package com.jonathantorres.spacecommand.levels
 		private var _lessDamageIconDeployment : Timer;
 		private var _tripleLaserIconDeployment : Timer;
 		private var _doubleMissileIconDeployment : Timer;
+		private var _doublePointIconDeployment : Timer;
+		private var _triplePointIconDeployment : Timer;
 		
 		protected var gameScore : int;
 		protected var gameLevel : int;
@@ -87,6 +93,12 @@ package com.jonathantorres.spacecommand.levels
 		
 		protected var doubleMissileIconDeploymentInterval : Number;
 		protected var numOfDoubleMissileIcons : Number;
+		
+		protected var doublePointIconDeploymentInterval : Number;
+		protected var numOfDoublePointIcons : Number;
+		
+		protected var triplePointIconDeploymentInterval : Number;
+		protected var numOfTriplePointIcons : Number;
 		
 		protected var enemiesDeploymentInterval : Number;
 		protected var numOfEnemies : Number;
@@ -163,6 +175,22 @@ package com.jonathantorres.spacecommand.levels
 			_doubleMissileIconDeployment = new Timer(doubleMissileIconDeploymentInterval, numOfDoubleMissileIcons);
 			_doubleMissileIconDeployment.addEventListener(TimerEvent.TIMER, onDoubleMissileIconDeploymentTimer);
 			_doubleMissileIconDeployment.start();
+		}
+		
+		protected function initDoublePointIcons() : void
+		{
+			_doublePointsIcons = new Array();
+			_doublePointIconDeployment = new Timer(doublePointIconDeploymentInterval, numOfDoublePointIcons);
+			_doublePointIconDeployment.addEventListener(TimerEvent.TIMER, onDoublePointIconDeploymentTimer);
+			_doublePointIconDeployment.start();
+		}
+		
+		protected function initTriplePointIcons() : void
+		{
+			_triplePointsIcons = new Array();
+			_triplePointIconDeployment = new Timer(triplePointIconDeploymentInterval, numOfTriplePointIcons);
+			_triplePointIconDeployment.addEventListener(TimerEvent.TIMER, onTriplePointIconDeploymentTimer);
+			_triplePointIconDeployment.start();
 		}
 
 		protected function initEnemies() : void
@@ -517,6 +545,64 @@ package com.jonathantorres.spacecommand.levels
 					}
 				}
 			}
+			
+			/*
+			* Animation and Collisions : Double Points Icons
+			*/
+			for (var s : int = _doublePointsIcons.length - 1; s >= 0; s--) {
+				var doublePoints : DoublePoints = DoublePoints(_doublePointsIcons[s]);
+				doublePoints.animate();
+				
+				// icon is off the stage
+				if (doublePoints.x + doublePoints.width <= 0) {
+					removeChild(doublePoints);
+					_doublePointsIcons.splice(s, 1);
+					continue;
+				}
+				
+				// icon hits the player
+				if (this.contains(doublePoints)) {
+					var doublePointsRect : Rectangle = doublePoints.getBounds(this.parent);
+
+					if (_playerShipRect.intersects(doublePointsRect)) {
+						trace('took double points icon!');
+						addChild(new TextBurst('Double Points!', _playerShip.x, _playerShip.y));
+						//TODO Double Points Logic here
+						removeChild(doublePoints);
+						_doublePointsIcons.splice(s, 1);
+						continue;
+					}
+				}
+			}
+			
+			/*
+			* Animation and Collisions : Triple Points Icons
+			*/
+			for (var t : int = _triplePointsIcons.length - 1; t >= 0; t--) {
+				var triplePoints : TriplePoints = TriplePoints(_triplePointsIcons[t]);
+				triplePoints.animate();
+				
+				// icon is off the stage
+				if (triplePoints.x + triplePoints.width <= 0) {
+					removeChild(triplePoints);
+					_triplePointsIcons.splice(t, 1);
+					continue;
+				}
+				
+				// icon hits the player
+				if (this.contains(triplePoints)) {
+					var triplePointsRect : Rectangle = triplePoints.getBounds(this.parent);
+
+					if (_playerShipRect.intersects(triplePointsRect)) {
+						trace('took triple points icon!');
+						addChild(new TextBurst('Triple Points!', _playerShip.x, _playerShip.y));
+						//TODO Triple Points Logic here
+						removeChild(triplePoints);
+						_triplePointsIcons.splice(t, 1);
+						continue;
+					}
+				}
+			}
 		}
 		
 		/*
@@ -656,6 +742,26 @@ package com.jonathantorres.spacecommand.levels
 					if (_doubleMissileIcons[q] != null) {
 						removeChild(_doubleMissileIcons[q]);
 						_doubleMissileIcons.splice(q, 1);
+					}
+				}
+			}
+			
+			// remove any double points icons
+			if (_doublePointsIcons.length != 0) {
+				for (var r : int = 0; r < _doublePointsIcons.length; r++) {
+					if (_doublePointsIcons[r] != null) {
+						removeChild(_doublePointsIcons[r]);
+						_doublePointsIcons.splice(r, 1);
+					}
+				}
+			}
+			
+			// remove any triple points icons
+			if (_triplePointsIcons.length != 0) {
+				for (var s : int = 0; s < _triplePointsIcons.length; s++) {
+					if (_triplePointsIcons[s] != null) {
+						removeChild(_triplePointsIcons[s]);
+						_triplePointsIcons.splice(s, 1);
 					}
 				}
 			}
@@ -835,6 +941,32 @@ package com.jonathantorres.spacecommand.levels
 			_doubleMissileIcons.push(doubleMissile);
 		}
 		
+		/*
+		 * Deploy "Double Points" Icon
+		 */
+		private function onDoublePointIconDeploymentTimer(event : TimerEvent) : void
+		{
+			var doublePoints : DoublePoints = new DoublePoints();
+			doublePoints.x = stage.stageWidth + doublePoints.width;
+			doublePoints.y = Math.random() * stage.stageHeight;
+			addChild(doublePoints);
+			
+			_doublePointsIcons.push(doublePoints);
+		}
+		
+		/*
+		 * Deploy "Triple Points" Icon
+		 */
+		private function onTriplePointIconDeploymentTimer(event : TimerEvent) : void
+		{
+			var triplePoints : TriplePoints = new TriplePoints();
+			triplePoints.x = stage.stageWidth + triplePoints.width;
+			triplePoints.y = Math.random() * stage.stageHeight;
+			addChild(triplePoints);
+			
+			_triplePointsIcons.push(triplePoints);
+		}
+
 		/*
 		 * Deploy an enemy
 		 */

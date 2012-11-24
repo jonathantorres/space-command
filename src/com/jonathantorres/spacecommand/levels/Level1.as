@@ -37,12 +37,16 @@ package com.jonathantorres.spacecommand.levels
 			lessDamageIconDeploymentInterval = 2000;
 			tripleLaserIconDeploymentInterval = 2000;
 			doubleMissileIconDeploymentInterval = 2000;
+			doublePointIconDeploymentInterval = 3000;
+			triplePointIconDeploymentInterval = 3000;
 			numOfLifeforces = 15;
 			numOfAsteroids = 15;
 			numOfHealthbars = 15;
 			numOfLessDamageIcons = 15;
 			numOfTripleLaserIcons = 15;
 			numOfDoubleMissileIcons = 15;
+			numOfDoublePointIcons = 10;
+			numOfTriplePointIcons = 10;
 			numOfEnemies = 30;
 			enemyShootingInterval = (Math.random() * 2000) + 1000; // 1 to 3 seconds
 			typesOfEnemies = new Array(EnemyTypes.ENEMY_TYPE1, 
@@ -69,6 +73,8 @@ package com.jonathantorres.spacecommand.levels
 			initLessDamageIcons();
 			initTripleLaserIcons();
 			initDoubleMissileIcons();
+			initDoublePointIcons();
+			initTriplePointIcons();
 			
 			var startTween : Tween = new Tween(this, 0.7, Transitions.EASE_OUT);
 			startTween.animate('x', 0);
