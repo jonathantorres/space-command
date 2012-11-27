@@ -45,9 +45,13 @@ package com.jonathantorres.spacecommand.levels
 		private var _shipIsProtected : Boolean;
 		private var _allAsteroidsDeployed : Boolean;
 		private var _allEnemyShipsDeployed : Boolean;
+		
 		private var _lessDamageEnabled : Boolean;
 		private var _lessDamageHits : uint;
 		private var _lessDamageLimitHits : uint;
+		
+		private var _doublePointsEnabled : Boolean;
+		private var _triplePointsEnabled : Boolean;
 		
 		private var _enemyShips : Array;
 		private var _asteroids : Array;
@@ -121,6 +125,8 @@ package com.jonathantorres.spacecommand.levels
 			_lessDamageEnabled = false;
 			_lessDamageHits = 0;
 			_lessDamageLimitHits = 3;
+			_doublePointsEnabled = false;
+			_triplePointsEnabled = false;
 			
 			_parent = Sprite(parent);
 			
@@ -268,7 +274,7 @@ package com.jonathantorres.spacecommand.levels
 	
 							if (laserRect.intersects(enemyShipRect)) {
 								// sum score
-								gameScore += enemyShip.scoreValue;
+								sumScore(enemyShip.scoreValue);
 								_score.updateScore(gameScore);
 								
 								addChild(new Explotion(enemyShip.x, enemyShip.y));
@@ -293,7 +299,7 @@ package com.jonathantorres.spacecommand.levels
 	
 							if (laserRect.intersects(asteroidRect)) {
 								// sum score
-								gameScore += asteroid.scoreValue;
+								sumScore(asteroid.scoreValue);
 								_score.updateScore(gameScore);
 								
 								addChild(new Explotion(asteroid.x, asteroid.y));
@@ -565,9 +571,8 @@ package com.jonathantorres.spacecommand.levels
 					var doublePointsRect : Rectangle = doublePoints.getBounds(this.parent);
 
 					if (_playerShipRect.intersects(doublePointsRect)) {
-						trace('took double points icon!');
 						addChild(new TextBurst('Double Points!', _playerShip.x, _playerShip.y));
-						//TODO Double Points Logic here
+						if (!_doublePointsEnabled) enableDoublePoints();
 						removeChild(doublePoints);
 						_doublePointsIcons.splice(s, 1);
 						continue;
@@ -594,9 +599,8 @@ package com.jonathantorres.spacecommand.levels
 					var triplePointsRect : Rectangle = triplePoints.getBounds(this.parent);
 
 					if (_playerShipRect.intersects(triplePointsRect)) {
-						trace('took triple points icon!');
 						addChild(new TextBurst('Triple Points!', _playerShip.x, _playerShip.y));
-						//TODO Triple Points Logic here
+						if (!_triplePointsEnabled) enableTriplePoints();
 						removeChild(triplePoints);
 						_triplePointsIcons.splice(t, 1);
 						continue;
@@ -796,6 +800,39 @@ package com.jonathantorres.spacecommand.levels
 			_score = null;
 			_levelNumber = null;
 			_playerShip = null;
+		}
+		
+		/*
+		 * Sum score. Check if 2x or 3x points are enabled.
+		 */
+		private function sumScore(value : Number) : void
+		{
+			if (_doublePointsEnabled)
+				gameScore += (value * 2);
+			else if (_triplePointsEnabled)
+				gameScore += (value * 3);
+			else 
+				gameScore += value;
+		}
+		
+		/*
+		 * Double Points. Current player points are doubled.
+		 * Disable Triple Points if enabled
+		 */
+		private function enableDoublePoints() : void
+		{
+			if (_triplePointsEnabled) _triplePointsEnabled = false;
+			_doublePointsEnabled = true;
+		}
+		
+		/*
+		 * Triple Points. Current player points are tripled.
+		 * Disable Double Points if enabled
+		 */
+		private function enableTriplePoints() : void
+		{
+			if (_doublePointsEnabled) _doublePointsEnabled = false;
+			_triplePointsEnabled = true;
 		}
 		
 		/*
