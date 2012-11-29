@@ -5,6 +5,7 @@ package com.jonathantorres.spacecommand.levels
 
 	import com.jonathantorres.spacecommand.consts.AsteroidSizes;
 	import com.jonathantorres.spacecommand.consts.LaserColors;
+	import com.jonathantorres.spacecommand.consts.PlayerShipStates;
 	import com.jonathantorres.spacecommand.menu.GameOver;
 	import com.jonathantorres.spacecommand.objects.Asteroid;
 	import com.jonathantorres.spacecommand.objects.EnemyShip;
@@ -239,6 +240,7 @@ package com.jonathantorres.spacecommand.levels
 		{
 			_playerShipRect = _playerShip.ship.getBounds(this.parent);
 			_playerShip.moveShip();
+			
 			bg.animate();
 			
 			checkEnemies();
@@ -513,9 +515,11 @@ package com.jonathantorres.spacecommand.levels
 					var tripleLaserRect : Rectangle = tripleLaser.getBounds(this.parent);
 
 					if (_playerShipRect.intersects(tripleLaserRect)) {
-						trace('took triple laser icon!');
+						if (_playerShip.state != PlayerShipStates.TRIPLE_LASER) 
+							_playerShip.morph(PlayerShipStates.TRIPLE_LASER);
+						
 						addChild(new TextBurst('Triple Laser!', _playerShip.x, _playerShip.y));
-						//TODO Triple Laser Logic here
+						
 						removeChild(tripleLaser);
 						_tripleLaserIcons.splice(q, 1);
 						continue;
@@ -542,9 +546,11 @@ package com.jonathantorres.spacecommand.levels
 					var doubleMissileRect : Rectangle = doubleMissile.getBounds(this.parent);
 
 					if (_playerShipRect.intersects(doubleMissileRect)) {
-						trace('took double missile icon!');
+						if (_playerShip.state != PlayerShipStates.DOUBLE_MISSILE)
+							_playerShip.morph(PlayerShipStates.DOUBLE_MISSILE);
+						
 						addChild(new TextBurst('Double Missile!', _playerShip.x, _playerShip.y));
-						//TODO Double Missile Logic here
+						
 						removeChild(doubleMissile);
 						_doubleMissileIcons.splice(r, 1);
 						continue;

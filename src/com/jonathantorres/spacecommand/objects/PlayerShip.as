@@ -1,7 +1,7 @@
 package com.jonathantorres.spacecommand.objects
 {
 	import starling.core.Starling;
-	import starling.display.Image;
+	import starling.display.MovieClip;
 	import starling.display.Sprite;
 	import starling.events.Event;
 	import starling.events.KeyboardEvent;
@@ -10,6 +10,7 @@ package com.jonathantorres.spacecommand.objects
 
 	import com.jonathantorres.spacecommand.Assets;
 	import com.jonathantorres.spacecommand.consts.LaserColors;
+	import com.jonathantorres.spacecommand.consts.PlayerShipStates;
 	import com.jonathantorres.spacecommand.levels.Level;
 	import com.jonathantorres.spacecommand.utils.MouseMode;
 
@@ -23,10 +24,17 @@ package com.jonathantorres.spacecommand.objects
 	 */
 	public class PlayerShip extends Sprite
 	{
-		private var _ship : Image;
+		private var _ship : MovieClip;
+		private var _shipNormal : MovieClip;
+		private var _shipTripleLaser : MovieClip;
+		private var _shipDoubleMissile : MovieClip;
+		private var _shipToTripleLaser : MovieClip;
+		
 		private var _fire : PDParticleSystem;
 		private var _gameElements : TextureAtlas;
 		private var _parent : Level;
+		private var _state : String;
+		private var _previousState : String;
 		
 		private var _moveLeft : Boolean;
 		private var _moveRight : Boolean;
@@ -59,22 +67,54 @@ package com.jonathantorres.spacecommand.objects
 			_gameElements = new TextureAtlas(Assets.getTexture('GameElements'), Assets.getTextureXML('GameElementsXML'));
 			
 			_isBlinking = false;
+			_state = PlayerShipStates.NORMAL;
+			_parent = Level(this.parent);
 			
-			_ship = new Image(_gameElements.getTexture('player_ship_normal'));
-			_ship.x = -_ship.width;
-			_ship.y = -_ship.height * 0.5;
+			_shipNormal = new MovieClip(_gameElements.getTextures('spaceship_normal'), 30);
+			_shipNormal.x = -_shipNormal.width;
+			_shipNormal.y = -(_shipNormal.height * 0.5) + 5;
+			_shipNormal.currentFrame = 0;
+			_shipNormal.loop = false;
+			_shipNormal.stop();
+			
+			_shipTripleLaser = new MovieClip(_gameElements.getTextures('spaceship_triplelaser'), 30);
+			_shipTripleLaser.x = -_shipTripleLaser.width;
+			_shipTripleLaser.y = -(_shipTripleLaser.height * 0.5) + 5;
+			_shipTripleLaser.currentFrame = 0;
+			_shipTripleLaser.loop = false;
+			_shipTripleLaser.stop();
+			
+			_shipDoubleMissile = new MovieClip(_gameElements.getTextures('spaceship_doublemissile'), 30);
+			_shipDoubleMissile.x = -_shipDoubleMissile.width;
+			_shipDoubleMissile.y = -(_shipDoubleMissile.height * 0.5) + 5;
+			_shipDoubleMissile.currentFrame = 0;
+			_shipDoubleMissile.loop = false;
+			_shipDoubleMissile.stop();
+			
+			_shipToTripleLaser = new MovieClip(_gameElements.getTextures('spaceship_totriplelaser'), 30);
+			_shipToTripleLaser.x = -_shipToTripleLaser.width;
+			_shipToTripleLaser.y = -(_shipToTripleLaser.height * 0.5) + 5;
+			_shipToTripleLaser.currentFrame = 0;
+			_shipToTripleLaser.loop = false;
+			_shipToTripleLaser.stop();
+			
+			_ship = _shipNormal;
 
 			_fire = new PDParticleSystem(Assets.getTextureXML('MainShipThrustParticle'), 
 										 Assets.getTexture('MainShipThrust'));
-			_fire.emitterX = -(_ship.width - 30);
+			_fire.emitterX = -(_ship.width - 25);
+			_fire.emitterY = 5;
 			_fire.start();
 
 			addChild(_fire);
 			addChild(_ship);
 
 			Starling.juggler.add(_fire);
-			
-			_parent = Level(this.parent);
+			Starling.juggler.add(_ship);
+			Starling.juggler.add(_shipNormal);
+			Starling.juggler.add(_shipTripleLaser);
+			Starling.juggler.add(_shipDoubleMissile);
+			Starling.juggler.add(_shipToTripleLaser);
 			
 			MouseMode.mouseMode ? mouseMode() : keyboardMode();
 		}
@@ -120,6 +160,35 @@ package com.jonathantorres.spacecommand.objects
 			_blinkTimer.addEventListener(TimerEvent.TIMER, onBlinkTimer);
 			_blinkTimer.addEventListener(TimerEvent.TIMER_COMPLETE, onBlinkTimerComplete);
 			_blinkTimer.start();
+		}
+		
+		public function morph(state : String) : void
+		{
+			_previousState = _state;
+			_state = state;
+			this.removeChild(_ship);
+			
+			switch(state) {
+				case PlayerShipStates.TRIPLE_LASER :
+					if (_previousState == PlayerShipStates.DOUBLE_MISSILE) {
+						_ship = _shipToTripleLaser;
+					} else {
+						_ship = _shipTripleLaser;
+					}
+						
+					break;
+					
+				case PlayerShipStates.DOUBLE_MISSILE :
+					if (_previousState == PlayerShipStates.TRIPLE_LASER) {
+						 _ship = _shipDoubleMissile;
+					}
+					
+					break;
+			}
+			
+			this.addChild(_ship);
+			_ship.currentFrame = 0;
+			_ship.play();
 		}
 		
 		public function removeListeners() : void
@@ -255,12 +324,12 @@ package com.jonathantorres.spacecommand.objects
 		/*
 		 * Getters and setters 
 		 */
-		public function get ship() : Image
+		public function get ship() : MovieClip
 		{
 			return _ship;
 		}
 
-		public function set ship(ship : Image) : void
+		public function set ship(ship : MovieClip) : void
 		{
 			_ship = ship;
 		}
@@ -273,6 +342,16 @@ package com.jonathantorres.spacecommand.objects
 		public function set isBlinking(isBlinking : Boolean) : void
 		{
 			_isBlinking = isBlinking;
+		}
+
+		public function get state() : String
+		{
+			return _state;
+		}
+
+		public function set state(state : String) : void
+		{
+			_state = state;
 		}
 	}
 }
