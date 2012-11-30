@@ -66,6 +66,7 @@ package com.jonathantorres.spacecommand.levels
 			
 			addUI();
 			initLasers();
+			initMissiles();
 			initEnemies();
 			initHealthbars();
 			initAsteroids();

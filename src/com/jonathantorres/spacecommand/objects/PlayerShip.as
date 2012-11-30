@@ -41,6 +41,7 @@ package com.jonathantorres.spacecommand.objects
 		private var _moveUp : Boolean;
 		private var _moveDown : Boolean;
 		private var _isBlinking : Boolean;
+		private var _isMorphing : Boolean;
 		private var _blinkTimer : Timer;
 		private var _vx : Number = 0.0;
 		private var _vy : Number = 0.0;
@@ -67,6 +68,7 @@ package com.jonathantorres.spacecommand.objects
 			_gameElements = new TextureAtlas(Assets.getTexture('GameElements'), Assets.getTextureXML('GameElementsXML'));
 			
 			_isBlinking = false;
+			_isMorphing = false;
 			_state = PlayerShipStates.NORMAL;
 			_parent = Level(this.parent);
 			
@@ -165,15 +167,18 @@ package com.jonathantorres.spacecommand.objects
 		public function morph(state : String) : void
 		{
 			_previousState = _state;
-			_state = state;
 			this.removeChild(_ship);
 			
 			switch(state) {
 				case PlayerShipStates.TRIPLE_LASER :
 					if (_previousState == PlayerShipStates.DOUBLE_MISSILE) {
 						_ship = _shipToTripleLaser;
+						_state = state;
+						_isMorphing = true;
 					} else {
 						_ship = _shipTripleLaser;
+						_state = state;
+						_isMorphing = true;
 					}
 						
 					break;
@@ -181,6 +186,8 @@ package com.jonathantorres.spacecommand.objects
 				case PlayerShipStates.DOUBLE_MISSILE :
 					if (_previousState == PlayerShipStates.TRIPLE_LASER) {
 						 _ship = _shipDoubleMissile;
+						 _state = state;
+						 _isMorphing = true;
 					}
 					
 					break;
@@ -189,8 +196,9 @@ package com.jonathantorres.spacecommand.objects
 			this.addChild(_ship);
 			_ship.currentFrame = 0;
 			_ship.play();
+			_ship.addEventListener(Event.COMPLETE, onShipMorphComplete);
 		}
-		
+
 		public function removeListeners() : void
 		{
 			if (stage != null) {
@@ -207,9 +215,43 @@ package com.jonathantorres.spacecommand.objects
 		
 		private function shoot() : void
 		{
+			switch(_state) {
+				case PlayerShipStates.NORMAL :
+					createLaser(this.x - 5, this.y - 3); //front
+					break;
+					
+				case PlayerShipStates.TRIPLE_LASER : 
+					createLaser(this.x - 5, this.y - 3); //front
+					createLaser(this.x - 80, this.y - 22); //top
+					createLaser(this.x - 80, this.y + 22); //bottom
+					createLaser(this.x - 95, this.y + 5); //middle
+					break;
+					
+				case PlayerShipStates.DOUBLE_MISSILE :
+					createMissile(this.x - 80, this.y - 28); //top missile
+					createMissile(this.x - 80, this.y + 28); //bottom missile
+					createLaser(this.x - 5, this.y - 3); //front
+					createLaser(this.x - 80, this.y - 22); //top
+					createLaser(this.x - 80, this.y + 22); //bottom
+					createLaser(this.x - 95, this.y + 5); //middle
+					break;
+			}
+		}
+		
+		private function createMissile(x : Number, y : Number) : void
+		{
+			var missile : Missile = new Missile();
+			missile.x = x;
+			missile.y = y;
+			_parent.addChild(missile);
+			_parent.missiles.push(missile);
+		}
+
+		private function createLaser(x : Number, y : Number) : void
+		{
 			var laser : Laser = new Laser(LaserColors.PLAYER);
-			laser.x = this.x - 5;
-			laser.y = this.y - 3;
+			laser.x = x;
+			laser.y = y;
 			_parent.addChild(laser);
 			_parent.lasers.push(laser);
 		}
@@ -314,6 +356,11 @@ package com.jonathantorres.spacecommand.objects
 					_ay = _speed;
 					break;
 			}
+		}
+		
+		private function onShipMorphComplete(event : Event) : void
+		{
+			_isMorphing = false;
 		}
 
 		private function onAddedToStage(event : Event) : void

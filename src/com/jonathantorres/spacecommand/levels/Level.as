@@ -12,6 +12,7 @@ package com.jonathantorres.spacecommand.levels
 	import com.jonathantorres.spacecommand.objects.Explotion;
 	import com.jonathantorres.spacecommand.objects.Laser;
 	import com.jonathantorres.spacecommand.objects.LifeforceLarge;
+	import com.jonathantorres.spacecommand.objects.Missile;
 	import com.jonathantorres.spacecommand.objects.PlayerShip;
 	import com.jonathantorres.spacecommand.objects.icons.DoubleMissile;
 	import com.jonathantorres.spacecommand.objects.icons.DoublePoints;
@@ -65,6 +66,7 @@ package com.jonathantorres.spacecommand.levels
 		private var _doublePointsIcons : Array;
 		private var _triplePointsIcons : Array;
 		private var _lasers : Array;
+		private var _missiles : Array;
 		
 		private var _enemyDeployment : Timer;
 		private var _healthbarsDeployment : Timer;
@@ -213,6 +215,11 @@ package com.jonathantorres.spacecommand.levels
 		{
 			_lasers = new Array();
 		}
+		
+		protected function initMissiles() : void
+		{
+			_missiles = new Array();
+		}
 
 		protected function addUI() : void
 		{
@@ -344,6 +351,50 @@ package com.jonathantorres.spacecommand.levels
 					}
 				}
 			}
+			
+			/*
+			 * Animation and Collisions : Missiles
+			 */
+			 for (var u : int = _missiles.length - 1; u >= 0; u--) {
+				var missile : Missile = Missile(_missiles[u]);
+				var missileRect : Rectangle = missile.getBounds(this.parent);
+				
+				missile.animate();
+				
+				// missile is off the stage
+				if (stage != null) {
+					if (missile.x >= stage.stageWidth) {
+						removeChild(missile);
+						_missiles.splice(u, 1);
+						continue;
+					}
+				}
+				
+				// missile hits an enemy
+				for (var v : int = _enemyShips.length - 1; v >= 0; v--) {
+					var theEnemyShip : EnemyShip = EnemyShip(_enemyShips[v]);
+
+					if (this.contains(theEnemyShip)) {
+						var theEnemyShipRect : Rectangle = theEnemyShip.getBounds(this.parent);
+
+						if (missileRect.intersects(theEnemyShipRect)) {
+							// sum score
+							sumScore(theEnemyShip.scoreValue);
+							_score.updateScore(gameScore);
+							
+							addChild(new Explotion(theEnemyShip.x, theEnemyShip.y));
+							addChild(new TextBurst(theEnemyShip.scoreValue + 'pts', theEnemyShip.x, theEnemyShip.y));
+
+							removeChild(missile);
+							_missiles.splice(u, 1);
+
+							removeChild(theEnemyShip);
+							_enemyShips.splice(v, 1);
+							continue;
+						}
+					}
+				}
+			 }
 			
 			/*
 			 * Animation and Collisions : Enemy Ships
@@ -681,6 +732,17 @@ package com.jonathantorres.spacecommand.levels
 					if (laser != null) {
 						removeChild(laser);
 						_lasers.splice(i, 1);
+					}
+				}
+			}
+			
+			// remove any missiles in the screen
+			if (_missiles.length != 0) {
+				for (var t : int = 0; t < _missiles.length; t++) {
+					var missile : Missile = Missile(_missiles[t]);
+					if (missile != null) {
+						removeChild(missile);
+						_missiles.splice(t, 1);
 					}
 				}
 			}
@@ -1053,6 +1115,16 @@ package com.jonathantorres.spacecommand.levels
 		public function set lasers(lasers : Array) : void
 		{
 			_lasers = lasers;
+		}
+
+		public function get missiles() : Array
+		{
+			return _missiles;
+		}
+
+		public function set missiles(missiles : Array) : void
+		{
+			_missiles = missiles;
 		}
 	}
 }
