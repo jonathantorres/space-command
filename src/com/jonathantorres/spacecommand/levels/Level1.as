@@ -14,6 +14,8 @@ package com.jonathantorres.spacecommand.levels
 	 */
 	public class Level1 extends Level
 	{
+		private var _startTween : Tween;
+		
 		public function Level1()
 		{
 			super();
@@ -30,37 +32,35 @@ package com.jonathantorres.spacecommand.levels
 			bg = new RocksBackground();
 			nextLevel = new Level2();
 			
-			lifeforceDeploymentInterval = 6000;
-			asteroidDeploymentInterval = 6000;
-			healthbarsDeploymentInterval = 5000;
+			lifeforceDeploymentInterval = 8000;
+			asteroidDeploymentInterval = 5000;
+			healthbarsDeploymentInterval = 4000;
 			enemiesDeploymentInterval = 3000;
-			lessDamageIconDeploymentInterval = 2000;
-			tripleLaserIconDeploymentInterval = 2000;
-			doubleMissileIconDeploymentInterval = 2000;
-			doublePointIconDeploymentInterval = 3000;
-			triplePointIconDeploymentInterval = 3000;
-			numOfLifeforces = 15;
+			lessDamageIconDeploymentInterval = 6000;
+			tripleLaserIconDeploymentInterval = 10000;
+			doubleMissileIconDeploymentInterval = 11000;
+			doublePointIconDeploymentInterval = 12000;
+			triplePointIconDeploymentInterval = 13000;
+			
+			numOfLifeforces = 6;
+			numOfHealthbars = 8;
+			numOfLessDamageIcons = 8;
+			numOfTripleLaserIcons = 3;
+			numOfDoubleMissileIcons = 3;
+			numOfDoublePointIcons = 5;
+			numOfTriplePointIcons = 5;
 			numOfAsteroids = 15;
-			numOfHealthbars = 15;
-			numOfLessDamageIcons = 15;
-			numOfTripleLaserIcons = 15;
-			numOfDoubleMissileIcons = 15;
-			numOfDoublePointIcons = 10;
-			numOfTriplePointIcons = 10;
-			numOfEnemies = 30;
-			enemyShootingInterval = (Math.random() * 2000) + 1000; // 1 to 3 seconds
+			numOfEnemies = 20;
+			
+			enemyShootingInterval = 1500;
+			
 			typesOfEnemies = new Array(EnemyTypes.ENEMY_TYPE1, 
 									   EnemyTypes.ENEMY_TYPE2,
-									   EnemyTypes.ENEMY_TYPE3,
-									   EnemyTypes.ENEMY_TYPE4,
-									   EnemyTypes.ENEMY_TYPE5);
+									   EnemyTypes.ENEMY_TYPE3);
 									   
 			colorsOfEnemies = new Array(EnemyShipColors.BLUE, 
 										EnemyShipColors.GRAY, 
-										EnemyShipColors.GREEN, 
-										EnemyShipColors.RED,
-										EnemyShipColors.CHARCOAL,
-										EnemyShipColors.GRAY);
+										EnemyShipColors.GREEN);
 			
 			trace('Level: ' + gameLevel);
 			
@@ -77,9 +77,9 @@ package com.jonathantorres.spacecommand.levels
 			initDoublePointIcons();
 			initTriplePointIcons();
 			
-			var startTween : Tween = new Tween(this, 0.7, Transitions.EASE_OUT);
-			startTween.animate('x', 0);
-			Starling.juggler.add(startTween);
+			_startTween = new Tween(this, 0.7, Transitions.EASE_OUT);
+			_startTween.animate('x', 0);
+			Starling.juggler.add(_startTween);
 		}
 	}
 }

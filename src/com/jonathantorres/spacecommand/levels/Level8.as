@@ -3,16 +3,16 @@ package com.jonathantorres.spacecommand.levels
 	import com.jonathantorres.spacecommand.consts.EnemyShipColors;
 	import com.jonathantorres.spacecommand.consts.EnemyTypes;
 	import com.jonathantorres.spacecommand.ui.LevelIndicator;
-	import com.jonathantorres.spacecommand.ui.bg.RocksBackground;
+	import com.jonathantorres.spacecommand.ui.bg.RedRocksBackground;
 
 	/**
 	 * @author Jonathan Torres
 	 */
-	public class Level2 extends Level
+	public class Level8 extends Level
 	{
 		private var _levelIndicator : LevelIndicator;
 		
-		public function Level2()
+		public function Level8()
 		{
 			super();
 		}
@@ -21,42 +21,41 @@ package com.jonathantorres.spacecommand.levels
 		{
 			super.init();
 			
-			gameLevel = 2;
-			bg = new RocksBackground();
-			nextLevel = new Level3();
+			gameLevel = 8;
+			bg = new RedRocksBackground();
+			nextLevel = new Level9();
 			
-			lifeforceDeploymentInterval = 8000;
-			asteroidDeploymentInterval = 4800;
-			healthbarsDeploymentInterval = 4500;
-			enemiesDeploymentInterval = 2500;
-			lessDamageIconDeploymentInterval = 7300;
+			lifeforceDeploymentInterval = 7000;
+			asteroidDeploymentInterval = 1800;
+			healthbarsDeploymentInterval = 7500;
+			enemiesDeploymentInterval = 2000;
+			lessDamageIconDeploymentInterval = 12000;
 			tripleLaserIconDeploymentInterval = 11000;
-			doubleMissileIconDeploymentInterval = 10000;
-			doublePointIconDeploymentInterval = 12500;
-			triplePointIconDeploymentInterval = 14000;
+			doubleMissileIconDeploymentInterval = 15500;
+			doublePointIconDeploymentInterval = 13900;
+			triplePointIconDeploymentInterval = 12900;
 			
 			numOfLifeforces = 8;
-			numOfHealthbars = 10;
-			numOfLessDamageIcons = 6;
-			numOfTripleLaserIcons = 5;
-			numOfDoubleMissileIcons = 5;
-			numOfDoublePointIcons = 3;
-			numOfTriplePointIcons = 3;
-			numOfAsteroids = 20;
-			numOfEnemies = 25;
+			numOfHealthbars = 8;
+			numOfLessDamageIcons = 15;
+			numOfTripleLaserIcons = 10;
+			numOfDoubleMissileIcons = 7;
+			numOfDoublePointIcons = 9;
+			numOfTriplePointIcons = 7;
+			numOfAsteroids = 45;
+			numOfEnemies = 45;
 			
 			enemyShootingInterval = 1300;
 			
-			typesOfEnemies = new Array(EnemyTypes.ENEMY_TYPE1, 
+			typesOfEnemies = new Array(EnemyTypes.ENEMY_TYPE4,
+									   EnemyTypes.ENEMY_TYPE5,
 									   EnemyTypes.ENEMY_TYPE2,
-									   EnemyTypes.ENEMY_TYPE3,
-									   EnemyTypes.ENEMY_TYPE4);
+									   EnemyTypes.ENEMY_TYPE3);
 									   
-			colorsOfEnemies = new Array(EnemyShipColors.BLUE, 
-										EnemyShipColors.GRAY, 
-										EnemyShipColors.GREEN, 
-										EnemyShipColors.RED,
-										EnemyShipColors.BROWN);
+			colorsOfEnemies = new Array(EnemyShipColors.CHARCOAL,
+										EnemyShipColors.SILVER,
+										EnemyShipColors.GRAY,
+										EnemyShipColors.GREEN);
 			
 			trace('Level: ' + gameLevel);
 			

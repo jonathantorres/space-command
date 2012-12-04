@@ -8,11 +8,11 @@ package com.jonathantorres.spacecommand.levels
 	/**
 	 * @author Jonathan Torres
 	 */
-	public class Level3 extends Level
+	public class Level4 extends Level
 	{
 		private var _levelIndicator : LevelIndicator;
 		
-		public function Level3()
+		public function Level4()
 		{
 			super();
 		}
@@ -21,40 +21,43 @@ package com.jonathantorres.spacecommand.levels
 		{
 			super.init();
 			
-			gameLevel = 3;
+			gameLevel = 4;
 			bg = new RocksBackground();
-			nextLevel = new Level4();
+			nextLevel = new Level5();
 			
-			lifeforceDeploymentInterval = 9000;
-			asteroidDeploymentInterval = 3000;
-			healthbarsDeploymentInterval = 4500;
-			enemiesDeploymentInterval = 2200;
-			lessDamageIconDeploymentInterval = 8000;
-			tripleLaserIconDeploymentInterval = 11500;
-			doubleMissileIconDeploymentInterval = 10500;
-			doublePointIconDeploymentInterval = 13000;
-			triplePointIconDeploymentInterval = 14500;
+			lifeforceDeploymentInterval = 8200;
+			asteroidDeploymentInterval = 2500;
+			healthbarsDeploymentInterval = 4900;
+			enemiesDeploymentInterval = 2000;
+			lessDamageIconDeploymentInterval = 8500;
+			tripleLaserIconDeploymentInterval = 11000;
+			doubleMissileIconDeploymentInterval = 12500;
+			doublePointIconDeploymentInterval = 13800;
+			triplePointIconDeploymentInterval = 14800;
 			
-			numOfLifeforces = 6;
-			numOfHealthbars = 8;
+			numOfLifeforces = 8;
+			numOfHealthbars = 4;
 			numOfLessDamageIcons = 4;
-			numOfTripleLaserIcons = 3;
-			numOfDoubleMissileIcons = 5;
-			numOfDoublePointIcons = 5;
-			numOfTriplePointIcons = 3;
-			numOfAsteroids = 30;
+			numOfTripleLaserIcons = 4;
+			numOfDoubleMissileIcons = 4;
+			numOfDoublePointIcons = 4;
+			numOfTriplePointIcons = 4;
+			numOfAsteroids = 40;
 			numOfEnemies = 30;
 			
-			enemyShootingInterval = 1200;
+			enemyShootingInterval = 1000;
 			
-			typesOfEnemies = new Array(EnemyTypes.ENEMY_TYPE1,
+			typesOfEnemies = new Array(EnemyTypes.ENEMY_TYPE1, 
+									   EnemyTypes.ENEMY_TYPE2,
 									   EnemyTypes.ENEMY_TYPE3,
-									   EnemyTypes.ENEMY_TYPE4);
+									   EnemyTypes.ENEMY_TYPE4,
+									   EnemyTypes.ENEMY_TYPE5);
 									   
 			colorsOfEnemies = new Array(EnemyShipColors.BLUE,
 										EnemyShipColors.RED,
 										EnemyShipColors.BROWN,
-										EnemyShipColors.RED);
+										EnemyShipColors.CHARCOAL,
+										EnemyShipColors.SILVER);
 			
 			trace('Level: ' + gameLevel);
 			
