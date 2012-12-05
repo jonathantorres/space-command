@@ -28,7 +28,7 @@ package com.jonathantorres.spacecommand.objects
 		private var _shootingInterval : Number;
 		private var _vx : Number = 0.0;
 		private var _vy : Number = 0.0;
-		private var _speed : Number = 0.01;
+		private var _speed : Number;
 
 		private var _ship : Image;
 		private var _fire : PDParticleSystem;
@@ -39,12 +39,13 @@ package com.jonathantorres.spacecommand.objects
 		public var scoreValue : uint = 50;
 		public var damage : uint = 15;
 		
-		public function EnemyShip(type : String, color : String, shootingInterval : Number)
+		public function EnemyShip(type : String, color : String, shootingInterval : Number, speed : Number = 0.01)
 		{
 			super();
 			_type = type;
 			_color = color;
 			_shootingInterval = shootingInterval;
+			_speed = speed;
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			this.addEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage);
 		}

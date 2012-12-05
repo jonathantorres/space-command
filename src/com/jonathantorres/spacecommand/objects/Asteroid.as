@@ -18,16 +18,17 @@ package com.jonathantorres.spacecommand.objects
 		private var _size : String;
 		private var _vx : Number = 0.0;
 		private var _vy : Number = 0.0;
-		private var _speed : Number = 0.01;
+		private var _speed : Number;
 		private var _rotationSpeed : Number = 0.01;
 		
 		public var scoreValue : uint = 30;
 		public var damage : uint;
 		
-		public function Asteroid(size : String)
+		public function Asteroid(size : String, speed : Number = 0.01)
 		{
 			super();
 			_size = size;
+			_speed = speed;
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		

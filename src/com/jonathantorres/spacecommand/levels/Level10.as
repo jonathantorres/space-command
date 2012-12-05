@@ -46,6 +46,8 @@ package com.jonathantorres.spacecommand.levels
 			numOfEnemies = 50;
 			
 			enemyShootingInterval = 1000;
+			enemiesSpeed = 0.04;
+			asteroidsSpeed = 0.06;
 			
 			typesOfEnemies = new Array(EnemyTypes.ENEMY_TYPE3,
 									   EnemyTypes.ENEMY_TYPE4,

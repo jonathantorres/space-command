@@ -88,6 +88,7 @@ package com.jonathantorres.spacecommand.levels
 		
 		protected var asteroidDeploymentInterval : Number;
 		protected var numOfAsteroids : Number;
+		protected var asteroidsSpeed : Number;
 		
 		protected var healthbarsDeploymentInterval : Number;
 		protected var numOfHealthbars : Number;
@@ -110,6 +111,7 @@ package com.jonathantorres.spacecommand.levels
 		protected var enemiesDeploymentInterval : Number;
 		protected var numOfEnemies : Number;
 		protected var enemyShootingInterval : Number;
+		protected var enemiesSpeed : Number;
 		
 		protected var typesOfEnemies : Array;
 		protected var colorsOfEnemies : Array;
@@ -981,7 +983,7 @@ package com.jonathantorres.spacecommand.levels
 		 */
 		private function onAsteroidDeploymentTimer(event : TimerEvent) : void
 		{
-			var asteroid : Asteroid = new Asteroid(_typesOfAsteroids[Math.floor(Math.random() * _typesOfAsteroids.length)]);
+			var asteroid : Asteroid = new Asteroid(_typesOfAsteroids[Math.floor(Math.random() * _typesOfAsteroids.length)], asteroidsSpeed);
 			asteroid.x = stage.stageWidth + (asteroid.width) + 50;
 			asteroid.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(asteroid);
@@ -1086,7 +1088,9 @@ package com.jonathantorres.spacecommand.levels
 			
 			var enemyShip : EnemyShip = new EnemyShip(typeOfEnemy,
 													  colorsOfEnemies[Math.floor(Math.random() * colorsOfEnemies.length)],
-													  enemyShootingInterval);
+													  enemyShootingInterval,
+													  enemiesSpeed);
+													  
 			enemyShip.x = stage.stageWidth + enemyShip.width;
 			enemyShip.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(enemyShip);
