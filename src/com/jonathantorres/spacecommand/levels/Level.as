@@ -970,7 +970,7 @@ package com.jonathantorres.spacecommand.levels
 		{
 			var lifeforce : Lifeforce = new Lifeforce();
 			lifeforce.x = stage.stageWidth + (lifeforce.width) + 20;
-			lifeforce.y = Math.random() * stage.stageHeight;
+			lifeforce.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(lifeforce);
 
 			_lifeforces.push(lifeforce);
@@ -983,7 +983,7 @@ package com.jonathantorres.spacecommand.levels
 		{
 			var asteroid : Asteroid = new Asteroid(_typesOfAsteroids[Math.floor(Math.random() * _typesOfAsteroids.length)]);
 			asteroid.x = stage.stageWidth + (asteroid.width) + 50;
-			asteroid.y = Math.random() * stage.stageHeight;
+			asteroid.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(asteroid);
 
 			_asteroids.push(asteroid);
@@ -1001,7 +1001,7 @@ package com.jonathantorres.spacecommand.levels
 		{
 			var healthbar : Health = new Health();
 			healthbar.x = stage.stageWidth + healthbar.width;
-			healthbar.y = Math.random() * stage.stageHeight;
+			healthbar.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(healthbar);
 
 			_healthbars.push(healthbar);
@@ -1014,7 +1014,7 @@ package com.jonathantorres.spacecommand.levels
 		{
 			var lessDamage : LessDamage = new LessDamage();
 			lessDamage.x = stage.stageWidth + lessDamage.width;
-			lessDamage.y = Math.random() * stage.stageHeight;
+			lessDamage.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(lessDamage);
 			
 			_lessDamageIcons.push(lessDamage);
@@ -1027,7 +1027,7 @@ package com.jonathantorres.spacecommand.levels
 		{
 			var tripleLaser : TripleLasers = new TripleLasers();
 			tripleLaser.x = stage.stageWidth + tripleLaser.width;
-			tripleLaser.y = Math.random() * stage.stageHeight;
+			tripleLaser.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(tripleLaser);
 			
 			_tripleLaserIcons.push(tripleLaser);
@@ -1040,7 +1040,7 @@ package com.jonathantorres.spacecommand.levels
 		{
 			var doubleMissile : DoubleMissile = new DoubleMissile();
 			doubleMissile.x = stage.stageWidth + doubleMissile.width;
-			doubleMissile.y = Math.random() * stage.stageHeight;
+			doubleMissile.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(doubleMissile);
 			
 			_doubleMissileIcons.push(doubleMissile);
@@ -1053,7 +1053,7 @@ package com.jonathantorres.spacecommand.levels
 		{
 			var doublePoints : DoublePoints = new DoublePoints();
 			doublePoints.x = stage.stageWidth + doublePoints.width;
-			doublePoints.y = Math.random() * stage.stageHeight;
+			doublePoints.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(doublePoints);
 			
 			_doublePointsIcons.push(doublePoints);
@@ -1066,7 +1066,7 @@ package com.jonathantorres.spacecommand.levels
 		{
 			var triplePoints : TriplePoints = new TriplePoints();
 			triplePoints.x = stage.stageWidth + triplePoints.width;
-			triplePoints.y = Math.random() * stage.stageHeight;
+			triplePoints.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(triplePoints);
 			
 			_triplePointsIcons.push(triplePoints);
@@ -1088,7 +1088,7 @@ package com.jonathantorres.spacecommand.levels
 													  colorsOfEnemies[Math.floor(Math.random() * colorsOfEnemies.length)],
 													  enemyShootingInterval);
 			enemyShip.x = stage.stageWidth + enemyShip.width;
-			enemyShip.y = Math.random() * stage.stageHeight;
+			enemyShip.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(enemyShip);
 
 			_enemyShips.push(enemyShip);
