@@ -25,8 +25,9 @@ package com.jonathantorres.spacecommand.objects.icons
 			super();
 			_textureName = textureName;
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			this.addEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage);
 		}
-		
+
 		private function init() : void
 		{
 			_gameElements = new TextureAtlas(Assets.getTexture('GameElements'), Assets.getTextureXML('GameElementsXML'));
@@ -48,7 +49,14 @@ package com.jonathantorres.spacecommand.objects.icons
 
 		private function onAddedToStage(event : Event) : void
 		{
+			this.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			init();
+		}
+		
+		private function onRemovedFromStage(event : Event) : void
+		{
+			_vx = 0.0;
+			_vy = 0.0;
 		}
 	}
 }

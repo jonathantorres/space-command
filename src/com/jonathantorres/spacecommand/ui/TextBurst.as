@@ -1,5 +1,6 @@
 package com.jonathantorres.spacecommand.ui
 {
+	import com.jonathantorres.spacecommand.levels.Level;
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
 	import starling.core.Starling;
@@ -23,25 +24,30 @@ package com.jonathantorres.spacecommand.ui
 		private var _txt : TextField;
 		private var _x : Number;
 		private var _y : Number;
-		private var _parent : Sprite;
+		private var _parent : Level;
 		private var _removeTimer : Timer;
 		private var _this : TextBurst;
 		
-		public function TextBurst(word : String, x : Number, y : Number)
+		public function TextBurst()
 		{
 			super();
-			_word = word;
-			_x = x;
-			_y = y;
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
 		private function init() : void
 		{
 			_this = this;
+			_parent = Level(_this.parent);
+		}
+		
+		public function show(word : String, x : Number, y : Number) : void
+		{
+			_word = word;
+			_x = x;
+			_y = y;
+			
 			_this.x = _x;
 			_this.y = _y;
-			_parent = Sprite(_this.parent);
 			
 			_txt = new TextField(150, 20, _word, Assets.getFont('BlairMD').fontName, 9, 0xFFFFFF);
 			_txt.vAlign = VAlign.TOP;
@@ -74,6 +80,7 @@ package com.jonathantorres.spacecommand.ui
 			
 			scaleTween.onComplete = function() : void {
 				_parent.removeChild(_this);
+				_parent.textBurstsPool.returnSprite(_this);
 			};
 		}
 

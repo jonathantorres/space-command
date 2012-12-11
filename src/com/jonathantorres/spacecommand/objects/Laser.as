@@ -22,13 +22,14 @@ package com.jonathantorres.spacecommand.objects
 		
 		private var _damage : uint;
 		
-		public function Laser(color : String)
+		public function Laser(color : String = LaserColors.PLAYER)
 		{
 			super();
 			_color = color;
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			this.addEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage);
 		}
-		
+
 		private function init() : void
 		{
 			_gameElements = new TextureAtlas(Assets.getTexture('GameElements'), Assets.getTextureXML('GameElementsXML'));
@@ -69,10 +70,42 @@ package com.jonathantorres.spacecommand.objects
 				this.x -= _vx;
 			}
 		}
+		
+		public function updateTexture() : void
+		{
+			switch(_color) {
+				case LaserColors.PLAYER :
+					_laser.texture = _gameElements.getTexture('laser_player');
+					break;
+
+				case LaserColors.RED :
+					_laser.texture = _gameElements.getTexture('laser_enemy_red');
+					break;
+
+				case LaserColors.GREEN :
+					_laser.texture = _gameElements.getTexture('laser_enemy_green');
+					break;
+
+				case LaserColors.BLUE :
+					_laser.texture = _gameElements.getTexture('laser_enemy_blue');
+					break;
+					
+				case LaserColors.AEON :
+					_laser.texture = _gameElements.getTexture('laser_enemy_aeon');
+					break;
+			}
+		}
 
 		private function onAddedToStage(event : Event) : void
 		{
+			this.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			init();
+		}
+		
+		private function onRemovedFromStage(event : Event) : void
+		{
+			_ax = 2.0;
+			_vx = 0.0;
 		}
 		
 		/*

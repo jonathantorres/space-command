@@ -1,5 +1,6 @@
 package com.jonathantorres.spacecommand.levels
 {
+	import com.jonathantorres.spacecommand.pools.SpritePool;
 	import starling.display.Sprite;
 	import starling.events.Event;
 
@@ -78,6 +79,20 @@ package com.jonathantorres.spacecommand.levels
 		private var _doublePointIconDeployment : Timer;
 		private var _triplePointIconDeployment : Timer;
 		
+		private var _lifeforcesPool : SpritePool;
+		private var _healthbarsPool : SpritePool;
+		private var _lessDamageIconsPool : SpritePool;
+		private var _tripleLaserIconsPool : SpritePool;
+		private var _doubleMissileIconsPool : SpritePool;
+		private var _doublePointsIconsPool : SpritePool;
+		private var _triplePointsIconsPool : SpritePool;
+		private var _lasersPool : SpritePool;
+		private var _missilesPool : SpritePool;
+		private var _enemiesPool : SpritePool;
+		private var _asteroidsPool : SpritePool;
+		private var _explotionsPool : SpritePool;
+		private var _textBurstsPool : SpritePool;
+		
 		protected var gameScore : int;
 		protected var gameLevel : int;
 		protected var bg : GameBackground;
@@ -136,6 +151,25 @@ package com.jonathantorres.spacecommand.levels
 			_parent = Sprite(parent);
 			
 			this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+		}
+		
+		protected function initPools() : void
+		{
+			_lifeforcesPool = new SpritePool(Lifeforce, Math.floor(numOfLifeforces / 2));
+			_healthbarsPool = new SpritePool(Health, Math.floor(numOfHealthbars / 2));
+			_lessDamageIconsPool = new SpritePool(LessDamage, Math.floor(numOfLessDamageIcons / 2));
+			_tripleLaserIconsPool = new SpritePool(TripleLasers, Math.floor(numOfTripleLaserIcons / 2));
+			_doubleMissileIconsPool = new SpritePool(DoubleMissile, Math.floor(numOfDoubleMissileIcons / 2));
+			_doublePointsIconsPool = new SpritePool(DoublePoints, Math.floor(numOfDoublePointIcons / 2));
+			_triplePointsIconsPool = new SpritePool(TriplePoints, Math.floor(numOfTriplePointIcons / 2));
+			
+			_lasersPool = new SpritePool(Laser, 50);
+			_missilesPool = new SpritePool(Missile, 20);
+			_enemiesPool = new SpritePool(EnemyShip, Math.floor(numOfEnemies / 2));
+			_asteroidsPool = new SpritePool(Asteroid, Math.floor(numOfAsteroids / 2));
+			
+			_explotionsPool = new SpritePool(Explotion, 20);
+			_textBurstsPool = new SpritePool(TextBurst, 20);
 		}
 
 		protected function initLifeforces() : void
@@ -271,6 +305,7 @@ package com.jonathantorres.spacecommand.levels
 					if (stage != null) {
 						if (laser.x >= stage.stageWidth) {
 							removeChild(laser);
+							_lasersPool.returnSprite(laser);
 							_lasers.splice(i, 1);
 							continue;
 						}
@@ -288,13 +323,20 @@ package com.jonathantorres.spacecommand.levels
 								sumScore(enemyShip.scoreValue);
 								_score.updateScore(gameScore);
 								
-								addChild(new Explotion(enemyShip.x, enemyShip.y));
-								addChild(new TextBurst(enemyShip.scoreValue + 'pts', enemyShip.x, enemyShip.y));
+								var shipExplotion : Explotion = Explotion(_explotionsPool.getSprite());
+								addChild(shipExplotion);
+								shipExplotion.explode(enemyShip.x, enemyShip.y);
+								
+								var shipBurst : TextBurst = TextBurst(_textBurstsPool.getSprite());
+								addChild(shipBurst);
+								shipBurst.show(enemyShip.scoreValue + 'pts', enemyShip.x, enemyShip.y);
 	
 								removeChild(laser);
+								_lasersPool.returnSprite(laser);
 								_lasers.splice(i, 1);
 	
 								removeChild(enemyShip);
+								_enemiesPool.returnSprite(enemyShip);
 								_enemyShips.splice(j, 1);
 								continue;
 							}
@@ -313,13 +355,20 @@ package com.jonathantorres.spacecommand.levels
 								sumScore(asteroid.scoreValue);
 								_score.updateScore(gameScore);
 								
-								addChild(new Explotion(asteroid.x, asteroid.y));
-								addChild(new TextBurst(asteroid.scoreValue + 'pts', asteroid.x, asteroid.y));
+								var asteroidExplotion : Explotion = Explotion(_explotionsPool.getSprite());
+								addChild(asteroidExplotion);
+								asteroidExplotion.explode(asteroid.x, asteroid.y);
+								
+								var asteroidBurst : TextBurst = TextBurst(_textBurstsPool.getSprite());
+								addChild(asteroidBurst);
+								asteroidBurst.show(asteroid.scoreValue + 'pts', asteroid.x, asteroid.y);
 	
 								removeChild(asteroid);
+								_asteroidsPool.returnSprite(asteroid);
 								_asteroids.splice(k, 1);
 	
 								removeChild(laser);
+								_lasersPool.returnSprite(laser);
 								_lasers.splice(i, 1);
 								continue;
 							}
@@ -334,6 +383,7 @@ package com.jonathantorres.spacecommand.levels
 					// enemy laser is off the stage
 					if (laser.x <= 0) {
 						removeChild(laser);
+						_lasersPool.returnSprite(laser);
 						_lasers.splice(i, 1);
 						continue;
 					}
@@ -347,6 +397,7 @@ package com.jonathantorres.spacecommand.levels
 							removeProtectingLifeforce();
 
 							removeChild(laser);
+							_lasersPool.returnSprite(laser);
 							_lasers.splice(i, 1);
 							continue;
 						}
@@ -367,6 +418,7 @@ package com.jonathantorres.spacecommand.levels
 				if (stage != null) {
 					if (missile.x >= stage.stageWidth) {
 						removeChild(missile);
+						_missilesPool.returnSprite(missile);
 						_missiles.splice(u, 1);
 						continue;
 					}
@@ -384,13 +436,20 @@ package com.jonathantorres.spacecommand.levels
 							sumScore(theEnemyShip.scoreValue);
 							_score.updateScore(gameScore);
 							
-							addChild(new Explotion(theEnemyShip.x, theEnemyShip.y));
-							addChild(new TextBurst(theEnemyShip.scoreValue + 'pts', theEnemyShip.x, theEnemyShip.y));
+							var enemyExplotion : Explotion = Explotion(_explotionsPool.getSprite());
+							addChild(enemyExplotion);
+							enemyExplotion.explode(theEnemyShip.x, theEnemyShip.y);
+							
+							var enemyBurst : TextBurst = TextBurst(_textBurstsPool.getSprite());
+							addChild(enemyBurst);
+							enemyBurst.show(theEnemyShip.scoreValue + 'pts', theEnemyShip.x, theEnemyShip.y);
 
 							removeChild(missile);
+							_missilesPool.returnSprite(missile);
 							_missiles.splice(u, 1);
 
 							removeChild(theEnemyShip);
+							_enemiesPool.returnSprite(theEnemyShip);
 							_enemyShips.splice(v, 1);
 							continue;
 						}
@@ -408,6 +467,7 @@ package com.jonathantorres.spacecommand.levels
 				// enemy ship is off the stage
 				if (enemy.x + enemy.width <= 0) {
 					removeChild(enemy);
+					_enemiesPool.returnSprite(enemy);
 					_enemyShips.splice(l, 1);
 					continue;
 				}
@@ -420,13 +480,16 @@ package com.jonathantorres.spacecommand.levels
 						// decrease player life
 						if (!_shipIsProtected) enableLessDamage(enemy.damage);
 						
-						addChild(new Explotion(enemy.x, enemy.y));
+						var enemyShipExplotion : Explotion = Explotion(_explotionsPool.getSprite());
+						addChild(enemyShipExplotion);
+						enemyShipExplotion.explode(enemy.x, enemy.y);
 						removeProtectingLifeforce();
 
 						removeChild(enemy);
+						_enemiesPool.returnSprite(enemy);
 						_enemyShips.splice(l, 1);
 						continue;
-					} 
+					}
 				}
 			}
 			
@@ -440,6 +503,7 @@ package com.jonathantorres.spacecommand.levels
 				// asteroid is off the stage
 				if (theAsteroid.x + theAsteroid.width <= 0) {
 					removeChild(theAsteroid);
+					_asteroidsPool.returnSprite(theAsteroid);
 					_asteroids.splice(m, 1);
 					continue;
 				}
@@ -452,10 +516,13 @@ package com.jonathantorres.spacecommand.levels
 						// decrease player life
 						if (!_shipIsProtected) enableLessDamage(theAsteroid.damage);
 						
-						addChild(new Explotion(theAsteroid.x, theAsteroid.y));
+						var asteExplotion : Explotion = Explotion(_explotionsPool.getSprite());
+						addChild(asteExplotion);
+						asteExplotion.explode(theAsteroid.x, theAsteroid.y);
 						removeProtectingLifeforce();
 
 						removeChild(theAsteroid);
+						_asteroidsPool.returnSprite(theAsteroid);
 						_asteroids.splice(m, 1);
 						continue;
 					}
@@ -472,6 +539,7 @@ package com.jonathantorres.spacecommand.levels
 				// healthbar is off the stage
 				if (healthbar.x + healthbar.width <= 0) {
 					removeChild(healthbar);
+					_healthbarsPool.returnSprite(healthbar);
 					_healthbars.splice(n, 1);
 					continue;
 				}
@@ -483,9 +551,13 @@ package com.jonathantorres.spacecommand.levels
 					if (_playerShipRect.intersects(healthbarRect)) {
 						// increase player life
 						_lifebar.increaseLife(healthbar.lifeIncrease);
-						addChild(new TextBurst('Health Increase!', _playerShip.x, _playerShip.y));
+						
+						var healthBurst : TextBurst = TextBurst(_textBurstsPool.getSprite());
+						addChild(healthBurst);
+						healthBurst.show('Health Increase!', _playerShip.x, _playerShip.y);
 
 						removeChild(healthbar);
+						_healthbarsPool.returnSprite(healthbar);
 						_healthbars.splice(n, 1);
 						continue;
 					}
@@ -502,6 +574,7 @@ package com.jonathantorres.spacecommand.levels
 				// lifeforce is off the stage
 				if (lifeforce.x + lifeforce.width <= 0) {
 					removeChild(lifeforce);
+					_lifeforcesPool.returnSprite(lifeforce);
 					_lifeforces.splice(o, 1);
 					continue;
 				}
@@ -512,9 +585,13 @@ package com.jonathantorres.spacecommand.levels
 
 					if (_playerShipRect.intersects(lifeforceRect)) {
 						addProtectingLifeforce();
-						addChild(new TextBurst('Lifeforce!', _playerShip.x, _playerShip.y));
+						
+						var lifeBurst : TextBurst = TextBurst(_textBurstsPool.getSprite());
+						addChild(lifeBurst);
+						lifeBurst.show('Lifeforce!', _playerShip.x, _playerShip.y);
 						
 						removeChild(lifeforce);
+						_lifeforcesPool.returnSprite(lifeforce);
 						_lifeforces.splice(o, 1);
 						continue;
 					}
@@ -531,6 +608,7 @@ package com.jonathantorres.spacecommand.levels
 				// icon is off the stage
 				if (lessDamage.x + lessDamage.width <= 0) {
 					removeChild(lessDamage);
+					_lessDamageIconsPool.returnSprite(lessDamage);
 					_lessDamageIcons.splice(p, 1);
 					continue;
 				}
@@ -540,9 +618,13 @@ package com.jonathantorres.spacecommand.levels
 					var lessDamageRect : Rectangle = lessDamage.getBounds(this.parent);
 
 					if (_playerShipRect.intersects(lessDamageRect)) {
-						addChild(new TextBurst('Less Damage!', _playerShip.x, _playerShip.y));
+						var damageBurst : TextBurst = TextBurst(_textBurstsPool.getSprite());
+						addChild(damageBurst);
+						damageBurst.show('Less Damage!', _playerShip.x, _playerShip.y);
+						
 						if (!_lessDamageEnabled) _lessDamageEnabled = true;
 						removeChild(lessDamage);
+						_lessDamageIconsPool.returnSprite(lessDamage);
 						_lessDamageIcons.splice(p, 1);
 						continue;
 					}
@@ -559,6 +641,7 @@ package com.jonathantorres.spacecommand.levels
 				// icon is off the stage
 				if (tripleLaser.x + tripleLaser.width <= 0) {
 					removeChild(tripleLaser);
+					_tripleLaserIconsPool.returnSprite(tripleLaser);
 					_tripleLaserIcons.splice(q, 1);
 					continue;
 				}
@@ -571,9 +654,12 @@ package com.jonathantorres.spacecommand.levels
 						if (_playerShip.state != PlayerShipStates.TRIPLE_LASER) 
 							_playerShip.morph(PlayerShipStates.TRIPLE_LASER);
 						
-						addChild(new TextBurst('Triple Laser!', _playerShip.x, _playerShip.y));
+						var tripleBurst : TextBurst = TextBurst(_textBurstsPool.getSprite());
+						addChild(tripleBurst);
+						tripleBurst.show('Triple Laser!', _playerShip.x, _playerShip.y);
 						
 						removeChild(tripleLaser);
+						_tripleLaserIconsPool.returnSprite(tripleLaser);
 						_tripleLaserIcons.splice(q, 1);
 						continue;
 					}
@@ -590,6 +676,7 @@ package com.jonathantorres.spacecommand.levels
 				// icon is off the stage
 				if (doubleMissile.x + doubleMissile.width <= 0) {
 					removeChild(doubleMissile);
+					_doubleMissileIconsPool.returnSprite(doubleMissile);
 					_doubleMissileIcons.splice(r, 1);
 					continue;
 				}
@@ -602,9 +689,12 @@ package com.jonathantorres.spacecommand.levels
 						if (_playerShip.state != PlayerShipStates.DOUBLE_MISSILE)
 							_playerShip.morph(PlayerShipStates.DOUBLE_MISSILE);
 						
-						addChild(new TextBurst('Double Missile!', _playerShip.x, _playerShip.y));
+						var doubleBurst : TextBurst = TextBurst(_textBurstsPool.getSprite());
+						addChild(doubleBurst);
+						doubleBurst.show('Double Missile!', _playerShip.x, _playerShip.y);
 						
 						removeChild(doubleMissile);
+						_doubleMissileIconsPool.returnSprite(doubleMissile);
 						_doubleMissileIcons.splice(r, 1);
 						continue;
 					}
@@ -621,6 +711,7 @@ package com.jonathantorres.spacecommand.levels
 				// icon is off the stage
 				if (doublePoints.x + doublePoints.width <= 0) {
 					removeChild(doublePoints);
+					_doublePointsIconsPool.returnSprite(doublePoints);
 					_doublePointsIcons.splice(s, 1);
 					continue;
 				}
@@ -630,9 +721,13 @@ package com.jonathantorres.spacecommand.levels
 					var doublePointsRect : Rectangle = doublePoints.getBounds(this.parent);
 
 					if (_playerShipRect.intersects(doublePointsRect)) {
-						addChild(new TextBurst('Double Points!', _playerShip.x, _playerShip.y));
+						var doublePointBurst : TextBurst = TextBurst(_textBurstsPool.getSprite());
+						addChild(doublePointBurst);
+						doublePointBurst.show('Double Points!', _playerShip.x, _playerShip.y);
+						
 						if (!_doublePointsEnabled) enableDoublePoints();
 						removeChild(doublePoints);
+						_doublePointsIconsPool.returnSprite(doublePoints);
 						_doublePointsIcons.splice(s, 1);
 						continue;
 					}
@@ -649,6 +744,7 @@ package com.jonathantorres.spacecommand.levels
 				// icon is off the stage
 				if (triplePoints.x + triplePoints.width <= 0) {
 					removeChild(triplePoints);
+					_triplePointsIconsPool.returnSprite(triplePoints);
 					_triplePointsIcons.splice(t, 1);
 					continue;
 				}
@@ -658,9 +754,13 @@ package com.jonathantorres.spacecommand.levels
 					var triplePointsRect : Rectangle = triplePoints.getBounds(this.parent);
 
 					if (_playerShipRect.intersects(triplePointsRect)) {
-						addChild(new TextBurst('Triple Points!', _playerShip.x, _playerShip.y));
+						var triplePointBurst : TextBurst = TextBurst(_textBurstsPool.getSprite());
+						addChild(triplePointBurst);
+						triplePointBurst.show('Triple Points!', _playerShip.x, _playerShip.y);
+						
 						if (!_triplePointsEnabled) enableTriplePoints();
 						removeChild(triplePoints);
+						_triplePointsIconsPool.returnSprite(triplePoints);
 						_triplePointsIcons.splice(t, 1);
 						continue;
 					}
@@ -733,6 +833,7 @@ package com.jonathantorres.spacecommand.levels
 					var laser : Laser = Laser(_lasers[i]);
 					if (laser != null) {
 						removeChild(laser);
+						_lasersPool.returnSprite(laser);
 						_lasers.splice(i, 1);
 					}
 				}
@@ -744,6 +845,7 @@ package com.jonathantorres.spacecommand.levels
 					var missile : Missile = Missile(_missiles[t]);
 					if (missile != null) {
 						removeChild(missile);
+						_missilesPool.returnSprite(missile);
 						_missiles.splice(t, 1);
 					}
 				}
@@ -755,6 +857,7 @@ package com.jonathantorres.spacecommand.levels
 					var enemyShip : EnemyShip = EnemyShip(_enemyShips[j]);
 					if (enemyShip != null) {
 						removeChild(enemyShip);
+						_enemiesPool.returnSprite(enemyShip);
 						_enemyShips.splice(j, 1);
 					}
 				}
@@ -765,6 +868,7 @@ package com.jonathantorres.spacecommand.levels
 				for (var l : int = 0; l < _asteroids.length; l++) {
 					if (_asteroids[l] != null) {
 						removeChild(_asteroids[l]);
+						_asteroidsPool.returnSprite(_asteroids[l]);
 						_asteroids.splice(l, 1);
 					}
 				}
@@ -775,6 +879,7 @@ package com.jonathantorres.spacecommand.levels
 				for (var m : int = 0; m < _healthbars.length; m++) {
 					if (_healthbars[m] != null) {
 						removeChild(_healthbars[m]);
+						_healthbarsPool.returnSprite(_healthbars[m]);
 						_healthbars.splice(m, 1);
 					}
 				}
@@ -785,6 +890,7 @@ package com.jonathantorres.spacecommand.levels
 				for (var n : int = 0; n < _lifeforces.length; n++) {
 					if (_lifeforces[n] != null) {
 						removeChild(_lifeforces[n]);
+						_lifeforcesPool.returnSprite(_lifeforces[n]);
 						_lifeforces.splice(n, 1);
 					}
 				}
@@ -795,6 +901,7 @@ package com.jonathantorres.spacecommand.levels
 				for (var o : int = 0; o < _lessDamageIcons.length; o++) {
 					if (_lessDamageIcons[o] != null) {
 						removeChild(_lessDamageIcons[o]);
+						_lessDamageIconsPool.returnSprite(_lessDamageIcons[0]);
 						_lessDamageIcons.splice(o, 1);
 					}
 				}
@@ -805,6 +912,7 @@ package com.jonathantorres.spacecommand.levels
 				for (var p : int = 0; p < _tripleLaserIcons.length; p++) {
 					if (_tripleLaserIcons[p] != null) {
 						removeChild(_tripleLaserIcons[p]);
+						_tripleLaserIconsPool.returnSprite(_tripleLaserIcons[p]);
 						_tripleLaserIcons.splice(p, 1);
 					}
 				}
@@ -815,6 +923,7 @@ package com.jonathantorres.spacecommand.levels
 				for (var q : int = 0; q < _doubleMissileIcons.length; q++) {
 					if (_doubleMissileIcons[q] != null) {
 						removeChild(_doubleMissileIcons[q]);
+						_doubleMissileIconsPool.returnSprite(_doubleMissileIcons[q]);
 						_doubleMissileIcons.splice(q, 1);
 					}
 				}
@@ -825,6 +934,7 @@ package com.jonathantorres.spacecommand.levels
 				for (var r : int = 0; r < _doublePointsIcons.length; r++) {
 					if (_doublePointsIcons[r] != null) {
 						removeChild(_doublePointsIcons[r]);
+						_doublePointsIconsPool.returnSprite(_doublePointsIcons[r]);
 						_doublePointsIcons.splice(r, 1);
 					}
 				}
@@ -835,6 +945,7 @@ package com.jonathantorres.spacecommand.levels
 				for (var s : int = 0; s < _triplePointsIcons.length; s++) {
 					if (_triplePointsIcons[s] != null) {
 						removeChild(_triplePointsIcons[s]);
+						_triplePointsIconsPool.returnSprite(_triplePointsIcons[s]);
 						_triplePointsIcons.splice(s, 1);
 					}
 				}
@@ -970,7 +1081,7 @@ package com.jonathantorres.spacecommand.levels
 		 */
 		private function onLifeforceDeploymentTimer(event : TimerEvent) : void
 		{
-			var lifeforce : Lifeforce = new Lifeforce();
+			var lifeforce : Lifeforce = Lifeforce(_lifeforcesPool.getSprite());
 			lifeforce.x = stage.stageWidth + (lifeforce.width) + 20;
 			lifeforce.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(lifeforce);
@@ -983,7 +1094,9 @@ package com.jonathantorres.spacecommand.levels
 		 */
 		private function onAsteroidDeploymentTimer(event : TimerEvent) : void
 		{
-			var asteroid : Asteroid = new Asteroid(_typesOfAsteroids[Math.floor(Math.random() * _typesOfAsteroids.length)], asteroidsSpeed);
+			var asteroid : Asteroid = Asteroid(_asteroidsPool.getSprite());
+			asteroid.size = _typesOfAsteroids[Math.floor(Math.random() * _typesOfAsteroids.length)];
+			asteroid.speed = asteroidsSpeed;
 			asteroid.x = stage.stageWidth + (asteroid.width) + 50;
 			asteroid.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(asteroid);
@@ -1001,7 +1114,7 @@ package com.jonathantorres.spacecommand.levels
 		 */
 		private function onHealthbarDeploymentTimer(event : TimerEvent) : void
 		{
-			var healthbar : Health = new Health();
+			var healthbar : Health = Health(_healthbarsPool.getSprite());
 			healthbar.x = stage.stageWidth + healthbar.width;
 			healthbar.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(healthbar);
@@ -1014,7 +1127,7 @@ package com.jonathantorres.spacecommand.levels
 		 */
 		private function onLessDamageIconDeploymentTimer(event : TimerEvent) : void
 		{
-			var lessDamage : LessDamage = new LessDamage();
+			var lessDamage : LessDamage = LessDamage(_lessDamageIconsPool.getSprite());
 			lessDamage.x = stage.stageWidth + lessDamage.width;
 			lessDamage.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(lessDamage);
@@ -1027,7 +1140,7 @@ package com.jonathantorres.spacecommand.levels
 		 */
 		private function onTripleLaserIconDeploymentTimer(event : TimerEvent) : void
 		{
-			var tripleLaser : TripleLasers = new TripleLasers();
+			var tripleLaser : TripleLasers = TripleLasers(_tripleLaserIconsPool.getSprite());
 			tripleLaser.x = stage.stageWidth + tripleLaser.width;
 			tripleLaser.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(tripleLaser);
@@ -1040,7 +1153,7 @@ package com.jonathantorres.spacecommand.levels
 		 */
 		private function onDoubleMissileIconDeploymentTimer(event : TimerEvent) : void
 		{
-			var doubleMissile : DoubleMissile = new DoubleMissile();
+			var doubleMissile : DoubleMissile = DoubleMissile(_doubleMissileIconsPool.getSprite());
 			doubleMissile.x = stage.stageWidth + doubleMissile.width;
 			doubleMissile.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(doubleMissile);
@@ -1053,7 +1166,7 @@ package com.jonathantorres.spacecommand.levels
 		 */
 		private function onDoublePointIconDeploymentTimer(event : TimerEvent) : void
 		{
-			var doublePoints : DoublePoints = new DoublePoints();
+			var doublePoints : DoublePoints = DoublePoints(_doublePointsIconsPool.getSprite());
 			doublePoints.x = stage.stageWidth + doublePoints.width;
 			doublePoints.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(doublePoints);
@@ -1066,7 +1179,7 @@ package com.jonathantorres.spacecommand.levels
 		 */
 		private function onTriplePointIconDeploymentTimer(event : TimerEvent) : void
 		{
-			var triplePoints : TriplePoints = new TriplePoints();
+			var triplePoints : TriplePoints = TriplePoints(_triplePointsIconsPool.getSprite());
 			triplePoints.x = stage.stageWidth + triplePoints.width;
 			triplePoints.y = Math.random() * (360 - 50 + 1) + 50;
 			addChild(triplePoints);
@@ -1086,13 +1199,14 @@ package com.jonathantorres.spacecommand.levels
 			else
 				typeOfEnemy = typesOfEnemies[Math.floor(Math.random() * typesOfEnemies.length)];
 			
-			var enemyShip : EnemyShip = new EnemyShip(typeOfEnemy,
-													  colorsOfEnemies[Math.floor(Math.random() * colorsOfEnemies.length)],
-													  enemyShootingInterval,
-													  enemiesSpeed);
-													  
+			var enemyShip : EnemyShip = EnemyShip(_enemiesPool.getSprite());
+			enemyShip.type = typeOfEnemy;
+			enemyShip.color = colorsOfEnemies[Math.floor(Math.random() * colorsOfEnemies.length)];
+			enemyShip.shootingInterval = enemyShootingInterval;
+			enemyShip.speed = enemiesSpeed;
 			enemyShip.x = stage.stageWidth + enemyShip.width;
 			enemyShip.y = Math.random() * (360 - 50 + 1) + 50;
+			enemyShip.initShooting();
 			addChild(enemyShip);
 
 			_enemyShips.push(enemyShip);
@@ -1129,6 +1243,46 @@ package com.jonathantorres.spacecommand.levels
 		public function set missiles(missiles : Array) : void
 		{
 			_missiles = missiles;
+		}
+
+		public function get lasersPool() : SpritePool
+		{
+			return _lasersPool;
+		}
+
+		public function set lasersPool(lasersPool : SpritePool) : void
+		{
+			_lasersPool = lasersPool;
+		}
+
+		public function get missilesPool() : SpritePool
+		{
+			return _missilesPool;
+		}
+
+		public function set missilesPool(missilesPool : SpritePool) : void
+		{
+			_missilesPool = missilesPool;
+		}
+
+		public function get explotionsPool() : SpritePool
+		{
+			return _explotionsPool;
+		}
+
+		public function set explotionsPool(explotionsPool : SpritePool) : void
+		{
+			_explotionsPool = explotionsPool;
+		}
+
+		public function get textBurstsPool() : SpritePool
+		{
+			return _textBurstsPool;
+		}
+
+		public function set textBurstsPool(textBurstsPool : SpritePool) : void
+		{
+			_textBurstsPool = textBurstsPool;
 		}
 	}
 }

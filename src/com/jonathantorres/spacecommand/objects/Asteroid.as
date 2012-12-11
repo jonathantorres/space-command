@@ -24,14 +24,15 @@ package com.jonathantorres.spacecommand.objects
 		public var scoreValue : uint = 30;
 		public var damage : uint;
 		
-		public function Asteroid(size : String, speed : Number = 0.01)
+		public function Asteroid(size : String = AsteroidSizes.SMALL, speed : Number = 0.01)
 		{
 			super();
 			_size = size;
 			_speed = speed;
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			this.addEventListener(Event.REMOVED_FROM_STAGE, onRemovedFromStage);
 		}
-		
+
 		private function init() : void
 		{
 			_gameElements = new TextureAtlas(Assets.getTexture('GameElements'), Assets.getTextureXML('GameElementsXML'));
@@ -69,7 +70,37 @@ package com.jonathantorres.spacecommand.objects
 
 		private function onAddedToStage(event : Event) : void
 		{
+			this.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			init();
+		}
+		
+		private function onRemovedFromStage(event : Event) : void
+		{
+			_vx = 0.0;
+			_vy = 0.0;
+		}
+
+		/*
+		 * Getters and setters 
+		 */
+		public function get size() : String
+		{
+			return _size;
+		}
+
+		public function set size(size : String) : void
+		{
+			_size = size;
+		}
+
+		public function get speed() : Number
+		{
+			return _speed;
+		}
+
+		public function set speed(speed : Number) : void
+		{
+			_speed = speed;
 		}
 	}
 }

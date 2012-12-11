@@ -1,5 +1,6 @@
 package com.jonathantorres.spacecommand.objects
 {
+	import com.jonathantorres.spacecommand.levels.Level;
 	import starling.core.Starling;
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -12,23 +13,26 @@ package com.jonathantorres.spacecommand.objects
 	 */
 	public class Explotion extends Sprite
 	{
-		private var _parent : Sprite;
+		private var _parent : Level;
 		private var _explotion : PDParticleSystem;
 		private var _x : Number;
 		private var _y : Number;
 		
-		public function Explotion(x : Number, y : Number)
+		public function Explotion()
 		{
 			super();
-			_x = x;
-			_y = y;
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
 		private function init() : void
 		{
-			_parent = Sprite(this.parent);
-			
+			_parent = Level(this.parent);
+		}
+		
+		public function explode(x : Number, y : Number) : void
+		{
+			_x = x;
+			_y = y;
 			this.x = _x;
 			this.y = _y;
 			
@@ -45,10 +49,12 @@ package com.jonathantorres.spacecommand.objects
 		private function onParticleCompleted(event : Event) : void
 		{
 			_parent.removeChild(this);
+			_parent.explotionsPool.returnSprite(this);
 		}
 
 		private function onAddedToStage(event : Event) : void
 		{
+			this.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			init();
 		}
 	}

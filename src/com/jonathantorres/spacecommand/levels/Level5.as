@@ -65,6 +65,7 @@ package com.jonathantorres.spacecommand.levels
 			trace('Level: ' + gameLevel);
 			
 			addUI();
+			initPools();
 			initLasers();
 			initMissiles();
 			initEnemies();

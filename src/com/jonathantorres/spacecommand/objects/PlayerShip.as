@@ -240,7 +240,7 @@ package com.jonathantorres.spacecommand.objects
 		
 		private function createMissile(x : Number, y : Number) : void
 		{
-			var missile : Missile = new Missile();
+			var missile : Missile = Missile(_parent.missilesPool.getSprite());
 			missile.x = x;
 			missile.y = y;
 			_parent.addChild(missile);
@@ -249,10 +249,12 @@ package com.jonathantorres.spacecommand.objects
 
 		private function createLaser(x : Number, y : Number) : void
 		{
-			var laser : Laser = new Laser(LaserColors.PLAYER);
+			var laser : Laser = Laser(_parent.lasersPool.getSprite());
+			laser.color = LaserColors.PLAYER;
 			laser.x = x;
 			laser.y = y;
 			_parent.addChild(laser);
+			laser.updateTexture();
 			_parent.lasers.push(laser);
 		}
 		

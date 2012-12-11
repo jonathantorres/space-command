@@ -39,7 +39,10 @@ package com.jonathantorres.spacecommand.objects
 		public var scoreValue : uint = 50;
 		public var damage : uint = 15;
 		
-		public function EnemyShip(type : String, color : String, shootingInterval : Number, speed : Number = 0.01)
+		public function EnemyShip(type : String = EnemyTypes.ENEMY_TYPE1, 
+								  color : String = EnemyShipColors.BLUE, 
+								  shootingInterval : Number = 1000, 
+								  speed : Number = 0.01)
 		{
 			super();
 			_type = type;
@@ -74,10 +77,6 @@ package com.jonathantorres.spacecommand.objects
 			}
 			
 			addChild(_ship);
-			
-			_shootTimer = new Timer(_shootingInterval);
-			_shootTimer.addEventListener(TimerEvent.TIMER, onShootTimer);
-			_shootTimer.start();
 			
 			_parent = Level(this.parent);
 		}
@@ -191,12 +190,21 @@ package com.jonathantorres.spacecommand.objects
 					break;
 			}
 			
-			var laser : Laser = new Laser(laserColor);
+			var laser : Laser = Laser(_parent.lasersPool.getSprite());
+			laser.color = laserColor;
+			laser.damage = damage;
 			laser.x = this.x - 5;
 			laser.y = this.y - 3;
-			laser.damage = damage;
 			_parent.addChild(laser);
+			laser.updateTexture();
 			_parent.lasers.push(laser);
+		}
+		
+		public function initShooting() : void
+		{
+			_shootTimer = new Timer(_shootingInterval);
+			_shootTimer.addEventListener(TimerEvent.TIMER, onShootTimer);
+			_shootTimer.start();
 		}
 		
 		private function onShootTimer(event : TimerEvent) : void
@@ -209,11 +217,58 @@ package com.jonathantorres.spacecommand.objects
 			_shootTimer.stop();
 			_shootTimer.removeEventListener(TimerEvent.TIMER, onShootTimer);
 			_shootTimer = null;
+			
+			_vx = 0.0;
+			_vy = 0.0;
 		}
 
 		private function onAddedToStage(event : Event) : void
 		{
+			this.removeEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 			init();
+		}
+
+		/*
+		 * Getters and setters 
+		 */
+		public function get type() : String
+		{
+			return _type;
+		}
+
+		public function set type(type : String) : void
+		{
+			_type = type;
+		}
+
+		public function get color() : String
+		{
+			return _color;
+		}
+
+		public function set color(color : String) : void
+		{
+			_color = color;
+		}
+
+		public function get shootingInterval() : Number
+		{
+			return _shootingInterval;
+		}
+
+		public function set shootingInterval(shootingInterval : Number) : void
+		{
+			_shootingInterval = shootingInterval;
+		}
+
+		public function get speed() : Number
+		{
+			return _speed;
+		}
+
+		public function set speed(speed : Number) : void
+		{
+			_speed = speed;
 		}
 	}
 }
