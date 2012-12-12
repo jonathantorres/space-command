@@ -1,10 +1,5 @@
 package com.jonathantorres.spacecommand.menu
 {
-	import com.jonathantorres.spacecommand.Assets;
-	import com.jonathantorres.spacecommand.SpaceCommand;
-	import com.jonathantorres.spacecommand.levels.Level1;
-	import com.jonathantorres.spacecommand.ui.SpaceStars;
-	import com.jonathantorres.spacecommand.ui.bg.SpaceBackground;
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
 	import starling.core.Starling;
@@ -16,6 +11,12 @@ package com.jonathantorres.spacecommand.menu
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;
 	import starling.textures.TextureAtlas;
+
+	import com.jonathantorres.spacecommand.SpaceCommand;
+	import com.jonathantorres.spacecommand.levels.Level1;
+	import com.jonathantorres.spacecommand.ui.SpaceStars;
+	import com.jonathantorres.spacecommand.ui.bg.SpaceBackground;
+	import com.jonathantorres.spacecommand.utils.GameElements;
 
 
 	/**
@@ -38,7 +39,7 @@ package com.jonathantorres.spacecommand.menu
 
 		private function init() : void
 		{
-			_ui = new TextureAtlas(Assets.getTexture('UI'), Assets.getTextureXML('UIXML'));
+			_ui = GameElements.ui;
 			
 			_menuItemsNames = new Array(
 					{ upState : 'play_btn_normal', overState : 'play_btn_over', sprite : Level1 }, 

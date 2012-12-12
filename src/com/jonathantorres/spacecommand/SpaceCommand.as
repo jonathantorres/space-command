@@ -1,5 +1,6 @@
 package com.jonathantorres.spacecommand
 {
+	import com.jonathantorres.spacecommand.utils.GameElements;
 	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.Image;
@@ -32,6 +33,8 @@ package com.jonathantorres.spacecommand
 		
 		private function init() : void
 		{
+			GameElements.init();
+			
 			_bg = new SpaceBackground();
 			addChild(_bg);
 			

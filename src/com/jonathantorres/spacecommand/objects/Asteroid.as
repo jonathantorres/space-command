@@ -5,8 +5,8 @@ package com.jonathantorres.spacecommand.objects
 	import starling.events.Event;
 	import starling.textures.TextureAtlas;
 
-	import com.jonathantorres.spacecommand.Assets;
 	import com.jonathantorres.spacecommand.consts.AsteroidSizes;
+	import com.jonathantorres.spacecommand.utils.GameElements;
 
 	/**
 	 * @author Jonathan Torres
@@ -35,7 +35,7 @@ package com.jonathantorres.spacecommand.objects
 
 		private function init() : void
 		{
-			_gameElements = new TextureAtlas(Assets.getTexture('GameElements'), Assets.getTextureXML('GameElementsXML'));
+			_gameElements = GameElements.gameElements;
 			
 			switch(_size) {
 				case AsteroidSizes.SMALL :

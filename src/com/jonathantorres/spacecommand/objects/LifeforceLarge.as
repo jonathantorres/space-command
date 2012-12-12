@@ -1,11 +1,12 @@
 package com.jonathantorres.spacecommand.objects
 {
-	import starling.textures.TextureSmoothing;
 	import starling.display.Image;
-	import com.jonathantorres.spacecommand.Assets;
-	import starling.textures.TextureAtlas;
-	import starling.events.Event;
 	import starling.display.Sprite;
+	import starling.events.Event;
+	import starling.textures.TextureAtlas;
+	import starling.textures.TextureSmoothing;
+
+	import com.jonathantorres.spacecommand.utils.GameElements;
 
 	/**
 	 * @author Jonathan Torres
@@ -23,7 +24,7 @@ package com.jonathantorres.spacecommand.objects
 		
 		private function init() : void
 		{
-			_gameElements = new TextureAtlas(Assets.getTexture('GameElements'), Assets.getTextureXML('GameElementsXML'));
+			_gameElements = GameElements.gameElements;
 			
 			_lifeforce = new Image(_gameElements.getTexture('lifeforce_large'));
 			_lifeforce.smoothing = TextureSmoothing.BILINEAR;

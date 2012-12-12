@@ -1,5 +1,6 @@
 package com.jonathantorres.spacecommand.objects
 {
+	import com.jonathantorres.spacecommand.utils.GameElements;
 	import starling.core.Starling;
 	import starling.display.MovieClip;
 	import starling.display.Sprite;
@@ -65,7 +66,7 @@ package com.jonathantorres.spacecommand.objects
 			this.x = stage.stageWidth * 0.5;
 			this.y = stage.stageHeight * 0.5;
 			
-			_gameElements = new TextureAtlas(Assets.getTexture('GameElements'), Assets.getTextureXML('GameElementsXML'));
+			_gameElements = GameElements.gameElements;
 			
 			_isBlinking = false;
 			_isMorphing = false;

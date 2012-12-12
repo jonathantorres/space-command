@@ -1,10 +1,11 @@
 package com.jonathantorres.spacecommand.objects
 {
 	import starling.display.Image;
-	import com.jonathantorres.spacecommand.Assets;
-	import starling.textures.TextureAtlas;
-	import starling.events.Event;
 	import starling.display.Sprite;
+	import starling.events.Event;
+	import starling.textures.TextureAtlas;
+
+	import com.jonathantorres.spacecommand.utils.GameElements;
 
 	/**
 	 * @author Jonathan Torres
@@ -22,7 +23,7 @@ package com.jonathantorres.spacecommand.objects
 		
 		private function init() : void
 		{
-			_gameElements = new TextureAtlas(Assets.getTexture('GameElements'), Assets.getTextureXML('GameElementsXML'));
+			_gameElements = GameElements.gameElements;
 			_starImage = new Image(_gameElements.getTexture('big_star'));
 			addChild(_starImage);
 		}

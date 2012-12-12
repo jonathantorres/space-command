@@ -1,19 +1,20 @@
 package com.jonathantorres.spacecommand.objects
 {
-	import starling.utils.deg2rad;
 	import starling.core.Starling;
-	import starling.extensions.PDParticleSystem;
 	import starling.display.Image;
 	import starling.display.Sprite;
 	import starling.events.Event;
+	import starling.extensions.PDParticleSystem;
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
+	import starling.utils.deg2rad;
 
 	import com.jonathantorres.spacecommand.Assets;
 	import com.jonathantorres.spacecommand.consts.EnemyShipColors;
 	import com.jonathantorres.spacecommand.consts.EnemyTypes;
 	import com.jonathantorres.spacecommand.consts.LaserColors;
 	import com.jonathantorres.spacecommand.levels.Level;
+	import com.jonathantorres.spacecommand.utils.GameElements;
 
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
@@ -55,7 +56,7 @@ package com.jonathantorres.spacecommand.objects
 
 		private function init() : void
 		{
-			_gameElements = new TextureAtlas(Assets.getTexture('GameElements'), Assets.getTextureXML('GameElementsXML'));
+			_gameElements = GameElements.gameElements;
 			
 			_ship = new Image(getEnemyTexture(_color, _type));
 			_ship.x = 0;

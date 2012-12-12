@@ -11,7 +11,7 @@ package com.jonathantorres.spacecommand.menu
 	import starling.text.TextField;
 	import starling.textures.TextureAtlas;
 
-	import com.jonathantorres.spacecommand.Assets;
+	import com.jonathantorres.spacecommand.utils.GameElements;
 
 	/**
 	 * @author Jonathan Torres
@@ -29,7 +29,7 @@ package com.jonathantorres.spacecommand.menu
 		
 		private function init() : void
 		{
-			_ui = new TextureAtlas(Assets.getTexture('UI'), Assets.getTextureXML('UIXML'));
+			_ui = GameElements.ui;
 			
 			var txt : TextField = new TextField(200, 35, 'HIGHSCORES', 'Arial', 24, 0xFFFFFF);
 			txt.x = stage.stageWidth * 0.5 - txt.width * 0.5;
