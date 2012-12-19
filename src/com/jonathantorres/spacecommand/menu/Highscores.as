@@ -10,7 +10,10 @@ package com.jonathantorres.spacecommand.menu
 	import starling.events.TouchPhase;
 	import starling.text.TextField;
 	import starling.textures.TextureAtlas;
+	import starling.utils.HAlign;
+	import starling.utils.VAlign;
 
+	import com.jonathantorres.spacecommand.Assets;
 	import com.jonathantorres.spacecommand.utils.GameElements;
 
 	/**
@@ -20,6 +23,7 @@ package com.jonathantorres.spacecommand.menu
 	{
 		private var _backToMainMenu : Button;
 		private var _ui : TextureAtlas;
+		private var _highscoresTitle : TextField;
 		
 		public function Highscores()
 		{
@@ -29,13 +33,15 @@ package com.jonathantorres.spacecommand.menu
 		
 		private function init() : void
 		{
+			// Get assets
 			_ui = GameElements.ui;
 			
-			var txt : TextField = new TextField(200, 35, 'HIGHSCORES', 'Arial', 24, 0xFFFFFF);
-			txt.x = stage.stageWidth * 0.5 - txt.width * 0.5;
-			txt.y = stage.stageHeight * 0.5 - txt.height * 0.5;
-			txt.alpha = 0;
-			addChild(txt);
+			// Titles
+			_highscoresTitle = new TextField(250, 50, 'HIGHSCORES', Assets.getFont('BlairMD').fontName, 24, 0xFFFFFF);
+			_highscoresTitle.x = stage.stageWidth * 0.5 - _highscoresTitle.width * 0.5;
+			_highscoresTitle.y = (stage.stageHeight * 0.5 - _highscoresTitle.height * 0.5) - 50;
+			_highscoresTitle.alpha = 0;
+			addChild(_highscoresTitle);
 			
 			_backToMainMenu = new Button(_ui.getTexture('mainmenu_btn_normal'), '', _ui.getTexture('mainmenu_btn_over'));
 			_backToMainMenu.x = 10;
@@ -44,14 +50,32 @@ package com.jonathantorres.spacecommand.menu
 			_backToMainMenu.addEventListener(TouchEvent.TOUCH, onBackToMainTouch);
 			addChild(_backToMainMenu);
 			
-			var txtTween : Tween = new Tween(txt, 0.5);
-			txtTween.fadeTo(1);
-			Starling.juggler.add(txtTween);
+			// Add highscores
+			for (var i : int = 0; i < 10; i++) {
+				var nameText : TextField = new TextField(100, 30, String(i + 1) + '. JOHN', Assets.getFont('BlairMD').fontName, 11, 0xFFFFFF);
+				nameText.x = _highscoresTitle.x + 15;
+				nameText.y = (_highscoresTitle.y + _highscoresTitle.height) + i * (nameText.height / 1.6);
+				nameText.hAlign = HAlign.LEFT;
+				nameText.vAlign = VAlign.TOP;
+				addChild(nameText);
+				
+				var scoreText : TextField = new TextField(60, 30, String(Math.floor(Math.random() * 200000)), Assets.getFont('BlairMD').fontName, 11, 0xe34900);
+				scoreText.x = nameText.x + 160;
+				scoreText.y = nameText.y;
+				scoreText.hAlign = HAlign.RIGHT;
+				scoreText.vAlign = VAlign.TOP;
+				addChild(scoreText);
+			}
 			
+			// Animation of titles
 			var backToMainTween : Tween = new Tween(_backToMainMenu, 0.5);
 			backToMainTween.delay = 0.2;
 			backToMainTween.fadeTo(1);
 			Starling.juggler.add(backToMainTween);
+			
+			var highscoresTitleTween : Tween = new Tween(_highscoresTitle, 0.5);
+			highscoresTitleTween.fadeTo(1);
+			Starling.juggler.add(highscoresTitleTween);
 		}
 
 		private function onBackToMainTouch(event : TouchEvent) : void
