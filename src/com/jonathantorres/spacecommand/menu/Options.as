@@ -1,10 +1,5 @@
 package com.jonathantorres.spacecommand.menu
 {
-	import com.jonathantorres.spacecommand.utils.MouseMode;
-	import com.jonathantorres.spacecommand.utils.SoundManager;
-	import starling.utils.VAlign;
-	import starling.utils.HAlign;
-	import com.jonathantorres.spacecommand.Assets;
 	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.Button;
@@ -15,8 +10,13 @@ package com.jonathantorres.spacecommand.menu
 	import starling.events.TouchPhase;
 	import starling.text.TextField;
 	import starling.textures.TextureAtlas;
+	import starling.utils.HAlign;
+	import starling.utils.VAlign;
 
+	import com.jonathantorres.spacecommand.Assets;
 	import com.jonathantorres.spacecommand.utils.GameElements;
+	import com.jonathantorres.spacecommand.utils.MouseMode;
+	import com.jonathantorres.spacecommand.utils.SoundManager;
 
 	/**
 	 * @author Jonathan Torres
