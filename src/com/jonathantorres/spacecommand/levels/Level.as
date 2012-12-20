@@ -814,7 +814,7 @@ package com.jonathantorres.spacecommand.levels
 		{
 			_parent.removeChild(this);
 			trace('game over!');
-			_parent.addChild(new GameOver());
+			_parent.addChild(new GameOver(gameScore));
 		}
 		
 		/*
@@ -971,6 +971,21 @@ package com.jonathantorres.spacecommand.levels
 
 			_lifeforceDeployment.stop();
 			_lifeforceDeployment.removeEventListener(TimerEvent.TIMER, onLifeforceDeploymentTimer);
+			
+			_lessDamageIconDeployment.stop();
+			_lessDamageIconDeployment.removeEventListener(TimerEvent.TIMER, onLessDamageIconDeploymentTimer);
+			
+			_tripleLaserIconDeployment.stop();
+			_tripleLaserIconDeployment.removeEventListener(TimerEvent.TIMER, onTripleLaserIconDeploymentTimer);
+			
+			_doubleMissileIconDeployment.stop();
+			_doubleMissileIconDeployment.removeEventListener(TimerEvent.TIMER, onDoubleMissileIconDeploymentTimer);
+			
+			_doublePointIconDeployment.stop();
+			_doublePointIconDeployment.removeEventListener(TimerEvent.TIMER, onDoublePointIconDeploymentTimer);
+			
+			_triplePointIconDeployment.stop();
+			_triplePointIconDeployment.removeEventListener(TimerEvent.TIMER, onTriplePointIconDeploymentTimer);
 			
 			// remove the UI elements
 			removeChild(_lifebar);
