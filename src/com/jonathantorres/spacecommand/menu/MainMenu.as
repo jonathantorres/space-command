@@ -114,26 +114,32 @@ package com.jonathantorres.spacecommand.menu
 		
 		private function playGame(parentSprite : Sprite) : void
 		{
-			var logo : Image = SpaceCommand(parentSprite).logo;
-			var mainBG : SpaceBackground = SpaceCommand(parentSprite).bg;
-			var spaceStars : SpaceStars = SpaceCommand(parentSprite).spaceStars;
-			
-			var logoTween : Tween = new Tween(logo, 0.4);
-			logoTween.fadeTo(0);
-			Starling.juggler.add(logoTween);
-			
-			var mainBGTween : Tween = new Tween(mainBG, 0.4);
-			mainBGTween.delay = 0.2;
-			mainBGTween.fadeTo(0);
-			mainBGTween.onComplete = function() : void {
-				parentSprite.removeChild(logo);
-				parentSprite.removeChild(spaceStars);
-				parentSprite.removeChild(mainBG);
+			if (parentSprite is SpaceCommand) {
+				var logo : Image = SpaceCommand(parentSprite).logo;
+				var mainBG : SpaceBackground = SpaceCommand(parentSprite).bg;
+				var spaceStars : SpaceStars = SpaceCommand(parentSprite).spaceStars;
+				
+				var logoTween : Tween = new Tween(logo, 0.4);
+				logoTween.fadeTo(0);
+				Starling.juggler.add(logoTween);
+				
+				var mainBGTween : Tween = new Tween(mainBG, 0.4);
+				mainBGTween.delay = 0.2;
+				mainBGTween.fadeTo(0);
+				mainBGTween.onComplete = function() : void {
+					parentSprite.removeChild(logo);
+					parentSprite.removeChild(spaceStars);
+					parentSprite.removeChild(mainBG);
+					remove();
+					parentSprite.addChild(new Level1());
+				};
+				
+				Starling.juggler.add(mainBGTween);
+			} else {
+				SubmitScore(parentSprite).removeLogo();
 				remove();
 				parentSprite.addChild(new Level1());
-			};
-			
-			Starling.juggler.add(mainBGTween);
+			}
 		}
 		
 		private function remove() : void
