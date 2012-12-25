@@ -1,5 +1,9 @@
 package com.jonathantorres.spacecommand.menu
 {
+	import flash.net.URLLoader;
+	import flash.net.URLRequestMethod;
+	import flash.net.URLRequest;
+	import flash.net.URLVariables;
 	import flash.text.TextFormatAlign;
 	import flash.text.TextFormat;
 	import starling.core.Starling;
@@ -39,10 +43,12 @@ package com.jonathantorres.spacecommand.menu
 		private var _inputBg : Quad;
 		private var _inputName : flash.text.TextField;
 		private var _okButton : Button;
+		private var _score : Number;
 		
-		public function SubmitScore()
+		public function SubmitScore(score : Number)
 		{
 			super();
+			_score = score;
 			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
@@ -119,10 +125,20 @@ package com.jonathantorres.spacecommand.menu
 					removeChild(_submitButton);
 					Starling.current.nativeOverlay.removeChild(_inputName);
 					
+					// submit code
+					var variables : URLVariables = new URLVariables();
+					variables.us = _inputName.text;
+					variables.sc = _score;
+					
+					var request : URLRequest = new URLRequest('submitscore.php');
+					request.method = URLRequestMethod.POST;
+					request.data = variables;
+					
+					var url : URLLoader = new URLLoader(request);
+					
 					_writeNameTitle.width = 500;
 					_writeNameTitle.x = stage.stageWidth * 0.5 - _writeNameTitle.width * 0.5;
 					_writeNameTitle.text = 'your score has been submitted!';
-					trace('score submitted! :)');
 					
 					_okButton = new Button(_ui.getTexture('ok_btn_normal'), '', _ui.getTexture('ok_btn_over'));
 					_okButton.x = (stage.stageWidth * 0.5) - (_okButton.width * 0.5);

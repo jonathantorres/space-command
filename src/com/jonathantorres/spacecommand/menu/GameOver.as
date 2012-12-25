@@ -110,7 +110,7 @@ package com.jonathantorres.spacecommand.menu
 			if (touch.phase == TouchPhase.ENDED) {
 				if (target == _submitScoreButton) {
 					parentSprite.removeChild(this);
-					parentSprite.addChild(new SubmitScore());
+					parentSprite.addChild(new SubmitScore(_score));
 				}
 				
 				if (target == _restartGameButton) {
