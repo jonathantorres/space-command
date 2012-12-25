@@ -1,5 +1,8 @@
 package com.jonathantorres.spacecommand.menu
 {
+	import flash.events.Event;
+	import flash.net.URLRequest;
+	import flash.net.URLLoader;
 	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.Button;
@@ -24,11 +27,12 @@ package com.jonathantorres.spacecommand.menu
 		private var _backToMainMenu : Button;
 		private var _ui : TextureAtlas;
 		private var _highscoresTitle : TextField;
+		private var _XMLLoader : URLLoader;
 		
 		public function Highscores()
 		{
 			super();
-			this.addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+			this.addEventListener(starling.events.Event.ADDED_TO_STAGE, onAddedToStage);
 		}
 		
 		private function init() : void
@@ -50,22 +54,9 @@ package com.jonathantorres.spacecommand.menu
 			_backToMainMenu.addEventListener(TouchEvent.TOUCH, onBackToMainTouch);
 			addChild(_backToMainMenu);
 			
-			// Add highscores
-			for (var i : int = 0; i < 10; i++) {
-				var nameText : TextField = new TextField(100, 30, String(i + 1) + '. JOHN', Assets.getFont('BlairMD').fontName, 11, 0xFFFFFF);
-				nameText.x = _highscoresTitle.x + 15;
-				nameText.y = (_highscoresTitle.y + _highscoresTitle.height) + i * (nameText.height / 1.6);
-				nameText.hAlign = HAlign.LEFT;
-				nameText.vAlign = VAlign.TOP;
-				addChild(nameText);
-				
-				var scoreText : TextField = new TextField(60, 30, String(Math.floor(Math.random() * 200000)), Assets.getFont('BlairMD').fontName, 11, 0xe34900);
-				scoreText.x = nameText.x + 160;
-				scoreText.y = nameText.y;
-				scoreText.hAlign = HAlign.RIGHT;
-				scoreText.vAlign = VAlign.TOP;
-				addChild(scoreText);
-			}
+			// Get XML
+			_XMLLoader = new URLLoader(new URLRequest('highscores.xml'));
+			_XMLLoader.addEventListener(flash.events.Event.COMPLETE, onXMLComplete);
 			
 			// Animation of titles
 			var backToMainTween : Tween = new Tween(_backToMainMenu, 0.5);
@@ -76,6 +67,29 @@ package com.jonathantorres.spacecommand.menu
 			var highscoresTitleTween : Tween = new Tween(_highscoresTitle, 0.5);
 			highscoresTitleTween.fadeTo(1);
 			Starling.juggler.add(highscoresTitleTween);
+		}
+
+		private function onXMLComplete(event : flash.events.Event) : void
+		{
+			var xml : XML = XML(_XMLLoader.data);
+			var xmlList : XMLList = xml.score;
+			
+			// Add highscores
+			for (var i : int = 0; i < xmlList.length(); i++) {
+				var nameText : TextField = new TextField(150, 30, String(i + 1) + '. ' + xmlList[i].username, Assets.getFont('BlairMD').fontName, 11, 0xFFFFFF);
+				nameText.x = _highscoresTitle.x + 15;
+				nameText.y = (_highscoresTitle.y + _highscoresTitle.height) + i * (nameText.height / 1.6);
+				nameText.hAlign = HAlign.LEFT;
+				nameText.vAlign = VAlign.TOP;
+				addChild(nameText);
+				
+				var scoreText : TextField = new TextField(60, 30, xmlList[i].score, Assets.getFont('BlairMD').fontName, 11, 0xe34900);
+				scoreText.x = nameText.x + 160;
+				scoreText.y = nameText.y;
+				scoreText.hAlign = HAlign.RIGHT;
+				scoreText.vAlign = VAlign.TOP;
+				addChild(scoreText);
+			}
 		}
 
 		private function onBackToMainTouch(event : TouchEvent) : void
@@ -112,7 +126,7 @@ package com.jonathantorres.spacecommand.menu
 			this.parent.removeChild(this);
 		}
 
-		private function onAddedToStage(event : Event) : void
+		private function onAddedToStage(event : starling.events.Event) : void
 		{
 			init();
 		}
