@@ -26,7 +26,7 @@ package com.jonathantorres.spacecommand
 			stage.align = StageAlign.TOP_LEFT;
 			
 			_starling = new Starling(SpaceCommand, stage);
-			_starling.showStats = true;
+			//_starling.showStats = true;
 			_starling.start();
 		}
 
