@@ -1,5 +1,7 @@
 package com.jonathantorres.spacecommand.objects
 {
+	import com.jonathantorres.spacecommand.utils.SoundManager;
+	import flash.media.Sound;
 	import com.jonathantorres.spacecommand.levels.Level;
 	import starling.core.Starling;
 	import starling.display.Sprite;
@@ -35,6 +37,9 @@ package com.jonathantorres.spacecommand.objects
 			_y = y;
 			this.x = _x;
 			this.y = _y;
+			
+			var explotionSound : Sound = Assets.getSound('ExplotionSound');
+			if (SoundManager.sfxOn) explotionSound.play();
 			
 			_explotion = new PDParticleSystem(Assets.getTextureXML('ExplotionParticle'), Assets.getTexture('Explotion'));
 			_explotion.x = -(_explotion.width * 0.5);

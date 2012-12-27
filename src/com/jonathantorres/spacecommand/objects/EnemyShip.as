@@ -1,5 +1,7 @@
 package com.jonathantorres.spacecommand.objects
 {
+	import com.jonathantorres.spacecommand.utils.SoundManager;
+	import flash.media.Sound;
 	import starling.core.Starling;
 	import starling.display.Image;
 	import starling.display.Sprite;
@@ -169,6 +171,9 @@ package com.jonathantorres.spacecommand.objects
 		public function shoot() : void
 		{
 			var laserColor : String;
+			var shootSound : Sound = Assets.getSound('LaserSound');
+			
+			if (SoundManager.sfxOn) shootSound.play();
 			
 			switch(_color) {
 				case EnemyShipColors.BLUE : 

@@ -1,5 +1,8 @@
 package com.jonathantorres.spacecommand.menu
 {
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	import com.jonathantorres.spacecommand.SpaceCommand;
 	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.Button;
@@ -28,6 +31,8 @@ package com.jonathantorres.spacecommand.menu
 		private var _optionsTitle : TextField;
 		private var _optionsTitles : Array;
 		private var _buttons : Array;
+		private var _bgAudio : Sound;
+		private var _bgAudioChannel : SoundChannel;
 		
 		public function Options()
 		{
@@ -41,6 +46,8 @@ package com.jonathantorres.spacecommand.menu
 			_ui = GameElements.ui;
 			_optionsTitles = new Array('Sound fx', 'bg music', 'mouse mode');
 			_buttons = new Array();
+			
+			_bgAudioChannel = SpaceCommand.bgAudioChannel;
 			
 			// Titles
 			_optionsTitle = new TextField(200, 35, 'OPTIONS', Assets.getFont('BlairMD').fontName, 24, 0xFFFFFF);
@@ -153,10 +160,13 @@ package com.jonathantorres.spacecommand.menu
 		{
 			if (SoundManager.bgMusicOn) {
 				setButtonState('bg music', 'OFF');
+				_bgAudioChannel.stop();
 				SoundManager.bgMusicOn = false;
 			}
 			else {
 				setButtonState('bg music', 'ON');
+				_bgAudio = Assets.getSound('BackgroundMusic');
+				_bgAudioChannel = _bgAudio.play(0, int.MAX_VALUE);
 				SoundManager.bgMusicOn = true;
 			}
 		}

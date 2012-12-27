@@ -1,5 +1,7 @@
 package com.jonathantorres.spacecommand.objects
 {
+	import com.jonathantorres.spacecommand.utils.SoundManager;
+	import flash.media.Sound;
 	import com.jonathantorres.spacecommand.utils.GameElements;
 	import starling.core.Starling;
 	import starling.display.MovieClip;
@@ -250,6 +252,9 @@ package com.jonathantorres.spacecommand.objects
 
 		private function createLaser(x : Number, y : Number) : void
 		{
+			var shootSound : Sound = Assets.getSound('LaserSound');
+			if (SoundManager.sfxOn) shootSound.play();
+			
 			var laser : Laser = Laser(_parent.lasersPool.getSprite());
 			laser.color = LaserColors.PLAYER;
 			laser.x = x;

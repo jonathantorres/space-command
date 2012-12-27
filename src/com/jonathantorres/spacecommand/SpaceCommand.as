@@ -1,5 +1,7 @@
 package com.jonathantorres.spacecommand
 {
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
 	import com.jonathantorres.spacecommand.utils.GameElements;
 	import starling.animation.Tween;
 	import starling.core.Starling;
@@ -24,6 +26,9 @@ package com.jonathantorres.spacecommand
 		private var _logoTween : Tween;
 		private var _credits : TextField;
 		private var _spaceStars : SpaceStars;
+		private var _bgAudio : Sound;
+		
+		public static var bgAudioChannel : SoundChannel;
 		
 		public function SpaceCommand()
 		{
@@ -33,7 +38,11 @@ package com.jonathantorres.spacecommand
 		
 		private function init() : void
 		{
+			Assets.prepareSounds();
 			GameElements.init();
+			
+			_bgAudio = Assets.getSound('BackgroundMusic');
+			bgAudioChannel = _bgAudio.play(0, int.MAX_VALUE);
 			
 			_bg = new SpaceBackground();
 			addChild(_bg);

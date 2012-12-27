@@ -1,5 +1,7 @@
 package com.jonathantorres.spacecommand.menu
 {
+	import com.jonathantorres.spacecommand.utils.SoundManager;
+	import flash.media.Sound;
 	import com.jonathantorres.spacecommand.levels.Level1;
 	import starling.events.TouchPhase;
 	import starling.events.Touch;
@@ -44,6 +46,10 @@ package com.jonathantorres.spacecommand.menu
 		private function init() : void
 		{
 			_ui = GameElements.ui;
+			
+			// Game over sound
+			var gameOverSound : Sound = Assets.getSound('GameOverSound');
+			if (SoundManager.sfxOn) gameOverSound.play();
 			
 			_bg = new SpaceBackground();
 			addChild(_bg);

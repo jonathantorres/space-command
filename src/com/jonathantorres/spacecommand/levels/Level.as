@@ -1,5 +1,8 @@
 package com.jonathantorres.spacecommand.levels
 {
+	import flash.media.Sound;
+	import com.jonathantorres.spacecommand.utils.SoundManager;
+	import com.jonathantorres.spacecommand.Assets;
 	import com.jonathantorres.spacecommand.pools.SpritePool;
 	import starling.display.Sprite;
 	import starling.events.Event;
@@ -552,6 +555,8 @@ package com.jonathantorres.spacecommand.levels
 						// increase player life
 						_lifebar.increaseLife(healthbar.lifeIncrease);
 						
+						lifeupSound();
+						
 						var healthBurst : TextBurst = TextBurst(_textBurstsPool.getSprite());
 						addChild(healthBurst);
 						healthBurst.show('Health Increase!', _playerShip.x, _playerShip.y);
@@ -586,6 +591,8 @@ package com.jonathantorres.spacecommand.levels
 					if (_playerShipRect.intersects(lifeforceRect)) {
 						addProtectingLifeforce();
 						
+						lifeupSound();
+						
 						var lifeBurst : TextBurst = TextBurst(_textBurstsPool.getSprite());
 						addChild(lifeBurst);
 						lifeBurst.show('Lifeforce!', _playerShip.x, _playerShip.y);
@@ -618,6 +625,8 @@ package com.jonathantorres.spacecommand.levels
 					var lessDamageRect : Rectangle = lessDamage.getBounds(this.parent);
 
 					if (_playerShipRect.intersects(lessDamageRect)) {
+						powerupSound();
+						
 						var damageBurst : TextBurst = TextBurst(_textBurstsPool.getSprite());
 						addChild(damageBurst);
 						damageBurst.show('Less Damage!', _playerShip.x, _playerShip.y);
@@ -654,6 +663,8 @@ package com.jonathantorres.spacecommand.levels
 						if (_playerShip.state != PlayerShipStates.TRIPLE_LASER) 
 							_playerShip.morph(PlayerShipStates.TRIPLE_LASER);
 						
+						powerupSound();
+						
 						var tripleBurst : TextBurst = TextBurst(_textBurstsPool.getSprite());
 						addChild(tripleBurst);
 						tripleBurst.show('Triple Laser!', _playerShip.x, _playerShip.y);
@@ -689,6 +700,8 @@ package com.jonathantorres.spacecommand.levels
 						if (_playerShip.state != PlayerShipStates.DOUBLE_MISSILE)
 							_playerShip.morph(PlayerShipStates.DOUBLE_MISSILE);
 						
+						powerupSound();
+						
 						var doubleBurst : TextBurst = TextBurst(_textBurstsPool.getSprite());
 						addChild(doubleBurst);
 						doubleBurst.show('Double Missile!', _playerShip.x, _playerShip.y);
@@ -721,6 +734,8 @@ package com.jonathantorres.spacecommand.levels
 					var doublePointsRect : Rectangle = doublePoints.getBounds(this.parent);
 
 					if (_playerShipRect.intersects(doublePointsRect)) {
+						pointsSound();
+						
 						var doublePointBurst : TextBurst = TextBurst(_textBurstsPool.getSprite());
 						addChild(doublePointBurst);
 						doublePointBurst.show('Double Points!', _playerShip.x, _playerShip.y);
@@ -754,6 +769,8 @@ package com.jonathantorres.spacecommand.levels
 					var triplePointsRect : Rectangle = triplePoints.getBounds(this.parent);
 
 					if (_playerShipRect.intersects(triplePointsRect)) {
+						pointsSound();
+						
 						var triplePointBurst : TextBurst = TextBurst(_textBurstsPool.getSprite());
 						addChild(triplePointBurst);
 						triplePointBurst.show('Triple Points!', _playerShip.x, _playerShip.y);
@@ -1230,6 +1247,24 @@ package com.jonathantorres.spacecommand.levels
 		private function onEnemyDeploymentTimerComplete(event : TimerEvent) : void
 		{
 			_allEnemyShipsDeployed = true;
+		}
+		
+		private function powerupSound() : void
+		{
+			var powerupSound : Sound = Assets.getSound('PowerupSound');
+			if (SoundManager.sfxOn) powerupSound.play();
+		}
+		
+		private function lifeupSound() : void
+		{
+			var lifeupSound : Sound = Assets.getSound('LifeupSound');
+			if (SoundManager.sfxOn) lifeupSound.play();
+		}
+		
+		private function pointsSound() : void
+		{
+			var pointsSound : Sound = Assets.getSound('PointsSound');
+			if (SoundManager.sfxOn) pointsSound.play();
 		}
 
 		private function onAddedToStage(event : Event) : void

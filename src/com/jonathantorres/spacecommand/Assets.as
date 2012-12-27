@@ -61,6 +61,34 @@ package com.jonathantorres.spacecommand
 		[Embed(source="../../../../assets/fonts/blairmditc.ttf", embedAsCFF="false", fontName="Blair MD", mimeType="application/x-font-truetype")]
 		private static const BlairMD : Class;
 		
+		// Background Music
+		[Embed(source="../../../../assets/sounds/game_music.mp3")]
+		public static const BackgroundMusic : Class;
+		
+		// Laser sound
+		[Embed(source="../../../../assets/sounds/laser.mp3")]
+		public static const LaserSound : Class;
+		
+		// Explotion sound
+		[Embed(source="../../../../assets/sounds/explode.mp3")]
+		public static const ExplotionSound : Class;
+		
+		// Power up sound
+		[Embed(source="../../../../assets/sounds/powerup.mp3")]
+		public static const PowerupSound : Class;
+		
+		// Life up sound
+		[Embed(source="../../../../assets/sounds/lifeup.mp3")]
+		public static const LifeupSound : Class;
+		
+		// Points sound
+		[Embed(source="../../../../assets/sounds/points.mp3")]
+		public static const PointsSound : Class;
+		
+		// Game over sound
+		[Embed(source="../../../../assets/sounds/gameover.mp3")]
+		public static const GameOverSound : Class;
+		
 		/*
 		 * All Game Backgrounds ------------------------------------------------------
 		 */
@@ -109,6 +137,20 @@ package com.jonathantorres.spacecommand
 			}
 
 			return _xmlAssets[name];
+		}
+		
+		/*
+		 * Prepare sounds
+		 */
+		public static function prepareSounds() : void
+		{
+			_soundAssets['BackgroundMusic'] = new BackgroundMusic();
+			_soundAssets['LaserSound'] = new LaserSound();
+			_soundAssets['ExplotionSound'] = new ExplotionSound();
+			_soundAssets['PowerupSound'] = new PowerupSound();
+			_soundAssets['LifeupSound'] = new LifeupSound();
+			_soundAssets['PointsSound'] = new PointsSound();
+			_soundAssets['GameOverSound'] = new GameOverSound();
 		}
 		
 		/*
