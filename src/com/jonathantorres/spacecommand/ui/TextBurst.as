@@ -38,6 +38,13 @@ package com.jonathantorres.spacecommand.ui
 		{
 			_this = this;
 			_parent = Level(_this.parent);
+			
+			_txt = new TextField(150, 20, '', Assets.getFont('BlairMD').fontName, 9, 0xFFFFFF);
+			_txt.vAlign = VAlign.TOP;
+			_txt.hAlign = HAlign.LEFT;
+			_txt.pivotX = _txt.width * 0.5;
+			_txt.pivotY = _txt.height * 0.5;
+			addChild(_txt);
 		}
 		
 		public function show(word : String, x : Number, y : Number) : void
@@ -49,13 +56,8 @@ package com.jonathantorres.spacecommand.ui
 			_this.x = _x;
 			_this.y = _y;
 			
-			_txt = new TextField(150, 20, _word, Assets.getFont('BlairMD').fontName, 9, 0xFFFFFF);
-			_txt.vAlign = VAlign.TOP;
-			_txt.hAlign = HAlign.LEFT;
-			_txt.pivotX = _txt.width * 0.5;
-			_txt.pivotY = _txt.height * 0.5;
+			_txt.text = _word;
 			_txt.scaleX = _txt.scaleY = 0;
-			addChild(_txt);
 			
 			_removeTimer = new Timer(200, 1);
 			_removeTimer.addEventListener(TimerEvent.TIMER_COMPLETE, onRemoveTimerComplete);
@@ -72,6 +74,8 @@ package com.jonathantorres.spacecommand.ui
 
 		private function onRemoveTimerComplete(event : TimerEvent) : void
 		{
+			_removeTimer.removeEventListener(TimerEvent.TIMER_COMPLETE, onRemoveTimerComplete);
+			
 			var scaleTween : Tween = new Tween(_txt, 0.2, Transitions.EASE_IN_OUT);
 			scaleTween.animate('scaleX', 0);
 			scaleTween.animate('scaleY', 0);
