@@ -58,8 +58,6 @@ package com.jonathantorres.spacecommand.levels
 										EnemyShipColors.BROWN,
 										EnemyShipColors.RED);
 			
-			trace('Level: ' + gameLevel);
-			
 			addUI();
 			initPools();
 			initLasers();

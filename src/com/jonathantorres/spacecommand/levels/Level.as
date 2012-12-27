@@ -819,7 +819,6 @@ package com.jonathantorres.spacecommand.levels
 		private function advanceLevel(level : Level) : void
 		{
 			_parent.removeChild(this);
-			trace('Advanced level!');
 			level.gameScore = gameScore;
 			_parent.addChild(level);
 		}
@@ -830,7 +829,6 @@ package com.jonathantorres.spacecommand.levels
 		private function gameOver() : void
 		{
 			_parent.removeChild(this);
-			trace('game over!');
 			_parent.addChild(new GameOver(gameScore));
 		}
 		

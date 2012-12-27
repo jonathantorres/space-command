@@ -266,13 +266,11 @@ package com.jonathantorres.spacecommand.objects
 		
 		private function mouseMode() : void
 		{
-			trace('mouse mode engaged!');
 			Starling.current.nativeStage.addEventListener(MouseEvent.CLICK, onStageClick);
 		}
 
 		private function keyboardMode() : void
 		{
-			trace('keyboard mode engaged!');
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 			stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 		}
