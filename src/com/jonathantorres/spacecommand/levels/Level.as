@@ -1,12 +1,9 @@
 package com.jonathantorres.spacecommand.levels
 {
-	import flash.media.Sound;
-	import com.jonathantorres.spacecommand.utils.SoundManager;
-	import com.jonathantorres.spacecommand.Assets;
-	import com.jonathantorres.spacecommand.pools.SpritePool;
 	import starling.display.Sprite;
 	import starling.events.Event;
 
+	import com.jonathantorres.spacecommand.Assets;
 	import com.jonathantorres.spacecommand.consts.AsteroidSizes;
 	import com.jonathantorres.spacecommand.consts.LaserColors;
 	import com.jonathantorres.spacecommand.consts.PlayerShipStates;
@@ -25,14 +22,19 @@ package com.jonathantorres.spacecommand.levels
 	import com.jonathantorres.spacecommand.objects.icons.Lifeforce;
 	import com.jonathantorres.spacecommand.objects.icons.TripleLasers;
 	import com.jonathantorres.spacecommand.objects.icons.TriplePoints;
+	import com.jonathantorres.spacecommand.pools.SpritePool;
 	import com.jonathantorres.spacecommand.ui.LevelNumber;
 	import com.jonathantorres.spacecommand.ui.Lifebar;
 	import com.jonathantorres.spacecommand.ui.Score;
 	import com.jonathantorres.spacecommand.ui.TextBurst;
 	import com.jonathantorres.spacecommand.ui.bg.GameBackground;
+	import com.jonathantorres.spacecommand.utils.MouseMode;
+	import com.jonathantorres.spacecommand.utils.SoundManager;
 
 	import flash.events.TimerEvent;
 	import flash.geom.Rectangle;
+	import flash.media.Sound;
+	import flash.ui.Mouse;
 	import flash.utils.Timer;
 
 	/**
@@ -152,6 +154,8 @@ package com.jonathantorres.spacecommand.levels
 			_triplePointsEnabled = false;
 			
 			_parent = Sprite(parent);
+			
+			if (MouseMode.mouseMode) Mouse.hide();
 			
 			this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
@@ -828,6 +832,7 @@ package com.jonathantorres.spacecommand.levels
 		 */
 		private function gameOver() : void
 		{
+			if (MouseMode.mouseMode) Mouse.show();
 			_parent.removeChild(this);
 			_parent.addChild(new GameOver(gameScore));
 		}
