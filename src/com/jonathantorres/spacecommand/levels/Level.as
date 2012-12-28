@@ -822,9 +822,13 @@ package com.jonathantorres.spacecommand.levels
 		 */
 		private function advanceLevel(level : Level) : void
 		{
-			_parent.removeChild(this);
-			level.gameScore = gameScore;
-			_parent.addChild(level);
+			if (gameLevel == 15) {
+				gameOver();
+			} else {
+				_parent.removeChild(this);
+				level.gameScore = gameScore;
+				_parent.addChild(level);
+			}
 		}
 		
 		/*
