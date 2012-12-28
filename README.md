@@ -14,3 +14,5 @@ How to play
 5. Don't forget to submit your highscores :)
 6. Game still under development, if you find any issues/glitches let me know :)
 
+
+Play the game here: http://jonathantorres.com/spacecommand/
